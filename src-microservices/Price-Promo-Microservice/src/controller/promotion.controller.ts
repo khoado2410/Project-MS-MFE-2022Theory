@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import {createPromotion, getPromotionByTypeProduct, 
-    getPromotionByProduct, updateProduct, removeProduct} from '../service/promotion.service';
+    getPromotionByProduct, updateProduct, removeProduct,
+getListPromoByMethodPayment} from '../service/promotion.service';
 import log from '../logger';
 
 export async function createPromotionHandler(req:Request, res: Response) {
@@ -65,5 +66,18 @@ export async function handleRemove(req: Request, res: Response){
     } catch (e) {
         log.error(e);
         return res.status(400).send('Error when remove promo');
+    }
+}
+
+export async function handleGetListPromoByPaymentMethod(req: Request, res: Response){
+    try {
+        const listPromo = await getListPromoByMethodPayment(req.body.list_method);
+        return res.json({
+            ErrorCode: 0,
+            Message: listPromo
+        });
+    } catch (error) {
+        log.error(error);
+        return res.status(400).send('Error when get list promo by payment method')
     }
 }

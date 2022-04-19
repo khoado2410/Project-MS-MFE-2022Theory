@@ -1,6 +1,7 @@
 import {Express, Request, Response} from "express";
 import { createPromotionHandler,handleGetPromotionByProductType, 
-    handleGetPromoByProduct, handleRemove, handleUpdate } from "./controller/promotion.controller";
+    handleGetPromoByProduct, handleRemove, handleUpdate
+    , handleGetListPromoByPaymentMethod } from "./controller/promotion.controller";
 
 
 export default function(app: Express) {
@@ -22,6 +23,7 @@ export default function(app: Express) {
     
     app.post('/remove-promo', handleRemove);
 
+    app.get('/get-promo-by-payment', handleGetListPromoByPaymentMethod);
   
 
 }
