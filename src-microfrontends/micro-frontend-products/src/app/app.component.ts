@@ -7,7 +7,5 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'micro-frontend-products';
 
-  toShopDetail() {
-    document.getElementById("micro-frontend-products")
-  }
+  
 }
