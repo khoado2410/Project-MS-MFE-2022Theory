@@ -38,7 +38,7 @@ module.exports = {
         // For hosts (please adjust)
         remotes: {
           "microFrontendProducts": "http://localhost:5000/remoteEntry.js",
-
+          "mf-product-detail": 'http://localhost:3000/remoteEntry.js'
         },
 
         shared: share({
