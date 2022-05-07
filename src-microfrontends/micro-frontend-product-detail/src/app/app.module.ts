@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductDetailModule } from './product-detail/product-detail.module';
 
+
 @NgModule({
   declarations: [
     AppComponent
