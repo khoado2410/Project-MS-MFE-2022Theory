@@ -37,7 +37,7 @@ module.exports = {
         
         // For hosts (please adjust)
         remotes: {
-         "microFrontendProducts": "http://localhost:5000/remoteEntry.js",
+          "microFrontendProducts": "http://localhost:5000/remoteEntry.js",
 
         },
 

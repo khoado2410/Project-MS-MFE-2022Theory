@@ -27,31 +27,12 @@
 
 </head>
 <body>
-  <div id="micro-frontend-root">
-
-  </div>
+  <router-outlet></router-outlet>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.12.1/polyfill.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.6.0/webcomponents-bundle.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/2.6.0/custom-elements-es5-adapter.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/zone.js/0.11.5/zone.min.js"></script>
-
-  <script type="text/javascript" src="http://localhost:4201/main.js"></script>
-  <script src="http://localhost:4202/bundle.js"></script>
-  <script type="text/javascript">
-    // These element types are defined by the above scripts
-    /*  const webComponentsByRoute = {
-       '/': 'micro-frontend-products'
-     };
-     const webComponentType = webComponentsByRoute[window.location.pathname];
-     console.log(webComponentType)
-     // Having determined the right web component custom element type,
-     // we now create an instance of it and attach it to the document
-     const root = document.getElementById('micro-frontend-root');
-     const webComponent = document.createElement(webComponentType);
-     root.appendChild(webComponent);  */
-
-  </script>
 </body>
 
 </html>
