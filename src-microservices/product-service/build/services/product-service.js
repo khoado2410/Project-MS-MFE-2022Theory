@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductService = void 0;
 const product_service_1 = require("../core/product-domain-service/product-service");
+const log_1 = require("../logger/log");
 class ProductService {
     addNewProduct(product) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -21,7 +22,14 @@ class ProductService {
     getAllProduct() {
         return __awaiter(this, void 0, void 0, function* () {
             var productDomainService = new product_service_1.ProductDomainService();
-            return yield productDomainService.getAll();
+            // await producer.connect();
+            // await producer.send({
+            //         topic: 'micro-service-product',
+            //         messages:  [{
+            //             value: {message: 'Cannot get all products'}.message
+            //         }]
+            //     }).then(res => console.log(res))
+            log_1.logger.info(JSON.stringify({ msg: 'Hello world' }));
         });
     }
     getProductById(id) {

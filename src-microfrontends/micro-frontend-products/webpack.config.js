@@ -10,7 +10,7 @@ sharedMappings.register(
 
 module.exports = {
   output: {
-    uniqueName: "microFrontendProducts",
+    uniqueName: "mf-products",
     publicPath: "auto"
   },
   optimization: {
@@ -29,7 +29,7 @@ module.exports = {
         library: { type: "module" },
 
         // For remotes (please adjust)
-        name: "microFrontendProducts",
+        name: "mf-products",
         filename: "remoteEntry.js",
         exposes: {
              './ProductsModule': path.join(__dirname, 'src') + '/app/products/products.module.ts',
