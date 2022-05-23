@@ -4,24 +4,24 @@ import log from '../logger';
 
 export async function createCategoryHandler(req:Request, res: Response) {
     try {
-        // const newCategory = await createCategory(req.body);
-        // if(newCategory){
-        //     return res.json({
-        //         ResponseResult: {
-        //             ErrorCode: 0,
-        //             Message:'Thành công',
-        //             Result: null
-        //         }
-        //     });
-        // }else{
-        //     return res.json({
-        //         ResponseResult: {
-        //             ErrorCode: 400,
-        //             Message:'Không đúng định dạng',
-        //             Result: null
-        //         }
-        //     });
-        // }
+        if(req.body.category == ''){
+            return res.json({
+                ResponseResult: {
+                    ErrorCode: 400,
+                    Message:'Vui lòng nhập category detail',
+                    Result: null
+                }
+            });
+        }
+        await createCategory(req.body);
+        return res.json({
+            ResponseResult: {
+                    ErrorCode: 0,
+                    Message:'Thành công',
+                    Result: null
+                }
+            });
+    
         
     } catch (e) {
         log.error(e);

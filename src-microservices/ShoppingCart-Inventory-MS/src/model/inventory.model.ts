@@ -4,9 +4,11 @@ export interface Inventory{
     idProduct:  String,
     amount:  Number, 
     createdDate:  Date, 
-    typeProduct:  String,
+    categoryProduct:  String,
     nameProduct:  String,
-    updatedDate:  Date
+    updatedDate:  Date,
+    createdBy: String,
+    updatedBy: String
 }
 
 
