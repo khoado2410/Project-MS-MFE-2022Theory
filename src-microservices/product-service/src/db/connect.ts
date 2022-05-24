@@ -16,6 +16,7 @@ function connect() {
     })
     .catch((error) => {
       log.error("db error", error);
+      console.log('error: ', error);
     });
 };
 

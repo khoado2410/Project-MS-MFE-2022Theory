@@ -26,7 +26,7 @@ const loggerFormat = jsonLog({
     "user-agent": ":user-agent",
   });
   
-const port = 3000;
+const port = 7500;
 const host = "localhost";
 
 const app = express();

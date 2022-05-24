@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  node:
+    container_name: product-ms
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 7500:7500
+    volumes:
+      - .:/app
+    command: npm run dev
+    networks:
+      - common
+    environment:
+      PORT: 7500
+      MONGO_URL: 'mongodb://mongo/example'
+      NODE_ENV: 'development'
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data:/data/db
+    networks:
+      - common
+
+networks:
+  common:
