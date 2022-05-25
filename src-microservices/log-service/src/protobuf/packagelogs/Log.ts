@@ -3,12 +3,12 @@
 
 export interface Log {
   'topic'?: (string);
-  'level'?: (number);
+  'level'?: (string);
   'msg'?: (string);
 }
 
 export interface Log__Output {
   'topic'?: (string);
-  'level'?: (number);
+  'level'?: (string);
   'msg'?: (string);
 }

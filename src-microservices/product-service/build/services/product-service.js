@@ -25,15 +25,21 @@ class ProductService {
     getAllProduct() {
         return __awaiter(this, void 0, void 0, function* () {
             var productDomainService = new product_service_1.ProductDomainService();
-            // await producer.connect();
-            // await producer.send({
-            //         topic: 'micro-service-product',
-            //         messages:  [{
-            //             value: {message: 'Cannot get all products'}.message
-            //         }]
-            //     }).then(res => console.log(res))
-            //logger.info(JSON.stringify({msg: 'Hello world'}))
-            client_1.default.LogInfo({ topic: 'micro-service-product', level: 0, msg: '[ms-product]: get all products' }, (err, res) => {
+            client_1.default.LogInfo({ topic: 'micro-service-product', level: 'info', msg: '[ms-product]: get all products' }, (err, res) => {
+                if (err) {
+                    console.log('ERROR WHEN LOGGING FROM MS-PRODUCT', err);
+                    throw err;
+                }
+                console.log(res);
+            });
+            // client.LogInfo({topic: 'micro-service-product', level: 1, msg: '[ms-product]: get all products'}, (err: any, res: any) => {
+            //     if (err) {
+            //         console.log('ERROR WHEN LOGGING FROM MS-PRODUCT', err)
+            //         throw err
+            //     }
+            //     console.log(res);
+            // })
+            client_1.default.LogWarning({ topic: 'micro-service-payment', level: 'warning', msg: '[Warning][ms-product]: get all products' }, (err, res) => {
                 if (err) {
                     console.log('ERROR WHEN LOGGING FROM MS-PRODUCT', err);
                     throw err;
@@ -45,7 +51,14 @@ class ProductService {
     getProductById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             var productDomainService = new product_service_1.ProductDomainService();
-            return yield productDomainService.getById(id);
+            client_1.default.LogError({ topic: 'micro-service-payment', level: 'error', msg: '[Error][ms-product]: get all products' }, (err, res) => {
+                if (err) {
+                    console.log('ERROR WHEN LOGGING FROM MS-PRODUCT', err);
+                    throw err;
+                }
+                console.log(res);
+            });
+            //return await productDomainService.getById(id)
         });
     }
     deleteProduct(id) {

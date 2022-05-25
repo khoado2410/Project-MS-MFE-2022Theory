@@ -1,7 +1,12 @@
 import { loadPackageDefinition, credentials } from "@grpc/grpc-js";
 import { loadSync } from '@grpc/proto-loader'
-import { ProtoGrpcType } from "../protobuf/log";
-const PROTO_PATH = "./src/protobuf/log.proto";
+import { ProtoGrpcType } from "@khoado24/log-library/protobuf/log";
+import path from "path";
+//import { ProtoGrpcType } from "../protobuf/log";
+//const PROTO_PATH = "./src/protobuf/log.proto";
+
+const packagepath = path.dirname(require.resolve(path.join('@khoado24/log-library', 'package.json')));
+const PROTO_PATH = path.join(packagepath, 'protobuf/log.proto')
 
 const options = {
   keepCase: true,

@@ -42,18 +42,21 @@
 //     logCreator: WinstonLogCreator
 // })
 
-const { createLogger, transports } = require('winston');
+import { createLogger } from 'winston';
 
+const a = require('winston')
 require('winston-kafka-stream');
 
-export const logger = createLogger({
+//import { } from 'winston-kafka-stream'
+
+export const logger = (topic: any, level: any) => createLogger({
     level: 'info',
     transports: [
-        new transports.KafkaStream({
+        new a.transports.KafkaStream({
             kafkaHost: 'kafkaserver:9092',
             producer: {
-                topic: 'micro-service-product'
+                topic: topic
             }
-        })
+        }),
     ]
 });

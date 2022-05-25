@@ -19,10 +19,18 @@ const logProto = loadPackageDefinition(packageDefinition) as unknown as ProtoGrp
 const server = new Server();
 
 server.addService(logProto.packagelogs.LogService.service, {
-    LogInfo: (req, callback) => {
-        logger.info(JSON.stringify(req.request))
+    LogInfo: (req: any, callback: any) => {
+        logger(req.request.topic, req.request.level).info(JSON.stringify(req.request))
         callback(null, req.request);
     },
+    LogWarning: (req: any, callback: any) => {
+        logger(req.request.topic, req.request.level).warn(JSON.stringify(req.request))
+        callback(null, req.request);
+    },
+    LogError: (req: any, callback: any) => {
+        logger(req.request.topic, req.request.level).error(JSON.stringify(req.request))
+        callback(null, req.request);
+    }
 } as LogServiceHandlers);
 
 server.bindAsync(
