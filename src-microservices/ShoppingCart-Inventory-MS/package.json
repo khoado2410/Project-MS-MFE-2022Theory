@@ -26,6 +26,7 @@
     "morgan": "^1.10.0",
     "morgan-json": "^1.1.0",
     "mysql2": "^2.3.3",
+    "nodemon": "^2.0.16",
     "pino": "^7.10.0",
     "pino-http": "^6.6.0",
     "pino-pretty": "^7.6.1",

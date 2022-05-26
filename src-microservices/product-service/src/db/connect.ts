@@ -13,6 +13,7 @@ function connect() {
     .connect(dbUri)
     .then(() => {
       log.info("Database connected");
+      console.log('Database connection');
     })
     .catch((error) => {
       log.error("db error", error);

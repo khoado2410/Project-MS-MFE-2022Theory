@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  node:
+    container_name: shoppingcart-inventory-ms
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - 4000:4000
+    volumes:
+      - .:/app
+    command: npm run dev
+    environment:
+      PORT: 4000
+      NODE_ENV: 'development'

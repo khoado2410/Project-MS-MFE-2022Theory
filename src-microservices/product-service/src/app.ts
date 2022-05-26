@@ -1,3 +1,4 @@
+require("dotenv").config();
 import express from "express";
 import config from "../config/default";
 import log from './logger';
@@ -26,7 +27,9 @@ const loggerFormat = jsonLog({
     "user-agent": ":user-agent",
   });
   
-const port = 7500;
+const port = 8080;
+
+console.log('port: ', port);
 const host = "localhost";
 
 const app = express();
@@ -37,8 +40,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 // app.use(logger)
 
-app.listen(port, host, () => {
-    log.info(`Server listening at http://${host}:${port}`);
+app.listen(port, () => {
+    log.info(`Server is running on ${port}`);
 
     connect();
     routes(app);

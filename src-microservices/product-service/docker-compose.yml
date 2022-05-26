@@ -1,32 +1,69 @@
-version: '3.7'
+# version: '3.7'
+
+# services:
+#   node:
+#     container_name: product-ms
+#     build:
+#       context: .
+#       dockerfile: ./Dockerfile
+#     ports:
+#       - 7500:7500
+#     volumes:
+#       - .:/app
+#     command: npm run dev
+#     networks:
+#       - common
+#     environment:
+#       PORT: 7500
+#       MONGO_URL: 'mongodb://mongo/example'
+#       NODE_ENV: 'development'
+
+#   mongo:
+#     container_name: mongo
+#     image: mongo
+#     ports:
+#       - 27017:27017
+#     volumes:
+#       - ./data:/data/db
+#     networks:
+#       - common
+
+# networks:
+#   common:
+
+# version: '3.7'
+
+# services:
+#   node:
+#     container_name: product_test
+#     build:
+#       context: .
+#       dockerfile: ./Dockerfile
+#     ports:
+#       - 7000:7000
+#     volumes:
+#       - .:/app
+#     command: npm run dev
+
+#     environment:
+#       PORT: 7000
+#       NODE_ENV: 'development'
+
+version: "3.8"
 
 services:
-  node:
-    container_name: product-ms
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+  app:
+    build: ./
+    restart: unless-stopped
+    env_file: ./.env
     ports:
-      - 7500:7500
-    volumes:
-      - .:/app
-    command: npm run dev
-    networks:
-      - common
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     environment:
-      PORT: 7500
-      MONGO_URL: 'mongodb://mongo/example'
-      NODE_ENV: 'development'
+      - DB_HOST=mongodb
+      - DB_NAME=$MONGODB_DATABASE
+      - DB_PORT=$MONGODB_DOCKER_PORT
+    stdin_open: true
+    tty: true
 
-  mongo:
-    container_name: mongo
-    image: mongo
-    ports:
-      - 27017:27017
-    volumes:
-      - ./data:/data/db
-    networks:
-      - common
-
-networks:
-  common:
+volumes:
+  db:
