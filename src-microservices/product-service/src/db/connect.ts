@@ -1,8 +1,14 @@
 import mongoose from "mongoose";
-//import config from "config";
+const dotenv = require('dotenv');
+dotenv.config();
+const {
+  DB_HOST,
+  DB_PORT,
+  DB_NAME,
+} = process.env;
 import log from '../logger';
 
-const dbUri = "mongodb://localhost:27017/product-db"
+const dbUri = `mongodb://${DB_HOST}:${DB_PORT}/${DB_NAME}`;
 // const options = {
 //     useNewUrlParser: true,
 //     useUnifiedTopology: true

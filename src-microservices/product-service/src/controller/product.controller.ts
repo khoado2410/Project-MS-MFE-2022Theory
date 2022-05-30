@@ -4,7 +4,7 @@ import log from '../logger';
 
 export async function createProductHandler(req:Request, res: Response) {
     try {
-        const promotion = await createProduct(req.body);
+        await createProduct(req.body);
         return res.json({
             ResponseResult: {
                 ErrorCode: 0,
