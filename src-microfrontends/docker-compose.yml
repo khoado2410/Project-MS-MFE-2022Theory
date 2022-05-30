@@ -1,0 +1,22 @@
+version: '2.5'
+services:
+  mf-authentication:
+    container_name: 'mf-authentication'
+    build: micro-frontend-authentication
+    ports:
+      - "2002:2002"
+  mf-root:
+    container_name: 'mf-root'
+    build: micro-frontend-root
+    ports:
+      - "4200:4200"
+  mf-products:
+    container_name: 'mf-products'
+    build: micro-frontend-products
+    ports:
+      - "5000:5000"
+  mf-layer:
+    container_name: 'mf-layer'
+    build: micro-frontend-layer
+    ports:
+      - "8000:8000"

@@ -1,0 +1,25 @@
+<link rel="stylesheet" 
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <h2 role="button" class="inactive underlineHover" onkeyup="" (click)="toSignIn()"> Sign In </h2>
+        <h2 class="active">Sign Up </h2>
+
+        <!-- Icon -->
+        <div class="fadeIn first">
+            <span class="material-symbols-outlined">
+                account_circle
+            </span>
+        </div>
+
+        <!-- Login Form -->
+        <form>
+            <input type="text" id="login" class="fadeIn second" name="login" placeholder="username">
+            <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
+            <input type="text" id="password" class="fadeIn third" name="login" placeholder="confirm password">
+            <input type="submit" class="fadeIn fourth" value="Sign Up">
+        </form>
+
+    </div>
+</div>

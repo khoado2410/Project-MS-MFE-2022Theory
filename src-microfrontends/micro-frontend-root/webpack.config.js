@@ -38,7 +38,7 @@ module.exports = {
         // For hosts (please adjust)
         remotes: {
           "mf-products": "http://localhost:5000/remoteEntry.js",
-          "mf-product-detail": 'http://localhost:3000/remoteEntry.js'
+          "mf-authentication": "http://localhost:2002/remoteEntry.js"
         },
 
         shared: share({

@@ -33,13 +33,13 @@ module.exports = {
         filename: "remoteEntry.js",
         exposes: {
              './ProductsModule': path.join(__dirname, 'src') + '/app/products/products.module.ts',
+             './ProductDetailModule': './/src/app/product-detail/product-detail.module.ts'
         },        
         
         // For hosts (please adjust)
-        // remotes: {
-        //     "mfe1": "http://localhost:3000/remoteEntry.js",
-
-        // },
+        remotes: {
+          "mf-layer": "http://localhost:8000/remoteEntry.js",
+        },
 
         shared: share({
           "@angular/core": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
