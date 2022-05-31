@@ -9,8 +9,11 @@ services:
       - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
     volumes:
       - db:/data/db
+    networks:
+      - api-gateway_microservice
 
-  app:
+  node:
+    container_name: product-ms
     depends_on:
       - mongodb
     build: ./
@@ -24,6 +27,12 @@ services:
       - DB_PORT=$MONGODB_DOCKER_PORT
     stdin_open: true
     tty: true
+    networks:
+      - api-gateway_microservice
 
 volumes:
   db:
+
+networks:
+  api-gateway_microservice:
+     external: true

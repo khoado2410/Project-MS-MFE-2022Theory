@@ -16,17 +16,43 @@ const ROUTES = [
         }
     },
     {
-        url: '/premium',
-        auth: true,
-        creditCheck: true,
+        url: '/product',
+        auth: false,
+        creditCheck: false,
         proxy: {
-            target: "https://www.google.com",
+            target: "http://product-ms:8383",
             changeOrigin: true,
             pathRewrite: {
-                [`^/premium`]: '',
+                [`^/product`]: '',
+            },
+        }
+    },
+    {
+        url: '/category',
+        auth: false,
+        creditCheck: false,
+        proxy: {
+            target: "http://category-ms:8282",
+            changeOrigin: true,
+            pathRewrite: {
+                [`^/category`]: '',
+            },
+        }
+    },
+    {
+        url: '/inventory-cart-ms',
+        auth: false,
+        creditCheck: false,
+        proxy: {
+            target: "http://cart-inventory-ms:8787",
+            changeOrigin: true,
+            pathRewrite: {
+                [`^/inventory-cart-ms`]: '',
             },
         }
     }
+
+
 ]
 
 exports.ROUTES = ROUTES;

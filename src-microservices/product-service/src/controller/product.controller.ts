@@ -4,6 +4,8 @@ import log from '../logger';
 
 export async function createProductHandler(req:Request, res: Response) {
     try {
+        console.log('body: ', req.body);
+        
         await createProduct(req.body);
         return res.json({
             ResponseResult: {

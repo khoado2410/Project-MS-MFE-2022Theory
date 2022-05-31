@@ -1,36 +1,41 @@
 version: '3.8'
 
 services:
-  mongodb:
-    image: mongo
+  mysqldb:
+    image: mysql:5.7
     restart: unless-stopped
     env_file: ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
-      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
     volumes:
-      - db:/data/db
+      - db:/var/lib/mysql
     networks:
       - api-gateway_microservice
 
   node:
-    container_name: category-ms
+    container_name: cart-inventory-ms
     depends_on:
-      - mongodb
+      - mysqldb
     build: ./
     restart: unless-stopped
     env_file: ./.env
     ports:
       - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
     environment:
-      - DB_HOST=mongodb
-      - DB_NAME=$MONGODB_DATABASE
-      - DB_PORT=$MONGODB_DOCKER_PORT
+      - DB_HOST=mysqldb
+      - DB_USER=$MYSQLDB_USER
+      - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - DB_NAME=$MYSQLDB_DATABASE
+      - DB_PORT=$MYSQLDB_DOCKER_PORT
     stdin_open: true
     tty: true
     networks:
       - api-gateway_microservice
 
-volumes:
+volumes: 
   db:
 
 networks:

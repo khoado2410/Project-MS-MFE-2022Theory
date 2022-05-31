@@ -7,9 +7,13 @@ services:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - 3000:3000
+      - 3333:3333
     volumes:
       - .:/app
     command: npm start
+    networks:
+      - microservice
 
+networks:
+  microservice:
    
