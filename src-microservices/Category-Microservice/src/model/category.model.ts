@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 export interface CategoryDocument extends mongoose.Document{
     name: String,
     is_delete: Boolean,
-    categoryDetail: any[],
+    category_detail: any[],
     created_by: String,
     created_date: Date,
     updated_by: String,
@@ -13,7 +13,7 @@ export interface CategoryDocument extends mongoose.Document{
 const CategorySchema = new mongoose.Schema(
     {
         name: {type: String, required: true, unique: true},
-        categoryDetail: {type: Array, default: []},
+        category_detail: {type: Array, default: []},
         is_delete: {type: Boolean, default: false},
         created_by: {type: String, default: ''},
         created_date: {type: Date, default: Date.now()},

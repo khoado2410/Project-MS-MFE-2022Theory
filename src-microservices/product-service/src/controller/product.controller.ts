@@ -1,12 +1,53 @@
 import {Request, Response} from 'express';
 import {createProduct, getAllProduct} from '../service/product.service';
+import request from 'request';
 import log from '../logger';
 
 export async function createProductHandler(req:Request, res: Response) {
     try {
-        console.log('body: ', req.body);
-        
-        await createProduct(req.body);
+        let message = '';
+        const body = req.body;
+        request('http://api-gateway:3333/category/check-category-valid', {
+            body: {
+                category: body.category,
+                category_detail: body.categoryDetail
+            },
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            json: true
+        },function(error,response){
+			if(response){
+		    	try{
+		    		console.log('response: ', response)
+			    	
+		    	}catch(err){
+		    		console.log("Fail while parse json: " +err);
+		    	}
+        }
+    });
+    request('http://api-gateway:3333/category/check-branch-valid', {
+        body: {
+            branch: body.branch,
+            category: body.category
+        },
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        json: true
+    },function(error,response){
+        if(response){
+            try{
+                console.log('response: ', response)
+                
+            }catch(err){
+                console.log("Fail while parse json: " +err);
+            }
+    }
+});
+
+
+        await createProduct(body);
         return res.json({
             ResponseResult: {
                 ErrorCode: 0,

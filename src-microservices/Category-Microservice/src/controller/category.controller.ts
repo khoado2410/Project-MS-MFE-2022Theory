@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import {createCategory, getCategory, getCategoryByBranch} from '../service/category.service';
+import {createCategory, getCategory, getCategoryByBranch, checkCategoryValid} from '../service/category.service';
 import log from '../logger';
 
 export async function createCategoryHandler(req:Request, res: Response) {
@@ -61,23 +61,34 @@ export async function getCategoryByBranchHandler(req:Request, res: Response) {
     }
 }
 
-
-
-
-
-// export async function handleGetAllProduct(req: Request, res: Response){
-//     try {
-//         const product = await getAllProduct();
-//         return res.json({
-//             ResponseResult: {
-//                 ErrorCode: 0,
-//                 Message: 'Thành công',
-//                 Result: product
-//             }
-//         });
-//     } catch (e) {
-//         log.error(e);
-//         return res.status(400).send('Error when get promotion by product type');
-//     }
-// }
+export async function handleCheckCategoryValid(req: Request, res: Response){
+    try {
+        const check = await checkCategoryValid(req.body);
+        if(check){
+            return res.json({
+                ResponseResult: {
+                    ErrorCode: 0,
+                    Message: 'Thành công',
+                    Result: {
+                        check: true
+                    }
+                }
+            });
+        }else{
+            return res.json({
+                ResponseResult: {
+                    ErrorCode: 0,
+                    Message: 'Thành công',
+                    Result: {
+                        check: false
+                    }
+                }
+            });
+        }
+        
+    } catch (e) {
+        log.error(e);
+        return res.status(400).send('Error when get promotion by product type');
+    }
+}
 

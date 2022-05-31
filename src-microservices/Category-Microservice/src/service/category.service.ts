@@ -17,14 +17,14 @@ export async function createCategory(input: any){
             is_delete: false
         });
         if(checkCategory){
-            const listCategoryDetail = checkCategory.categoryDetail;
+            const listCategoryDetail = checkCategory.category_detail;
             if(!listCategoryDetail.includes(input.category_detail) && input.category_detail != ''){
                  await Category.updateOne({
                     name: input.category,
                     is_delete: false
                 }, {
                         $push: {
-                            categoryDetail: input.category_detail
+                            category_detail: input.category_detail
                         }
                 });
             }
@@ -38,7 +38,7 @@ export async function createCategory(input: any){
             }else{
                 await Category.create({
                     name: input.category,
-                    categoryDetail: [input.category_detail]
+                    category_detail: [input.category_detail]
                 });
             }
             
@@ -66,6 +66,32 @@ export async function getCategoryByBranch(input: FilterQuery<CategoryDocument>){
         return await Category.find(query).select({
             is_delete: 0
         });
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function checkCategoryValid(input: any){
+    try {
+        const query = {
+            name: input.category,
+            is_delete: false
+        }; 
+        const checkCategory = await findCategoryByName(query);
+        
+        if(checkCategory){
+            const listCategoryDetail = checkCategory.category_detail;
+            if(input.category_detail != ''){
+                if(listCategoryDetail.includes(input.category_detail))
+                    return true
+                else
+                    return false
+            }
+            return true
+        }else{
+            return false;
+        }
+
     } catch (error) {
         throw error;
     }

@@ -51,6 +51,31 @@ export async function getBranch(input: DocumentDefinition<BranchDocument>){
     }
 }
 
+export async function checkBranchValid(input: any){
+    try {
+        const query = {
+            name: input.branch,
+            is_delete: false
+        }; 
+        const checkBranch = await findBranchByName(query);
+        
+        if(checkBranch){
+            const listCategory = checkBranch.category;
+            if(input.category != ''){
+                if(listCategory.includes(input.category))
+                    return true
+                else
+                    return false
+            }
+            return true
+        }else{
+            return false;
+        }
+
+    } catch (error) {
+        throw error;
+    }
+}
 
 
 

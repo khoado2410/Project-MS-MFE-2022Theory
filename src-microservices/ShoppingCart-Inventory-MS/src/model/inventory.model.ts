@@ -8,7 +8,8 @@ module.exports = (sequelize: any, Sequelize: any) => {
         type: Sequelize.NUMBER
       },
       createdDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        default: Date.now()
       },
       categoryProduct: {
         type: Sequelize.STRING
@@ -20,17 +21,21 @@ module.exports = (sequelize: any, Sequelize: any) => {
         type: Sequelize.STRING
       },
       isDelete: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        default: false
       }
       ,
       updatedDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        default: Date.now()
       },
       createdBy: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        default: ''
       },
       updatedBy: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        default: ''
       }
     });
   

@@ -1,5 +1,5 @@
 import {Request, Response} from 'express';
-import {findAll} from '../service/inventory.service';
+import {findAll, createInventory} from '../service/inventory.service';
 import log from '../logger';
 
 
@@ -23,6 +23,23 @@ export async function handleGetAllInventory(req: Request, res: Response){
             ErrorCode: 0,
             Message: 'Thành công',
             Result: data
+        });
+    } catch (error) {
+        return res.json({
+            ErrorCode: 0,
+            Message: 'Error when get all inventory',
+            Result: null
+        });
+    }
+}
+
+export async function handleCreateInventory(req: Request, res: Response){
+    try {
+        const data = await createInventory(req.body);
+        return res.json({
+            ErrorCode: 0,
+            Message: 'Thành công',
+            Result: null
         });
     } catch (error) {
         return res.json({
