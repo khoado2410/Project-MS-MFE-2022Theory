@@ -6,6 +6,8 @@ import routes from "./routes";
 import logger from 'morgan';
 import jsonLog from 'morgan-json';
 import requestIp from 'request-ip';
+const dotenv = require('dotenv');
+dotenv.config();
 // const port = config.get("port") as number;
 // const host = config.get("host") as string;
 logger.token("clientRealIp", function (req, res) {
@@ -26,8 +28,7 @@ const loggerFormat = jsonLog({
     "user-agent": ":user-agent",
   });
   
-const port = 3000;
-const host = "localhost";
+const port = process.env.NODE_DOCKER_PORT;
 
 const app = express();
 
@@ -37,8 +38,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 // app.use(logger)
 
-app.listen(port, host, () => {
-    log.info(`Server listening at http://${host}:${port}`);
+app.listen(port, () => {
+    log.info(`Server is running on :${port}`);
 
     // db;
     routes(app);
