@@ -1,5 +1,19 @@
 import {DocumentDefinition, FilterQuery} from 'mongoose';
 import Branch, {BranchDocument} from '../model/branch.model';
+import {checkCategoryValid} from './category.service';
+
+
+export async function checkBranchCategoryValid(input: any){
+    try {
+        const checkCategory = await checkCategoryValid(input);
+        const checkBranch = await checkBranchValid(input);
+        if(checkCategory == false || checkBranch == false)
+            return false;
+        return true;
+    } catch (error) {
+        throw error;
+    }
+}
 
 export async function findBranchByName(input: any){
     try {

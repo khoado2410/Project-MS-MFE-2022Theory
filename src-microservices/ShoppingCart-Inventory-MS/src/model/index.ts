@@ -6,7 +6,6 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   dialect: dbConfig.dialect,
   port: dbConfig.port,
   operatorsAliases: false,
-
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
@@ -20,6 +19,6 @@ const db : any = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.inventory = require("./inventory.model")(sequelize, Sequelize);
+db.inventories = require("./inventory.model")(sequelize, Sequelize);
 
 module.exports = db;
