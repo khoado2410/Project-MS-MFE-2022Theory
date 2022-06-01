@@ -31,6 +31,14 @@ const routes: Routes = [
   },
 
   {
+    path: 'add-product', loadChildren: () => loadRemoteModule({
+      type: 'module',
+      remoteEntry: URL,
+      exposedModule: './AddProductModule'
+    }).then(m => m.AddProductModule)
+  },
+
+  {
     path: '**', redirectTo: ''
   }
 ];

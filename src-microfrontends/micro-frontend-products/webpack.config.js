@@ -33,7 +33,8 @@ module.exports = {
         filename: "remoteEntry.js",
         exposes: {
              './ProductsModule': path.join(__dirname, 'src') + '/app/products/products.module.ts',
-             './ProductDetailModule': './/src/app/product-detail/product-detail.module.ts'
+             './ProductDetailModule': './/src/app/product-detail/product-detail.module.ts',
+             './AddProductModule': './/src/app/add-product/add-product.module.ts'
         },        
         
         // For hosts (please adjust)
