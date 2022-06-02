@@ -6,6 +6,7 @@ import log from '../logger';
 export async function createProductHandler(req:Request, res: Response) {
     try {
         const body = req.body;
+
         request('http://api-gateway:3333/category/check-category-branch', {
             method: 'POST',
             body: {
@@ -23,22 +24,62 @@ export async function createProductHandler(req:Request, res: Response) {
                 try{
                      const result =  response.body.ResponseResult.Result.check;
             		if(result == false){
+                        console.log('inventory: ', result);
                          return res.json({
                              ResponseResult: {
                                 ErrorCode: 401,
                                 Message:'Category hoặc Branch không hợp lệ',
                                 Result: null
-                                    }
+                            }
                         });
                     } else{
-                        await createProduct(req.body);
-                        return res.json({
-                            ResponseResult: {
-                                ErrorCode: 0,
-                                Message:'Thành công',
-                                Result: null
-                                        }
+                        try {
+                            const product = await createProduct(req.body);
+                            request('http://api-gateway:3333/inventory-cart-ms/create-inventory', {
+                                method: 'POST',
+                                body: {
+                                    id_product: product._id.toString(),
+                                    amount: req.body.amount,
+                                    category_product: product.category,
+                                    branch_product: product.branch,
+                                    name_product: product.name
+                                },
+
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                json: true
+                            }, function(err, resInventory){
+                                console.log('inventory: ', err)
+                                if(err){
+                                    return res.json({
+                                        ResponseResult: {
+                                            ErrorCode: 0,
+                                            Message:'Error when create inventory',
+                                            Result: err
+                                                    }
+                                        });
+                                }
+                                
                             });
+                            return res.json({
+                                ResponseResult: {
+                                    ErrorCode: 0,
+                                    Message:'Thành công',
+                                    Result: null
+                                            }
+                                });
+                        } catch (error) {
+                            console.log('error: ', error);
+                            return res.json({
+                                ResponseResult: {
+                                    ErrorCode: 401,
+                                    Message:'Error when create product',
+                                    Result: null
+                                }
+                            });
+                        }
+                       
                     }
                 }catch(err){
                     console.log("Fail while parse json: " + err);
@@ -47,8 +88,7 @@ export async function createProductHandler(req:Request, res: Response) {
                         ErrorCode: 401,
                         Message:'Error when check branch',
                         Result: null
-                                }
-                    });
+                    }});
                 }
         }});
 
