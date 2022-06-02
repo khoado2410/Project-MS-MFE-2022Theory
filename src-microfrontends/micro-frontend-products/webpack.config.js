@@ -34,7 +34,7 @@ module.exports = {
         exposes: {
              './ProductsModule': path.join(__dirname, 'src') + '/app/products/products.module.ts',
              './ProductDetailModule': './/src/app/product-detail/product-detail.module.ts',
-             './AddProductModule': './/src/app/add-product/add-product.module.ts'
+             './CreateProductModule': './/src/app/create-product/create-product.module.ts'
         },        
         
         // For hosts (please adjust)

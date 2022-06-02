@@ -301,3 +301,8 @@ input[type=text]:placeholder {
 * {
     box-sizing: border-box;
 }
+
+.mf-authentication-bg {
+    background-color: #ead2d0;
+    margin-top: 30px!important;
+}
