@@ -2,29 +2,29 @@
 module.exports = (sequelize: any, Sequelize: any) => {
     const Inventory = sequelize.define("inventory", {
       idProduct: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true
       },
       amount: {
-        type: Sequelize.NUMBER
+        type: Sequelize.INTEGER
       },
       createdDate: {
         type: Sequelize.DATE,
         default: Date.now()
       },
       categoryProduct: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING 
       },
       branchProduct: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING 
       },
       nameProduct: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING 
       },
       isDelete: {
         type: Sequelize.BOOLEAN,
         default: false
-      }
-      ,
+      },
       updatedDate: {
         type: Sequelize.DATE,
         default: Date.now()

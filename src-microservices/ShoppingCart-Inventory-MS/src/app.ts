@@ -8,8 +8,8 @@ import jsonLog from 'morgan-json';
 import requestIp from 'request-ip';
 const dotenv = require('dotenv');
 dotenv.config();
-// const port = config.get("port") as number;
-// const host = config.get("host") as string;
+const db = require('./model/index');
+db.sequelize.sync();
 logger.token("clientRealIp", function (req, res) {
     var ip = requestIp.getClientIp(req);
     return ip || undefined;
@@ -40,7 +40,7 @@ app.use(express.urlencoded({extended: false}));
 
 app.listen(port, () => {
     log.info(`Server is running on :${port}`);
-
+    
     // db;
     routes(app);
 });

@@ -44,7 +44,7 @@ const ROUTES = [
         auth: false,
         creditCheck: false,
         proxy: {
-            target: "http://cart-inventory-ms:8787",
+            target: "http://cart-inventory-ms:1115",
             changeOrigin: true,
             pathRewrite: {
                 [`^/inventory-cart-ms`]: '',

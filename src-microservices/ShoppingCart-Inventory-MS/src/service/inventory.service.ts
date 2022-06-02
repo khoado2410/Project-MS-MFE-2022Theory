@@ -1,11 +1,12 @@
 const dbModel = require("../model/index");
-const Inventory = dbModel.inventory;
+
+const Inventory = dbModel.inventories;
 const Op = dbModel.Sequelize.Op;
 
 export async function findAll() {
     try {
         const data = await Inventory.findAll();
-        return data;
+        return  JSON.stringify(data, null, 2);
     } catch (error) {
         throw error;
     }
