@@ -13,19 +13,18 @@ module.exports = (sequelize: any, Sequelize: any) => {
         default: Date.now()
       },
       categoryProduct: {
-        type: Sequelize.STRING + ' CHARSET utf8 COLLATE utf8_unicode_ci'
+        type: Sequelize.STRING 
       },
       branchProduct: {
-        type: Sequelize.STRING + ' CHARSET utf8 COLLATE utf8_unicode_ci'
+        type: Sequelize.STRING 
       },
       nameProduct: {
-        type: Sequelize.STRING + ' CHARSET utf8 COLLATE utf8_unicode_ci'
+        type: Sequelize.STRING 
       },
       isDelete: {
         type: Sequelize.BOOLEAN,
         default: false
-      }
-      ,
+      },
       updatedDate: {
         type: Sequelize.DATE,
         default: Date.now()
@@ -38,10 +37,6 @@ module.exports = (sequelize: any, Sequelize: any) => {
         type: Sequelize.STRING,
         default: ''
       }
-    },{
-      charset: 'utf8',
-      collate: 'utf8_unicode_ci',
-      
     });
   
     return Inventory

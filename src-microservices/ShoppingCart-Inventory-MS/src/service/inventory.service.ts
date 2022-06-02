@@ -22,7 +22,6 @@ export async function createInventory(input: any){
             branchProduct: input.branch_product,
             nameProduct: input.name_product
         };
-        
         await Inventory.create(body);
     } catch (error) {
         throw error;
