@@ -16,7 +16,7 @@ services:
       - api-gateway_microservice
 
   node:
-    container_name: inventory-cart-ms
+    container_name: cart-inventory-ms
     depends_on:
       - mysqldb
     build: ./
