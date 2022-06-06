@@ -18,8 +18,10 @@ export class CreateProductComponent implements OnInit {
       quantity: ['', Validators.required],
       price: ['', Validators.required],
       category: [''],
+      branchName: [''],
       images: ['']
     })
+    this.productForm?.get('category')?.disable();
   }
 
   get nameProduct() {
@@ -46,7 +48,15 @@ export class CreateProductComponent implements OnInit {
     return this.productForm?.get('images');
   }
 
+  get branchName() {
+    return this.productForm?.get('branchName');
+  }
+
   addProduct() {
+    if (this.productForm?.invalid){
+      console.log('Sai rồi cháu!');
+      return;
+    }
     console.log(this.productForm?.get('nameProduct')?.value)
     console.log(this.productForm?.get('description')?.value)
     console.log(this.productForm?.get('quantity')?.value)
@@ -56,6 +66,18 @@ export class CreateProductComponent implements OnInit {
 
   changeQuantity() {
     if (this.productForm?.get('quantity')?.value < 0)
-    this.productForm?.get('quantity')?.setValue(0);
+      this.productForm?.get('quantity')?.setValue(0);
+  }
+
+  isNotChanged: boolean = true
+  onBranchChange() {
+    if (this.productForm?.get('branchName')?.value == 0)
+      this.productForm?.get('category')?.disable();
+    else
+      this.productForm?.get('category')?.enable();
+  }
+
+  openFile() {
+    document.getElementById('fileInput')
   }
 }

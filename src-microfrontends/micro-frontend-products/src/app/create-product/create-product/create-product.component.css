@@ -864,3 +864,7 @@ input[type="checkbox"]:focus {
 .form-group textarea {
     height: 100px;
 }
+
+.invalid {
+    color: red;
+}

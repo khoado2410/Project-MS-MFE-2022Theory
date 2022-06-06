@@ -14,43 +14,69 @@
                             </label>
                             <input formControlName="nameProduct" id="name" name="name" type="text"
                                 class="form-control validate" required />
+                            <div *ngIf="!nameProduct?.valid 
+                                && nameProduct?.touched" class="invalid">*Data cannot be blank
+                            </div>
                         </div>
                         <div class="form-group mb-3">
                             <label for="description">Description</label>
                             <textarea formControlName="description" class="form-control validate" rows="5"
                                 required></textarea>
+                            <div *ngIf="!productForm.controls.description?.valid 
+                                && productForm.controls.description?.touched" class="invalid">*Data cannot be blank
+                            </div>
                         </div>
                         <div class="form-group mb-3">
-                            <label for="category">Category</label>
-                            <select formControlName="category" class="custom-select tm-select-accounts" id="category">
-                                <option selected>Select category</option>
-                                <option value="1">New Arrival</option>
-                                <option value="2">Most Popular</option>
-                                <option value="3">Trending</option>
+                            <label for="price">Price
+                            </label>
+                            <input formControlName="price" id="name" name="price" type="number"
+                                class="form-control validate" required />
+                            <div *ngIf="!productForm.controls.price?.valid 
+                                && productForm.controls.price?.touched" class="invalid">*Data cannot be blank
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="expire_date">Branch Name
+                            </label>
+                            <select formControlName="branchName" class="custom-select tm-select-accounts"
+                                id="branchName" (change)="onBranchChange()">
+                                <option selected value="0">Select category</option>
+                                <option value="New Arrival">New Arrival</option>
+                                <option value="Most Popular">Most Popular</option>
+                                <option value="Trending">Trending</option>
                             </select>
                         </div>
                         <div class="row">
                             <div class="form-group mb-3 col-xs-12 col-sm-6">
-                                <label for="expire_date">Branch Name
-                                </label>
-                                <input id="expire_date" name="expire_date" type="text" class="form-control validate"
-                                    data-large-mode="true" />
+                                <label for="category">Category</label>
+                                <select formControlName="category" class="custom-select tm-select-accounts"
+                                    id="category">
+                                    <option selected value="0">Select category</option>
+                                    <option value="1">New Arrival</option>
+                                    <option value="2">Most Popular</option>
+                                    <option value="3">Trending</option>
+                                </select>
                             </div>
                             <div class="form-group mb-3 col-xs-12 col-sm-6">
                                 <label for="stock">Units In Stock
                                 </label>
                                 <input formControlName="quantity" id="stock" name="stock" type="number"
                                     class="form-control validate" (change)="changeQuantity()" required />
+                                <div *ngIf="!quantity?.valid 
+                                && quantity?.touched"
+                                    class="invalid">*Data cannot be blank
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
                         <div class="tm-product-img-dummy mx-auto">
                             <i class="fas fa-cloud-upload-alt tm-upload-icon"></i>
+                            <img id="output" />
                         </div>
                         <div class="custom-file mt-3 mb-3">
                             <input formControlName="images" id="fileInput" type="file" style="display:none;" />
-                            <input  type="button" class="btn btn-primary btn-block mx-auto"
+                            <input type="button" class="btn btn-primary btn-block mx-auto"
                                 value="UPLOAD PRODUCT IMAGE" />
                         </div>
                     </div>
