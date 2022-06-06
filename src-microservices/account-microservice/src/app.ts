@@ -5,6 +5,7 @@ import routes from "./routes";
 import logger from 'morgan';
 import jsonLog from 'morgan-json';
 import requestIp from 'request-ip';
+const bearerToken = require('express-bearer-token');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -31,6 +32,7 @@ const port = process.env.NODE_DOCKER_PORT;
 const app = express();
 
 // app.use(pinoHTTP(log));
+app.use(bearerToken());
 app.use(logger(loggerFormat));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));

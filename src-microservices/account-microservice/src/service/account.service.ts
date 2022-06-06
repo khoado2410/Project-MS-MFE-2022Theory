@@ -28,12 +28,14 @@ export async function getUserByUsername(input: any){
 
 export async function updateRefreshToken(input: any){
     try {
-        return await Account.updateOne({
+        console.log('token: ', input.refresh_token)
+        return await Account.findOneAndUpdate({
             username: input.username,
-            is_delete: 1
+            is_delete: false
         },{
             refresh_token: input.refresh_token
         });
+        
     } catch (error) {
         throw error;
     }

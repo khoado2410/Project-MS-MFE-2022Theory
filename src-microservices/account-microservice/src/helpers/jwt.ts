@@ -1,4 +1,6 @@
 var jwt = require('jsonwebtoken');
+const promisify = require('util').promisify;
+const verify = promisify(jwt.verify).bind(jwt);
 
 export async function generateToken (payload: any, secretSignature: any, tokenLife: any) {
     try {
@@ -27,3 +29,13 @@ export async function verifyToken(token: any, secretKey:any) {
 }
 
 
+export async function decodeToken(token: any, secretKey: any){
+	try {
+		return await verify(token, secretKey, {
+			ignoreExpiration: true,
+		});
+	} catch (error) {
+		console.log(`Error in decode access token: ${error}`);
+		return null;
+	}
+};

@@ -1,14 +1,15 @@
 import {Express, Request, Response} from "express";
 import { createHandleUser, handleGetAll, handleLogin} from "./controller/account.controller";
-
-
+import {isAuth} from './middleware/auth.middleware';
+//import isAuth from '@middleware/user';
 
 export default function(app: Express) {
   
    
     app.post('/create-user', createHandleUser);
-    app.get('/get-all-user', handleGetAll);
-    app.post('/log-in', handleLogin)
+    app.post('/log-in', handleLogin);
+
+    //app.get('/get-all-user', [isAuth], handleGetAll);
     // app.get('/get-all-category', getAllCategoryHandler);
     // app.post('/check-category-valid', handleCheckCategoryValid);
 

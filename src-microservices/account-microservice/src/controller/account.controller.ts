@@ -3,6 +3,7 @@ import {createUser, getAllUser, getUserByUsername, updateRefreshToken} from '../
 import {generateToken, verifyToken} from '../helpers/jwt';
 import config from '../../config/default';
 import log from '../logger';
+const randToken = require('rand-token');
 
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -81,30 +82,44 @@ export async function handleLogin(req: Request, res: Response){
                 }
             });
         }
-        bcrypt.compare(req.body.password, password).then(async function(result: any){
-            if(!result)
-                return res.json({
-                    ResponseResult: {
-                        ErrorCode: 0,
-                        Message:'Username hoặc Password không hợp lệ',
-                        Result: null
-                    }
-                });
-            const payload = {
+        const isPasswordValid = bcrypt.compare(req.body.password, password);
+        if(!isPasswordValid){
+            return res.json({
+                ResponseResult: {
+                    ErrorCode: 0,
+                    Message:'Username hoặc Password không hợp lệ',
+                    Result: null
+                }
+            });
+        }
+        const payload = {
                 username: user.username,
                 full_name: user.full_name,
                 age: user.age,
                 role: user.role,
                 address: user.address
-            };
-
-            const access_token = await generateToken(payload, config.ACCESS_TOKEN_SECRET, config.ACCESS_TOKEN_LIFE);
-            const refresh_token = await generateToken(payload, config.refreshTokenSecret, config.refreshTokenLife);
-            const token = {
+        };
+        const access_token = await generateToken(payload, config.ACCESS_TOKEN_SECRET, config.ACCESS_TOKEN_LIFE);
+        if(!access_token){
+            return res.json({
+                ResponseResult: {
+                    ErrorCode: 0,
+                    Message:'Đăng nhập không thành công, vui lòng thử lại.',
+                    Result: null
+                }
+            });
+        }
+        let refresh_token = randToken.generate(50);
+   
+        if (!user.refresh_token) {
+            const refresh_token_input = {
                 username: user.username,
                 refresh_token: refresh_token
             };
-            await updateRefreshToken(token);
+            await updateRefreshToken(refresh_token_input);
+        } else {
+            refresh_token = user.refresh_token;
+        }
             return res.json({
                 ResponseResult: {
                     ErrorCode: 0,
@@ -115,7 +130,6 @@ export async function handleLogin(req: Request, res: Response){
                     }
                 }
             });
-        })
         
     } catch (error) {
         log.error(error);
@@ -124,66 +138,60 @@ export async function handleLogin(req: Request, res: Response){
     }
 }
 
-// export async function getAllCategoryHandler(req:Request, res: Response) {
-//     try {
-//         const category = await getCategory();
-//         return res.json({
-//             ResponseResult: {
-//                 ErrorCode: 0,
-//                 Message:'Thành công',
-//                 Result: category 
-//             }
-//         });
-//     } catch (e) {
-//         log.error(e);
-//         return res.status(400).send('Error when get category');
-//     }
-// }
+// export async function refreshToken(req: Request, res: Response) {
+// 	// Lấy access token từ header
+// 	const accessTokenFromHeader = req.headers.x_authorization;
+// 	if (!accessTokenFromHeader) {
+// 		return res.status(400).send('Không tìm thấy access token.');
+// 	}
 
-// export async function getCategoryByBranchHandler(req:Request, res: Response) {
-//     try {
-//         const category = await getCategoryByBranch(req.query);
-//         return res.json({
-//             ResponseResult: {
-//                 ErrorCode: 0,
-//                 Message:'Thành công',
-//                 Result: category
-//             }
-//         });
-//     } catch (e) {
-//         log.error(e);
-//         return res.status(400).send('Error when get category');
-//     }
-// }
+// 	// Lấy refresh token từ body
+// 	const refreshTokenFromBody = req.body.refreshToken;
+// 	if (!refreshTokenFromBody) {
+// 		return res.status(400).send('Không tìm thấy refresh token.');
+// 	}
 
-// export async function handleCheckCategoryValid(req: Request, res: Response){
-//     try {
-//         const check = await checkCategoryValid(req.body);
-//         if(check){
-//             return res.json({
-//                 ResponseResult: {
-//                     ErrorCode: 0,
-//                     Message: 'Thành công',
-//                     Result: {
-//                         check: true
-//                     }
-//                 }
-//             });
-//         }else{
-//             return res.json({
-//                 ResponseResult: {
-//                     ErrorCode: 0,
-//                     Message: 'Thành công',
-//                     Result: {
-//                         check: false
-//                     }
-//                 }
-//             });
-//         }
-        
-//     } catch (e) {
-//         log.error(e);
-//         return res.status(400).send('Error when get promotion by product type');
-//     }
-// }
+// 	const accessTokenSecret =
+// 		process.env.ACCESS_TOKEN_SECRET || jwtVariable.accessTokenSecret;
+// 	const accessTokenLife =
+// 		process.env.ACCESS_TOKEN_LIFE || jwtVariable.accessTokenLife;
 
+// 	// Decode access token đó
+// 	const decoded = await authMethod.decodeToken(
+// 		accessTokenFromHeader,
+// 		accessTokenSecret,
+// 	);
+// 	if (!decoded) {
+// 		return res.status(400).send('Access token không hợp lệ.');
+// 	}
+
+// 	const username = decoded.payload.username; // Lấy username từ payload
+
+// 	const user = await userModel.getUser(username);
+// 	if (!user) {
+// 		return res.status(401).send('User không tồn tại.');
+// 	}
+
+// 	if (refreshTokenFromBody !== user.refreshToken) {
+// 		return res.status(400).send('Refresh token không hợp lệ.');
+// 	}
+
+// 	// Tạo access token mới
+// 	const dataForAccessToken = {
+// 		username,
+// 	};
+
+// 	const accessToken = await authMethod.generateToken(
+// 		dataForAccessToken,
+// 		accessTokenSecret,
+// 		accessTokenLife,
+// 	);
+// 	if (!accessToken) {
+// 		return res
+// 			.status(400)
+// 			.send('Tạo access token không thành công, vui lòng thử lại.');
+// 	}
+// 	return res.json({
+// 		accessToken,
+// 	});
+// };
