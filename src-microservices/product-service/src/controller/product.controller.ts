@@ -7,14 +7,12 @@ import client from '../logger/client'
 export async function createProductHandler(req: Request, res: Response) {
     try {
         const body = req.body;
-        request('http://api-gateway:3333/category/check-category-branch', {
+        request('http://api-gateway:3333/category/check-branch-valid', {
             method: 'POST',
             body: {
                 category: body.category,
-                category_detail: body.categoryDetail,
                 branch: body.branch
             },
-
             headers: {
                 'Content-Type': 'application/json'
             },

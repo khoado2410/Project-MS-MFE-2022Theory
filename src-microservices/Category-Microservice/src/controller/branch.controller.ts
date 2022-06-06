@@ -26,7 +26,6 @@ export async function handleCheckBranchCategoryValid(req: Request, res: Response
                 }
             });
         }
-        
     } catch (e) {
         log.error(e);
         return res.status(400).send('Error when get promotion by product type');
