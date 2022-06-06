@@ -1,12 +1,12 @@
-import {Request, Response} from 'express';
-import {createProduct, getAllProduct} from '../service/product.service';
+import { Request, Response } from 'express';
+import { createProduct, getAllProduct } from '../service/product.service';
 import request from 'request';
 import log from '../logger';
+import client from '../logger/client'
 
-export async function createProductHandler(req:Request, res: Response) {
+export async function createProductHandler(req: Request, res: Response) {
     try {
         const body = req.body;
-
         request('http://api-gateway:3333/category/check-category-branch', {
             method: 'POST',
             body: {
@@ -19,20 +19,20 @@ export async function createProductHandler(req:Request, res: Response) {
                 'Content-Type': 'application/json'
             },
             json: true
-        }, async function(error, response){
-            if(response){
-                try{
-                     const result =  response.body.ResponseResult.Result.check;
-            		if(result == false){
+        }, async function (error, response) {
+            if (response) {
+                try {
+                    const result = response.body.ResponseResult.Result.check;
+                    if (result == false) {
                         console.log('inventory: ', result);
-                         return res.json({
-                             ResponseResult: {
+                        return res.json({
+                            ResponseResult: {
                                 ErrorCode: 401,
-                                Message:'Category hoặc Branch không hợp lệ',
+                                Message: 'Category hoặc Branch không hợp lệ',
                                 Result: null
                             }
                         });
-                    } else{
+                    } else {
                         try {
                             const product = await createProduct(req.body);
                             request('http://api-gateway:3333/inventory-cart-ms/create-inventory', {
@@ -49,58 +49,64 @@ export async function createProductHandler(req:Request, res: Response) {
                                     'Content-Type': 'application/json'
                                 },
                                 json: true
-                            }, function(err, resInventory){
+                            }, function (err, resInventory) {
                                 console.log('inventory: ', err)
-                                if(err){
+                                if (err) {
                                     return res.json({
                                         ResponseResult: {
                                             ErrorCode: 0,
-                                            Message:'Error when create inventory',
+                                            Message: 'Error when create inventory',
                                             Result: err
-                                                    }
-                                        });
+                                        }
+                                    });
                                 }
-                                
+
                             });
                             return res.json({
                                 ResponseResult: {
                                     ErrorCode: 0,
-                                    Message:'Thành công',
+                                    Message: 'Thành công',
                                     Result: null
-                                            }
-                                });
+                                }
+                            });
                         } catch (error) {
                             console.log('error: ', error);
                             return res.json({
                                 ResponseResult: {
                                     ErrorCode: 401,
-                                    Message:'Error when create product',
+                                    Message: 'Error when create product',
                                     Result: null
                                 }
                             });
                         }
-                       
+
                     }
-                }catch(err){
+                } catch (err) {
                     console.log("Fail while parse json: " + err);
                     return res.json({
-                    ResponseResult: {
-                        ErrorCode: 401,
-                        Message:'Error when check branch',
-                        Result: null
-                    }});
+                        ResponseResult: {
+                            ErrorCode: 401,
+                            Message: 'Error when check branch',
+                            Result: null
+                        }
+                    });
                 }
-        }});
+            }
+        });
 
-       
+
     } catch (e) {
         log.error(e);
         return res.status(400).send('Error when create bill');
     }
 }
 
-export async function handleGetAllProduct(req: Request, res: Response){
+export async function handleGetAllProduct(req: Request, res: Response) {
     try {
+        client.LogInfo({ level: 'info', topic: 'micro-service-product', msg: '[ms-product]: getAllProduct' }, (err, result) => {
+            if (err)
+                console.log('ERROR: ', err)
+        })
         const product = await getAllProduct();
         return res.json({
             ResponseResult: {

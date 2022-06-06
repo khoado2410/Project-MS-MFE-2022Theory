@@ -7,7 +7,7 @@ services:
     # Configures docker image to run in bridge mode network
     hostname: kafkaserver
     networks:
-      - kafkanet
+      - api-gateway_microservice
     # Make a port available to services outside of Docker
     ports:
       - 2181:2181
@@ -22,7 +22,7 @@ services:
     container_name: kafkamanager
     #configures the kafka manager docker image to run in bridge mode network
     networks:
-      - kafkanet
+      - api-gateway_microservice
     # Make a port available to services outside of Docker
     ports:
       - 9000:9000
@@ -42,7 +42,7 @@ services:
       - 9300:9300
     # Configures docker image to run in bridge mode network
     networks:
-      - kafkanet
+      - api-gateway_microservice
   
   # Kibana Docker Image
   kibana:
@@ -55,7 +55,7 @@ services:
       - elasticsearch:elasticsearch
     # Configures docker image to run in bridge mode network
     networks:
-      - kafkanet
+      - api-gateway_microservice
     # You can control the order of service startup and shutdown with the depends_on option.
     depends_on: ['elasticsearch']
   
@@ -68,13 +68,19 @@ services:
       - kafkaserver:kafkaserver
     # Configures docker image to run in bridge mode network
     networks:
-      - kafkanet
+      - api-gateway_microservice
     # You can control the order of service startup and shutdown with the depends_on option.
     # Mount host volumes into docker containers to supply logstash.config file
     volumes:
       - './logstash:/usr/share/logstash/pipeline/'
 
+  #server gRPC
+  grpcserver:
+    container_name: grpc-server
+    build: ../log-service
+    networks:
+      - api-gateway_microservice
 # Use bridge network for all the container, keeping all the container in same network will simplify the communication between the container.
 networks: 
-  kafkanet:
+  api-gateway_microservice:
     driver: bridge

@@ -34,10 +34,10 @@ server.addService(logProto.packagelogs.LogService.service, {
 } as LogServiceHandlers);
 
 server.bindAsync(
-    "127.0.0.1:50051",
+    "0.0.0.0:50051",
     ServerCredentials.createInsecure(),
     (error, port) => {
-        console.log("Server running at http://127.0.0.1:50051");
+        console.log("Server running at http://0.0.0.0:50051");
         server.start();
     }
 );
