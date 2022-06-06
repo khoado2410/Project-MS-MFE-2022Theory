@@ -10,6 +10,34 @@ export async function createUser(input: any){
     }
 }
 
+export async function getAllUser(){
+    try {
+        return await Account.find();
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function getUserByUsername(input: any){
+    try {
+        return await Account.findOne(input);
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function updateRefreshToken(input: any){
+    try {
+        return await Account.updateOne({
+            username: input.username,
+            is_delete: 1
+        },{
+            refresh_token: input.refresh_token
+        });
+    } catch (error) {
+        throw error;
+    }
+}
 // export async function createCategory(input: any){
 //     try {
 //         const checkCategory = await findCategoryByName({

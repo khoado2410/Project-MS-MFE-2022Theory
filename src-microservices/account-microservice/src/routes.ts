@@ -1,5 +1,5 @@
 import {Express, Request, Response} from "express";
-import { createHandleUser} from "./controller/account.controller";
+import { createHandleUser, handleGetAll, handleLogin} from "./controller/account.controller";
 
 
 
@@ -7,6 +7,8 @@ export default function(app: Express) {
   
    
     app.post('/create-user', createHandleUser);
+    app.get('/get-all-user', handleGetAll);
+    app.post('/log-in', handleLogin)
     // app.get('/get-all-category', getAllCategoryHandler);
     // app.post('/check-category-valid', handleCheckCategoryValid);
 
