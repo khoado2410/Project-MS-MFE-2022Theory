@@ -5,6 +5,11 @@ import log from '../logger';
 
 export async function createProductHandler(req:Request, res: Response) {
     try {
+
+        // const inputProduct = {...req.body};
+        // inputProduct.listImage = req.files;
+        // console.log('input product: ', inputProduct);
+        // const product = await createProduct(inputProduct);
         const body = req.body;
         request('http://api-gateway:3333/category/check-branch-valid', {
             method: 'POST',
@@ -31,7 +36,10 @@ export async function createProductHandler(req:Request, res: Response) {
                         });
                     } else{
                         try {
-                            const product = await createProduct(req.body);
+                            const inputProduct = {...req.body};
+                            inputProduct.listImage = req.files;
+                            console.log('input product: ', inputProduct);
+                            const product = await createProduct(inputProduct);
                             request('http://api-gateway:3333/inventory-cart-ms/create-inventory', {
                                 method: 'POST',
                                 body: {
@@ -57,7 +65,6 @@ export async function createProductHandler(req:Request, res: Response) {
                                                     }
                                         });
                                 }
-                                
                             });
                             return res.json({
                                 ResponseResult: {
@@ -99,6 +106,7 @@ export async function createProductHandler(req:Request, res: Response) {
 export async function handleGetAllProduct(req: Request, res: Response){
     try {
         const product = await getAllProduct();
+
         return res.json({
             ResponseResult: {
                 ErrorCode: 0,

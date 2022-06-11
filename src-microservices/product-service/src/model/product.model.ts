@@ -4,7 +4,13 @@ export interface ProductDocument extends mongoose.Document{
     name: String,
     description: String,
     price: String,
-    listImage: any[],
+    listImage: [
+        {
+            filename: String,
+            linkUrl: Array<String>
+        }
+    ],
+    linkPath: String [],
     numberOfReviews: Number;
     quantitySold: Number;
     category: String,
@@ -12,11 +18,11 @@ export interface ProductDocument extends mongoose.Document{
     branch: String,
     numberStar: Number,
     comment: any[],
-    created_by: String,
-    created_date: Date,
-    updated_by: String,
-    updated_date: Date,
-    is_delete: Boolean
+    createdBy: String,
+    createdDate: Date,
+    updatedBy: String,
+    updatedDate: Date,
+    isDelete: Boolean
 }
 
 const ProductSchema = new mongoose.Schema(
@@ -32,11 +38,11 @@ const ProductSchema = new mongoose.Schema(
         branch: {type: String, default: null},
         numberStar: {type: Number, default: 0},
         comment: {type: Array, default: []},
-        created_by: {type: String, default: ''},
-        created_date: {type: Date, default: Date.now()},
-        updated_by: {type: String, default: ''},
-        updated_date: {type: Date, default: Date.now()},
-        is_delete: {type: Boolean, default: false}
+        createdBy: {type: String, default: ''},
+        createdDate: {type: Date, default: Date.now()},
+        updatedBy: {type: String, default: ''},
+        updatedDate: {type: Date, default: Date.now()},
+        isDelete: {type: Boolean, default: false}
     }   
 );
 

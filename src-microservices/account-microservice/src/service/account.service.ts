@@ -27,7 +27,6 @@ export async function getUserByUsername(input: any){
 
 export async function updateRefreshToken(input: any){
     try {
-        console.log('token: ', input.refresh_token)
         return await Account.findOneAndUpdate({
             username: input.username,
             is_delete: false
