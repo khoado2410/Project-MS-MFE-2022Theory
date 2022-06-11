@@ -50,7 +50,20 @@ const ROUTES = [
                 [`^/inventory-cart-ms`]: '',
             },
         }
+    },
+    {
+        url: '/account',
+        auth: false,
+        creditCheck: false,
+        proxy: {
+            target: "http://account-ms:1717",
+            changeOrigin: true,
+            pathRewrite: {
+                [`^/account`]: '',
+            },
+        }
     }
+
 
 
 ]

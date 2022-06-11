@@ -42,6 +42,7 @@ export async function createHandleUser(req:Request, res: Response) {
      
     } catch (e) {
         log.error(e);
+        console.log('error: ', e);
         return res.status(400).send('Error when create user');
     }
 }
@@ -133,6 +134,7 @@ export async function handleLogin(req: Request, res: Response){
         
     } catch (error) {
         log.error(error);
+        console.log('error: ', error);
         return res.status(400).send('Error when get user');
 
     }
