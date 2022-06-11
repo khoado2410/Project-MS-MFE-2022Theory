@@ -2,7 +2,7 @@ import express from "express";
 import config from "../config/default";
 import log from './logger';
 import connect from './db/connect';
-import routes from "./routes";
+import {ProductRoutes} from "./routes";
 import logger from 'morgan';
 import jsonLog from 'morgan-json';
 import requestIp from 'request-ip';
@@ -36,12 +36,13 @@ const app = express();
 app.use(logger(loggerFormat));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+app.use('/', ProductRoutes);
+app.use('/upload', express.static('uploads'));
 
 app.listen(port, () => {
     log.info(`Server is running on ${port}`);
 
     connect();
-    routes(app);
 });
 
 
