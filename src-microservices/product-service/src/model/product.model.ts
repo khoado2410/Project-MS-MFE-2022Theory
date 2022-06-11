@@ -7,7 +7,6 @@ export interface ProductDocument extends mongoose.Document{
     listImage: [
         {
             filename: String,
-            linkUrl: Array<String>
         }
     ],
     linkPath: String [],

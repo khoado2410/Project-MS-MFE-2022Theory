@@ -20,32 +20,25 @@ export async function getAllProduct(){
         });
         const listRes: Array<Object> = [];
         listProduct.forEach(item => {
-            // let itemProduct = {
-            //     id: item._id,
-            //     name: item.name,
-            //     description: item.description,
-            //     price: item.price,
-            //     numberOfReviews: item.numberOfReviews,
-            //     quantitySold: item.quantitySold,
-            //     category: item.category,
-            //     branch: item.branch,
-            //     numberStar: item.numberStar,
-            //     linkPath: Array<String>,
-            // };
-            // let listPath = [
-            //     {
-            //         filename: String
-            //     }
-            // ];
-            // item.listImage.forEach(image => {
-            //     //listPath.push({filename: `localhost:${port}/upload/${image.filename}`});
-            // })
-            //item.listImage = listPath;
-            console.log('item: ', item);
-            //listRes.push(itemProduct);
+            let listPath: Array<String> = [];
+            item.listImage.forEach(image => {
+                listPath.push(`localhost:3333/product/upload/${image.filename}`);
+            });
+            let itemProduct = {
+                id: item._id,
+                name: item.name,
+                description: item.description,
+                price: item.price,
+                numberOfReviews: item.numberOfReviews,
+                quantitySold: item.quantitySold,
+                category: item.category,
+                branch: item.branch,
+                numberStar: item.numberStar,
+                linkPath: listPath
+            };
+            listRes.push(itemProduct);
         })
-        console.log('list res: ', listRes);
-        return listProduct;
+        return listRes;
     } catch (error) {
         throw error;
     }

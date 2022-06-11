@@ -13,7 +13,7 @@ services:
       - api-gateway_microservice
 
   node:
-    container_name: category-ms
+    container_name: account-ms
     depends_on:
       - mongodb
     build: ./

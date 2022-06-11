@@ -6,10 +6,6 @@ import log from '../logger';
 export async function createProductHandler(req:Request, res: Response) {
     try {
 
-        // const inputProduct = {...req.body};
-        // inputProduct.listImage = req.files;
-        // console.log('input product: ', inputProduct);
-        // const product = await createProduct(inputProduct);
         const body = req.body;
         request('http://api-gateway:3333/category/check-branch-valid', {
             method: 'POST',
@@ -99,7 +95,12 @@ export async function createProductHandler(req:Request, res: Response) {
        
     } catch (e) {
         log.error(e);
-        return res.status(400).send('Error when create bill');
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 401,
+                Message:'Error when create product',
+                Result: null
+            }});
     }
 }
 

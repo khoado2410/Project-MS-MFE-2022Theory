@@ -55,7 +55,14 @@ export async function createBranchHandler(req:Request, res: Response) {
         
     } catch (e) {
         log.error(e);
-        return res.status(400).send('Error when create category');
+        console.log('error: ', e);
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 400,
+                Message: 'Error when create branch',
+                Result:null
+            }
+        });
     }
 }
 
@@ -72,7 +79,13 @@ export async function handleGetBranch(req: Request, res: Response){
         });
     } catch (e) {
         log.error(e);
-        return res.status(400).send('Error when get promotion by product type');
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 400,
+                Message: 'Error when get branch',
+                Result:null
+            }
+        });
     }
 }
 
@@ -103,6 +116,12 @@ export async function handleCheckBranchyValid(req: Request, res: Response){
         
     } catch (e) {
         log.error(e);
-        return res.status(400).send('Error when get promotion by product type');
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 400,
+                Message: 'Error when create branch',
+                Result:null
+            }
+        });
     }
 }
