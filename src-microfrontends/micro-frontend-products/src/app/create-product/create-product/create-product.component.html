@@ -63,8 +63,7 @@
                                 <input formControlName="quantity" id="stock" name="stock" type="number"
                                     class="form-control validate" (change)="changeQuantity()" required />
                                 <div *ngIf="!quantity?.valid 
-                                && quantity?.touched"
-                                    class="invalid">*Data cannot be blank
+                                && quantity?.touched" class="invalid">*Data cannot be blank
                                 </div>
                             </div>
                         </div>
@@ -76,8 +75,11 @@
                         </div>
                         <div class="custom-file mt-3 mb-3">
                             <input formControlName="images" id="fileInput" type="file" style="display:none;" />
-                            <input type="button" class="btn btn-primary btn-block mx-auto"
-                                value="UPLOAD PRODUCT IMAGE" />
+                            <button id="uploadFileBtn" class="btn btn-primary btn-block mx-auto"
+                                value="UPLOAD PRODUCT IMAGE">UPLOAD PRODUCT IMAGE</button>
+                            <script>
+                                $('#uploadFileBtn').click(function(){ $('#fileInput').trigger('click'); });
+                            </script>
                         </div>
                     </div>
                 </div>
