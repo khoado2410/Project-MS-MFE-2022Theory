@@ -29,7 +29,7 @@
                         <div class="form-group mb-3">
                             <label for="price">Price
                             </label>
-                            <input formControlName="price" id="name" name="price" type="number"
+                            <input formControlName="price" id="name" name="price" type="number" (change)="changePrice()"
                                 class="form-control validate" required />
                             <div *ngIf="!productForm.controls.price?.valid 
                                 && productForm.controls.price?.touched" class="invalid">*Data cannot be blank
@@ -69,18 +69,24 @@
                         </div>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
-                        <div class="tm-product-img-dummy mx-auto">
-                            <i class="fas fa-cloud-upload-alt tm-upload-icon"></i>
-                            <img id="output" />
+                        <div formArrayName="images" *ngFor="let image of images.controls; let i=index">
+                            <div class="tm-product-img-dummy mx-auto"
+                                [ngClass]="images.controls.length > 1 ? 'mt-4' : ''">
+                                <i *ngIf="image.value == ''"
+                                    class="fas fa-cloud-upload-alt tm-upload-icon"></i>
+                                <img *ngIf="image.value == ''" id="output{{i}}" height="240" />
+                                <img *ngIf="image.value != ''" id="output{{i}}" height="240" width="100%" />
+                            </div>
+                            <div class="custom-file mt-3 mb-3">
+                                <input [formControlName]="i" id="fileInput{{i}}" type="file" (change)="readURL($event)"
+                                    style="display: none;" accept="images/*" />
+                                <input type="button" id="uploadFileBtn{{i}}" (click)="openFile(i)"
+                                    class="btn btn-primary btn-block mx-auto" value="UPLOAD PRODUCT IMAGE" />
+                            </div>
                         </div>
-                        <div class="custom-file mt-3 mb-3">
-                            <input formControlName="images" id="fileInput" type="file" style="display:none;" />
-                            <button id="uploadFileBtn" class="btn btn-primary btn-block mx-auto"
-                                value="UPLOAD PRODUCT IMAGE">UPLOAD PRODUCT IMAGE</button>
-                            <script>
-                                $('#uploadFileBtn').click(function(){ $('#fileInput').trigger('click'); });
-                            </script>
-                        </div>
+                        <input type="button" (click)="addMoreImages()"
+                            class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4 mt-4 btn btn-primary btn-block mx-auto"
+                            value="ADD IMAGE" />
                     </div>
                 </div>
                 <div class="row">

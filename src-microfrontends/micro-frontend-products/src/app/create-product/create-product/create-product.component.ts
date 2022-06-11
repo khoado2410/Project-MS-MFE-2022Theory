@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-product',
@@ -19,7 +19,7 @@ export class CreateProductComponent implements OnInit {
       price: ['', Validators.required],
       category: [''],
       branchName: [''],
-      images: ['']
+      images: this.formBuilder.array([this.formBuilder.control('')])
     })
     this.productForm?.get('category')?.disable();
   }
@@ -45,7 +45,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   get images() {
-    return this.productForm?.get('images');
+    return this.productForm?.get('images') as FormArray;
   }
 
   get branchName() {
@@ -54,7 +54,6 @@ export class CreateProductComponent implements OnInit {
 
   addProduct() {
     if (this.productForm?.invalid){
-      console.log('Sai rồi cháu!');
       return;
     }
     console.log(this.productForm?.get('nameProduct')?.value)
@@ -62,11 +61,22 @@ export class CreateProductComponent implements OnInit {
     console.log(this.productForm?.get('quantity')?.value)
     console.log(this.productForm?.get('price')?.value)
     console.log(this.productForm?.get('category')?.value)
+    this.images.value.filter((img: any, index: any) => {
+      if (img == '')
+        this.images.removeAt(index);
+    })
+    console.log(this.productForm?.get('images')?.value)
+    console.log(this.images.value)
   }
 
   changeQuantity() {
     if (this.productForm?.get('quantity')?.value < 0)
       this.productForm?.get('quantity')?.setValue(0);
+  }
+
+  changePrice() {
+    if (this.productForm?.get('price')?.value < 0)
+      this.productForm?.get('price')?.setValue(0);
   }
 
   isNotChanged: boolean = true
@@ -77,7 +87,27 @@ export class CreateProductComponent implements OnInit {
       this.productForm?.get('category')?.enable();
   }
 
-  openFile() {
-    document.getElementById('fileInput')
+  openFile(i: any) {
+    document.getElementById('fileInput' + i)?.setAttribute('accept', 'image/*');
+    document.getElementById('fileInput' + i)?.click();
+  }
+
+  readURL(input: any) {
+    console.log(input);
+    if (input.target.files && input.target.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var id = input.target?.id.split('fileInput')[1];
+        document.getElementById('output' + id)?.setAttribute('src', e.target?.result as string);
+      };
+  
+      reader.readAsDataURL(input.target.files[0]);
+    }
+  }
+
+  addMoreImages() {
+    if (this.images.value[this.images.length - 1] == '')
+      return;
+    this.images.push(this.formBuilder.control(['']));
   }
 }
