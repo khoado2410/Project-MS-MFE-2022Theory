@@ -1,7 +1,6 @@
 import {DocumentDefinition, FilterQuery} from 'mongoose';
 import Account, {AccountDocument} from '../model/account.model';
 
-
 export async function createUser(input: any){
     try {
         return await Account.create(input);
