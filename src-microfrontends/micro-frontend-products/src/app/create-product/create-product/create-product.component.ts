@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,9 +9,12 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class CreateProductComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder) { }
+  URL: string = 'http://localhost:3333/'
+  constructor(private formBuilder: FormBuilder,
+    private http: HttpClient) { }
 
   productForm!: FormGroup;
+  listBranches: any[] = [];
   ngOnInit(): void {
     this.productForm = this.formBuilder.group({
       nameProduct: ['', Validators.required],
@@ -22,6 +26,10 @@ export class CreateProductComponent implements OnInit {
       images: this.formBuilder.array([this.formBuilder.control('')])
     })
     this.productForm?.get('category')?.disable();
+    this.http.get(this.URL + 'category/get-all-branch').subscribe(x => {
+      this.listBranches.push(x);
+      console.log(x);
+    })
   }
 
   get nameProduct() {

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CreateProductComponent } from './create-product/create-product.component';
 import { CreateProductRoutingModule } from './create-product-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     CreateProductRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ]
 })
 export class CreateProductModule { }
