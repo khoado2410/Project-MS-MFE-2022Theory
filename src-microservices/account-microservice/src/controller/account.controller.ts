@@ -23,7 +23,11 @@ export async function createHandleUser(req:Request, res: Response) {
             try {
                 const user = {
                     username: req.body.username,
-                    password: hash
+                    password: hash,
+                    role: req.body.role,
+                    address: req.body.address,
+                    full_name: req.body.full_name,
+                    age: req.body.age
                 };
                 await createUser(user);
                 return res.json({
@@ -127,7 +131,12 @@ export async function handleLogin(req: Request, res: Response){
                     Message:'Thành công',
                     Result: {
                         accessToken: access_token,
-                        refreshToken: refresh_token
+                        refreshToken: refresh_token,
+                        username: user.username,
+                        role: user.role,
+                        address: user.address,
+                        full_name: user.full_name,
+                        age: user.age
                     }
                 }
             });

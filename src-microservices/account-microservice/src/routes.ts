@@ -9,7 +9,7 @@ export default function(app: Express) {
     app.post('/create-user', createHandleUser);
     app.post('/log-in', handleLogin);
 
-    //app.get('/get-all-user', [isAuth], handleGetAll);
+    app.get('/get-all-user', handleGetAll);
     // app.get('/get-all-category', getAllCategoryHandler);
     // app.post('/check-category-valid', handleCheckCategoryValid);
 
