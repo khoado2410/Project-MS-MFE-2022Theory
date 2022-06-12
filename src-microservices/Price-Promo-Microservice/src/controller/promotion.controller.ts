@@ -6,14 +6,19 @@ import log from '../logger';
 
 export async function createPromotionHandler(req:Request, res: Response) {
     try {
-        const promotion = await createPromotion(req.body);
+        await createPromotion(req.body);
         return res.json({
             ErrorCode: 0,
-            Message: null
+            Message: 'Thành công',
+            Result: null
         });
     } catch (e) {
         log.error(e);
-        return res.status(400).send('Error when create promotion');
+        return res.json({
+            ErrorCode: 400,
+            Message: 'Error when create promotion',
+            Result: null
+        });;
     }
 }
 
@@ -22,11 +27,17 @@ export async function handleGetPromotionByProductType(req: Request, res: Respons
         const promotion = await getPromotionByTypeProduct(req.query);
         return res.json({
             ErrorCode: 0,
-            Message: promotion
+            Message: 'Thành công',
+            Result: promotion
         });
     } catch (e) {
         log.error(e);
-        return res.status(400).send('Error when get promotion by product type');
+        console.log('error: ', e);
+        return res.json({
+            ErrorCode: 400,
+            Message: 'Error when get promotion',
+            Result: null
+        });;
     }
 }
 
