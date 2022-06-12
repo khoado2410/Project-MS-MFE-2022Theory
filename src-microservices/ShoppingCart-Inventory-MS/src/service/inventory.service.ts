@@ -1,19 +1,20 @@
 const dbModel = require("../model/index");
 
-const Inventory = dbModel.inventories;
+const Inventory = dbModel.t_inventories;
 const Op = dbModel.Sequelize.Op;
 
 export async function findAll() {
     try {
         const data = await Inventory.findAll();
-        return  JSON.stringify(data, null, 2);
+        const dataString = JSON.stringify(data, null, 2);
+        const dataResult = JSON.parse(dataString);
+        return  dataResult;
     } catch (error) {
         throw error;
     }
   };
 
 export async function createInventory(input: any){
-
     try {
         const body = {
             idProduct: input.id_product,

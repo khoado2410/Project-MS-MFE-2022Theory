@@ -46,7 +46,8 @@ export async function handleGetPromoByProduct(req: Request, res: Response){
         const listPromo = await getPromotionByProduct(req.query);
         return res.json({
             ErrorCode: 0,
-            Message: listPromo
+            Message: 'Thành công',
+            Result: listPromo
         });
     } catch (e) {
         log.error(e);

@@ -62,7 +62,20 @@ const ROUTES = [
                 [`^/account`]: '',
             },
         }
+    },
+    {
+        url: '/price-promo',
+        auth: false,
+        creditCheck: false,
+        proxy: {
+            target: "http://price-promo-ms:6666",
+            changeOrigin: true,
+            pathRewrite: {
+                [`^/price-promo`]: '',
+            },
+        }
     }
+
 
 
 

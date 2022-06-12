@@ -1,6 +1,6 @@
 
 module.exports = (sequelize: any, Sequelize: any) => {
-    const Inventory = sequelize.define("inventory", {
+    const Inventory = sequelize.define("t_inventory", {
       idProduct: {
         type: Sequelize.STRING,
         unique: true

@@ -18,7 +18,6 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     charset: 'utf8',
     collate: 'utf8_general_ci', 
     timestamps: true,
-    
     }}
   );
 
@@ -27,6 +26,6 @@ const db : any = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.inventories = require("./inventory.model")(sequelize, Sequelize);
+db.t_inventories = require("./inventory.model")(sequelize, Sequelize);
 
 module.exports = db;

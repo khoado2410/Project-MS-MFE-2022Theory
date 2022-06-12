@@ -51,8 +51,9 @@ export async function createProductHandler(req:Request, res: Response) {
                                 },
                                 json: true
                             }, function(err, resInventory){
-                                console.log('inventory: ', err)
+                                //console.log('inventory: ', resInventory)
                                 if(err){
+                                    console.log('err: ', err);
                                     return res.json({
                                         ResponseResult: {
                                             ErrorCode: 0,
@@ -107,10 +108,8 @@ export async function createProductHandler(req:Request, res: Response) {
 export async function handleGetAllProduct(req: Request, res: Response){
     try {
         const product = await getAllProduct();
-        const listResponse: Array<Object> = [];
-        // product.forEach(item => {
-        //     //const 
-        // })
+        //console.log('product: ', product)
+    
         return res.json({
             ResponseResult: {
                 ErrorCode: 0,

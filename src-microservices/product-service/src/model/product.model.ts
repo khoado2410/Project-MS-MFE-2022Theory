@@ -21,7 +21,9 @@ export interface ProductDocument extends mongoose.Document{
     createdDate: Date,
     updatedBy: String,
     updatedDate: Date,
-    isDelete: Boolean
+    isDelete: Boolean,
+    length: Number,
+    amount: Number
 }
 
 const ProductSchema = new mongoose.Schema(
