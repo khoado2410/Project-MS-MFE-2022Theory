@@ -115,7 +115,10 @@ export async function handleGetAllProduct(req: Request, res: Response) {
                 console.log('ERROR: ', err)
         })
         const product = await getAllProduct();
-
+        const listResponse: Array<Object> = [];
+        // product.forEach(item => {
+        //     //const 
+        // })
         return res.json({
             ResponseResult: {
                 ErrorCode: 0,

@@ -30,6 +30,7 @@ export async function getPromotionByProduct(query: FilterQuery<PromotionDocument
             productType: query.productType,
             expire: true
         }).sort("-discount").exec();
+
         if(!promoByProduct && promoByType)
             return promoByType
         if(promoByProduct && !promoByType)

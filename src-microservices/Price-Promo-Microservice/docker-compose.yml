@@ -1,32 +1,38 @@
-version: '3.7'
+version: '3.8'
 
 services:
-  node:
-    container_name: product-ms
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    ports:
-      - 7500:7500
-    volumes:
-      - .:/app
-    command: npm run dev
-    networks:
-      - common
-    environment:
-      PORT: 7500
-      MONGO_URL: 'mongodb://mongo/example'
-      NODE_ENV: 'development'
-
-  mongo:
-    container_name: mongo
+  mongodb:
     image: mongo
+    restart: unless-stopped
+    env_file: ./.env
     ports:
-      - 27017:27017
+      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
     volumes:
-      - ./data:/data/db
+      - db:/data/db
     networks:
-      - common
+      - api-gateway_microservice
+
+  node:
+    container_name: category-ms
+    depends_on:
+      - mongodb
+    build: ./
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+    environment:
+      - DB_HOST=mongodb
+      - DB_NAME=$MONGODB_DATABASE
+      - DB_PORT=$MONGODB_DOCKER_PORT
+    stdin_open: true
+    tty: true
+    networks:
+      - api-gateway_microservice
+
+volumes:
+  db:
 
 networks:
-  common:
+  api-gateway_microservice:
+     external: true
