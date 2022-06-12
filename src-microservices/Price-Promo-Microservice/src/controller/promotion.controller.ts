@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import {createPromotion, getPromotionByTypeProduct, 
     getPromotionByProduct, updateProduct, removeProduct,
-getListPromoByMethodPayment} from '../service/promotion.service';
+getListPromoByMethodPayment, getAllPromotion} from '../service/promotion.service';
 import log from '../logger';
 
 export async function createPromotionHandler(req:Request, res: Response) {
@@ -91,5 +91,23 @@ export async function handleGetListPromoByPaymentMethod(req: Request, res: Respo
     } catch (error) {
         log.error(error);
         return res.status(400).send('Error when get list promo by payment method')
+    }
+}
+
+export async function handleGetAllPromotion(req: Request, res: Response){
+    try {
+        const listPromotion = await getAllPromotion();
+        return res.json({
+            ErrorCode: 0,
+            Message: 'Thành công',
+            Result: listPromotion
+        });
+    } catch (error) {
+        console.log('error: ', error);
+        return res.json({
+            ErrorCode: 0,
+            Message: 'Error when get all promotion',
+            Result: null
+        });
     }
 }

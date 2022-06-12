@@ -70,6 +70,18 @@ export async function removeProduct(input: DocumentDefinition<PromotionDocument>
         throw error;
     }
 }
+
+export async function getAllPromotion(){
+    try {
+        const listPromotion = await Promotion.find({
+            expire: true
+        }).sort("-discount").exec();
+        return listPromotion;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export async function getListPromoByMethodPayment(input: Array<String>){
     try {
         console.log('input: ', input);
