@@ -1,3 +1,5 @@
+<script src="/src-microfrontends/micro-frontend-layer/src/assets/js/main.js"></script>
+
 <!-- Topbar Start -->
 <div class="container-fluid">
     <div class="row bg-secondary py-2 px-xl-5">
@@ -121,9 +123,12 @@
                         </div>
                         <a href="contact.html" class="nav-item nav-link">Contact</a>
                     </div>
-                    <div class="navbar-nav ml-auto py-0">
-                        <a href="" class="nav-item nav-link">Login</a>
-                        <a href="" class="nav-item nav-link">Register</a>
+                    <div *ngIf="!hasLogined" class="navbar-nav ml-auto py-0">
+                        <a (click)="toSignIn()" class="nav-item nav-link">Sign In</a>
+                        <a (click)="toSignUp()" class="nav-item nav-link">Sign Up</a>
+                    </div>
+                    <div *ngIf="hasLogined" class="navbar-nav ml-auto py-0">
+                        <a (click)="toAddProduct()" class="nav-item nav-link">Add New Product</a>
                     </div>
                 </div>
             </nav>

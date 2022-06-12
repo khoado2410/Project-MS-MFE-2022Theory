@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-product',
@@ -11,24 +12,32 @@ export class CreateProductComponent implements OnInit {
 
   URL: string = 'http://localhost:3333/'
   constructor(private formBuilder: FormBuilder,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private router: Router) { }
 
   productForm!: FormGroup;
-  listBranches: any[] = [];
+  listBranches: BranchDto[] = [];
+  listCategories: any[] = [];
   ngOnInit(): void {
     this.productForm = this.formBuilder.group({
       nameProduct: ['', Validators.required],
       description: ['', Validators.required],
       quantity: ['', Validators.required],
       price: ['', Validators.required],
-      category: [''],
-      branchName: [''],
+      category: ['', Validators.required],
+      branchName: ['', Validators.required],
       images: this.formBuilder.array([this.formBuilder.control('')])
     })
     this.productForm?.get('category')?.disable();
-    this.http.get(this.URL + 'category/get-all-branch').subscribe(x => {
-      this.listBranches.push(x);
-      console.log(x);
+    this.branchName?.setValue(0);
+    this.category?.setValue(0);
+    this.http.get(this.URL + 'category/get-all-branch').subscribe((x: any) => {
+      x.ResponseResult.Result.map((y: any) => {
+        this.listBranches.push({
+          branchName: y.name,
+          listCategories: y.category
+        })
+      })
     })
   }
 
@@ -64,17 +73,35 @@ export class CreateProductComponent implements OnInit {
     if (this.productForm?.invalid){
       return;
     }
-    console.log(this.productForm?.get('nameProduct')?.value)
-    console.log(this.productForm?.get('description')?.value)
-    console.log(this.productForm?.get('quantity')?.value)
-    console.log(this.productForm?.get('price')?.value)
-    console.log(this.productForm?.get('category')?.value)
-    this.images.value.filter((img: any, index: any) => {
-      if (img == '')
-        this.images.removeAt(index);
+
+    if (this.branchName?.value == 0 || this.category?.value == 0)
+      return;
+    
+    if (this.images.value[0] == '')
+      return;
+
+    this.listFiles.forEach((file: any, index: any) => {
+      this.images.value[index] = file
     })
-    console.log(this.productForm?.get('images')?.value)
-    console.log(this.images.value)
+    
+    var formData = new FormData();
+    formData.append('name', this.nameProduct?.value);
+    formData.append('description', this.description?.value);
+    formData.append('price', this.price?.value);
+    formData.append('amount', this.quantity?.value);
+    formData.append('branch', this.branchName?.value);
+    formData.append('category', this.category?.value);
+    this.listFiles.forEach(file => {
+      formData.append('listImage', file, file.name)
+    })
+
+    this.http.post(this.URL + 'product/create-product', formData).subscribe((res: any) => {
+      if (res.ResponseResult.ErrorCode != 0) {
+        alert(res.ResponseResult.Message);
+        return
+      }
+      this.router.navigate(['']);
+    })
   }
 
   changeQuantity() {
@@ -89,10 +116,14 @@ export class CreateProductComponent implements OnInit {
 
   isNotChanged: boolean = true
   onBranchChange() {
-    if (this.productForm?.get('branchName')?.value == 0)
+    if (this.productForm?.get('branchName')?.value == 0) {
       this.productForm?.get('category')?.disable();
-    else
+      this.category?.setValue(0);
+    }
+    else {
       this.productForm?.get('category')?.enable();
+      this.listCategories = this.listBranches.find(x => x.branchName == this.branchName?.value)?.listCategories ?? [];
+    }
   }
 
   openFile(i: any) {
@@ -100,9 +131,12 @@ export class CreateProductComponent implements OnInit {
     document.getElementById('fileInput' + i)?.click();
   }
 
+  listFiles: File[] = []
   readURL(input: any) {
     console.log(input);
+    var index = +input.target?.id.split('fileInput')[1];
     if (input.target.files && input.target.files[0]) {
+      this.listFiles[index] = input.target.files[0];
       var reader = new FileReader();
       reader.onload = function (e) {
         var id = input.target?.id.split('fileInput')[1];
@@ -116,6 +150,12 @@ export class CreateProductComponent implements OnInit {
   addMoreImages() {
     if (this.images.value[this.images.length - 1] == '')
       return;
+    
     this.images.push(this.formBuilder.control(['']));
   }
+}
+
+export interface BranchDto {
+  branchName: string,
+  listCategories: any[]
 }

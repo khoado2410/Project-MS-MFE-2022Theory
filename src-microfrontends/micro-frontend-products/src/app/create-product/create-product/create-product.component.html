@@ -40,11 +40,13 @@
                             </label>
                             <select formControlName="branchName" class="custom-select tm-select-accounts"
                                 id="branchName" (change)="onBranchChange()">
-                                <option selected value="0">Select category</option>
-                                <option value="New Arrival">New Arrival</option>
-                                <option value="Most Popular">Most Popular</option>
-                                <option value="Trending">Trending</option>
+                                <option selected value="0">Select branch</option>
+                                <option *ngFor="let branch of listBranches" value="{{branch.branchName}}">
+                                    {{branch.branchName}}</option>
                             </select>
+                            <div *ngIf="productForm.controls.branchName?.touched 
+                                && productForm.controls.branchName?.value == 0" class="invalid">*Data cannot be blank
+                            </div>
                         </div>
                         <div class="row">
                             <div class="form-group mb-3 col-xs-12 col-sm-6">
@@ -52,10 +54,11 @@
                                 <select formControlName="category" class="custom-select tm-select-accounts"
                                     id="category">
                                     <option selected value="0">Select category</option>
-                                    <option value="1">New Arrival</option>
-                                    <option value="2">Most Popular</option>
-                                    <option value="3">Trending</option>
+                                    <option *ngFor="let cate of listCategories" value="{{cate}}">{{cate}}</option>
                                 </select>
+                                <div *ngIf="productForm.controls.category?.value == 0 
+                                && productForm.controls.category?.touched" class="invalid">*Data cannot be blank
+                                </div>
                             </div>
                             <div class="form-group mb-3 col-xs-12 col-sm-6">
                                 <label for="stock">Units In Stock
@@ -72,8 +75,7 @@
                         <div formArrayName="images" *ngFor="let image of images.controls; let i=index">
                             <div class="tm-product-img-dummy mx-auto"
                                 [ngClass]="images.controls.length > 1 ? 'mt-4' : ''">
-                                <i *ngIf="image.value == ''"
-                                    class="fas fa-cloud-upload-alt tm-upload-icon"></i>
+                                <i *ngIf="image.value == ''" class="fas fa-cloud-upload-alt tm-upload-icon"></i>
                                 <img *ngIf="image.value == ''" id="output{{i}}" height="240" />
                                 <img *ngIf="image.value != ''" id="output{{i}}" height="240" width="100%" />
                             </div>

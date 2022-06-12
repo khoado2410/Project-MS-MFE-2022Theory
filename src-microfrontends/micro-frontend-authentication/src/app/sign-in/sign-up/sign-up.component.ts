@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,10 +11,12 @@ import { Observable } from 'windowed-observable';
 })
 export class SignUpComponent implements OnInit {
 
+  URL: string = "http://localhost:3333/"
   signUpForm!: FormGroup;
 
   constructor(private router: Router,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private http: HttpClient) {
     this.signUpForm = this.formBuilder.group({
       fullname: ['', Validators.required],
       age: ['', Validators.required],
@@ -58,9 +61,25 @@ export class SignUpComponent implements OnInit {
       this.isMatchPass = false;
       return;
     }
-    console.log(this.fullname);
-    console.log(this.age);
-    console.log(this.username);
-    console.log(this.password);
+    if (this.signUpForm.invalid)
+      return;
+    this.http.post(this.URL + 'account/create-user', {
+      fullname: this.fullname,
+      age: this.age,
+      username: this.username,
+      password: this.password,
+      role: 'admin'
+    } as SignUpRequestDto).subscribe(() => {
+      alert('Sign up succesfully');
+      this.router.navigate(['/authentication/sign-in']);
+    })
   }
+}
+
+export interface SignUpRequestDto {
+  fullname: string,
+  age: number,
+  username: string,
+  password: string,
+  role: string
 }
