@@ -77,3 +77,23 @@ export async function getAllProduct(){
     }
 }
 
+export async function getCountListProductByCategory(input: any){
+  try {
+    const listCategory = input.list_category;
+    const count = listCategory.length;
+    const listProductByCategory : Array<Object> = [];
+    for(let i = 0; i < count; i++){
+      const listProduct = await Product.find({is_delete: false, category: listCategory[i]}).select({
+          isDelete: 0
+      });
+      listProductByCategory.push({
+        category: listCategory[i],
+        countProduct: listProduct.length
+      });
+    }
+    return listProductByCategory;
+  } catch (error) {
+    throw error;
+  }
+}
+

@@ -1,6 +1,6 @@
 import {DocumentDefinition, FilterQuery} from 'mongoose';
 import Branch, {BranchDocument} from '../model/branch.model';
-import {checkCategoryValid} from './category.service';
+import {checkCategoryValid, createCreateBranch} from './category.service';
 
 
 export async function checkBranchCategoryValid(input: any){
@@ -42,13 +42,15 @@ export async function createBranch(input: any){
                 });
             }
            
-        }else{
-           
+        }else{   
             await Branch.create({
                 name: input.branch,
                 category: [input.category]
             });
         }
+        await createCreateBranch({
+            name: input.category
+        });
         return true;
     } catch (error) {
         throw error;

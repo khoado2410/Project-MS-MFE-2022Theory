@@ -1,7 +1,9 @@
+
+
 const ROUTES = [
     {
         url: '/free',
-        auth: false,
+        auth: true,
         creditCheck: false,
         rateLimit: {
             windowMs: 15 * 60 * 1000,
@@ -12,7 +14,7 @@ const ROUTES = [
             changeOrigin: true,
             pathRewrite: {
                 [`^/free`]: '',
-            },
+            }
         }
     },
     {
@@ -53,14 +55,18 @@ const ROUTES = [
     },
     {
         url: '/account',
-        auth: false,
+        auth: true,
         creditCheck: false,
+        //http://account-ms:1717
         proxy: {
-            target: "http://account-ms:1717",
+            target: "http://localhost:1717",
             changeOrigin: true,
             pathRewrite: {
                 [`^/account`]: '',
             },
+            onProxyReq: function onProxyReq(onProxyReq, req, res){
+                onProxyReq.setHeader('userJwt', req.jwtDecode);
+            }
         }
     },
     {

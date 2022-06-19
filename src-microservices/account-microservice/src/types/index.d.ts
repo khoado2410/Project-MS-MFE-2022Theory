@@ -1,10 +1,5 @@
-export {};
-
-declare global {
-  namespace Express {
-    interface Request {
-      user: string;
-      token: string
-    }
-  }
-}
+// declare module 'express-serve-static-core' {
+//   export interface Request {
+//     user: any
+//   }
+// }

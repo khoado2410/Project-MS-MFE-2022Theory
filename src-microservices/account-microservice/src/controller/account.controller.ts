@@ -1,8 +1,10 @@
+
 import {query, Request, Response} from 'express';
 import {createUser, getAllUser, getUserByUsername, updateRefreshToken} from '../service/account.service';
 import {generateToken, verifyToken} from '../helpers/jwt';
 import config from '../../config/default';
 import log from '../logger';
+//import {IGetUserAuthInfoRequest} from '../types/IGetUserAuthInfoRequest';
 const randToken = require('rand-token');
 
 const bcrypt = require('bcrypt');
@@ -40,10 +42,7 @@ export async function createHandleUser(req:Request, res: Response) {
             } catch (error) {
                 return res.status(400).send('Error when create user');
             }
-           
         });
-       
-     
     } catch (e) {
         log.error(e);
         console.log('error: ', e);
@@ -53,6 +52,9 @@ export async function createHandleUser(req:Request, res: Response) {
 
 export async function handleGetAll(req: Request, res: Response){
     try {
+        
+        //console.log('req from gateway: ', req?.user);
+        //console.log('req auth: ', JSON.parse(req.headers['userjwt']));
         const listUser = await getAllUser();
         return res.json({
             ResponseResult: {
@@ -87,7 +89,8 @@ export async function handleLogin(req: Request, res: Response){
                 }
             });
         }
-        const isPasswordValid = bcrypt.compare(req.body.password, password);
+        const isPasswordValid = await bcrypt.compare(req.body.password, password);
+
         if(!isPasswordValid){
             return res.json({
                 ResponseResult: {

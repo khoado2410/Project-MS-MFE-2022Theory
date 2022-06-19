@@ -1,6 +1,14 @@
 import {DocumentDefinition, FilterQuery} from 'mongoose';
 import Category, {CategoryDocument} from '../model/category.model';
+import request from 'request';
 
+export async function createCreateBranch(input: any){
+    try {
+        return await Category.create(input);
+    } catch (error) {
+        throw error;
+    }
+}
 
 export async function findCategoryByName(input: any){
     try {
@@ -59,6 +67,53 @@ export async function getCategory(){
     }
 }
 
+function doRequest(url: any, body: any) {
+    return new Promise(function (resolve, reject) {
+      request(url, body, function (error: any, res: any, response: string) {
+        if (!error && res.statusCode == 200) {
+          resolve(response);
+        } else {
+          reject(error);
+        }
+      });
+    });
+  }
+
+export async function getCategoryByCountProduct(){
+    try {
+        const listCategory = await getCategory();
+        const listCategoryPost : Array<String> = [];
+        for(let i = 0; i < listCategory.length; i++){
+            listCategoryPost.push(listCategory[i].name);
+        }
+        const dataPost = {
+            list_category: listCategoryPost
+        };
+        const optionPost = {
+            method: 'GET',
+            body: dataPost,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            json: true
+        };
+        let result: any = {};
+        result = await doRequest('http://api-gateway:3333/product/get-count-product-by-category', optionPost);
+        const listResult = result.ResponseResult.Result;
+        const listResultFinal : Array<Object> = [];
+        for(let i = 0; i < listResult.length; i++){
+            listResultFinal.push({
+                category: listResult[i].category,
+                countProduct: listResult[i].countProduct,
+                linkUrl: 'http://api-gateway:3333/category/upload/Iqoo-8-Pro-1-1.jpg'
+            })
+        }
+        return listResultFinal;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export async function getCategoryByBranch(input: FilterQuery<CategoryDocument>){
     try {
         const query = {...input};
@@ -96,17 +151,4 @@ export async function checkCategoryValid(input: any){
         throw error;
     }
 }
-
-
-// export async function getAllProduct(){
-//     try {
-//         // query.expire = true;
-//         const listProduct = await Product.find({is_delete: false}).select({
-//             is_delete: 0
-//         });
-//         return listProduct;
-//     } catch (error) {
-//         throw error;
-//     }
-// }
 

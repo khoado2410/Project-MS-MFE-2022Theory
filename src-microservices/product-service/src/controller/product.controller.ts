@@ -1,7 +1,29 @@
 import {Request, Response} from 'express';
-import {createProduct, getAllProduct} from '../service/product.service';
+import {createProduct, getAllProduct, getCountListProductByCategory} from '../service/product.service';
 import request from 'request';
 import log from '../logger';
+
+
+export async function handleCreateProduct(req: Request, res: Response){
+    try {
+        const inputProduct = {...req.body};
+        inputProduct.listImage = req.files;
+        await createProduct(inputProduct);
+        return res.json({ResponseResult: {
+            ErrorCode: 0,
+            Message:'Thành công',
+            Result: null
+        }});
+    } catch (error) {
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 0,
+                Message:'Error when create product',
+                Result: error
+            }
+         });
+    }
+}
 
 export async function createProductHandler(req:Request, res: Response) {
     try {
@@ -96,6 +118,27 @@ export async function createProductHandler(req:Request, res: Response) {
        
     } catch (e) {
         log.error(e);
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 401,
+                Message:'Error when create product',
+                Result: null
+            }});
+    }
+}
+
+export async function handleGetCountProduct(req: Request, res: Response){
+    try {
+        const body = req.body;
+        const count = await getCountListProductByCategory(body);
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 0,
+                Message:'Thành công',
+                Result: count
+        }});
+    } catch (error) {
+        log.error(error);
         return res.json({
             ResponseResult: {
                 ErrorCode: 401,
