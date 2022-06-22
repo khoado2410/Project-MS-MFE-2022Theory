@@ -1,13 +1,20 @@
-import { NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
+
+export function aMiddleware(req: Request, res: Response, next: NextFunction) {
+    next();
+}
 export function isAdmin (req: Request, res: Response, next: NextFunction) {
-	console.log('req: ', req.headers);
+	
+	// const jwt = req.headers['userjwt'];
+	// if(jwt != undefined){
+	// 	const user = JSON.parse(jwt);
+	// }
+	// console.log('type: ', typeof(jwt))
+	// console.log('req: ', jwt);
+	//if(req.headers['userjwt'])
 	next()
 }
 
-export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
-	console.log('req: ', req.headers);
-	next()
-};
 
 // export const isAuth = (req:Request, res: Response, next: NextFunction) => {
 //     // if(req.token){

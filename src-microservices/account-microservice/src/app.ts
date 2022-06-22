@@ -4,7 +4,7 @@ import connect from './db/connect';
 import logger from 'morgan';
 import jsonLog from 'morgan-json';
 import requestIp from 'request-ip';
-import {AccountRoutes} from "./routes";
+import routes from "./routes";
 
 const bearerToken = require('express-bearer-token');
 const dotenv = require('dotenv');
@@ -45,12 +45,12 @@ app.use(bearerToken());
 app.use(logger(loggerFormat));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-app.use('/', AccountRoutes);
+//app.use('/', AccountRoutes);
 // app.use(logger)
 
 app.listen(port, () => {
     log.info(`Server is running on ${port}`);
-
+    routes(app);
     connect();
 });
 

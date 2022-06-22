@@ -65,7 +65,8 @@ const ROUTES = [
                 [`^/account`]: '',
             },
             onProxyReq: function onProxyReq(onProxyReq, req, res){
-                onProxyReq.setHeader('userJwt', req.jwtDecode);
+                if(!req.originalUrl.includes('log-in')){}
+                    onProxyReq.setHeader('userJwt', req.jwtDecode);
             }
         }
     },
