@@ -19,14 +19,20 @@ const ROUTES = [
     },
     {
         url: '/product',
-        auth: false,
+        auth: true,
         creditCheck: false,
+        //http://product-ms:8383
         proxy: {
             target: "http://product-ms:8383",
             changeOrigin: true,
             pathRewrite: {
                 [`^/product`]: '',
             },
+            onProxyReq: function onProxyReq(onProxyReq, req, res){
+                onProxyReq.setHeader('userJwt', JSON.stringify(req.jwtDecode));
+                
+                   
+            }
         }
     },
     {
@@ -59,14 +65,18 @@ const ROUTES = [
         creditCheck: false,
         //http://account-ms:1717
         proxy: {
-            target: "http://localhost:1717",
+            target: "http://account-ms:1717",
             changeOrigin: true,
             pathRewrite: {
                 [`^/account`]: '',
             },
             onProxyReq: function onProxyReq(onProxyReq, req, res){
-                if(!req.originalUrl.includes('log-in')){}
-                    onProxyReq.setHeader('userJwt', req.jwtDecode);
+                if(req.originalUrl.includes('log-in') || req.originalUrl.includes('create-user')){
+                   
+                }else{
+                    onProxyReq.setHeader('userJwt', JSON.stringify(req.jwtDecode));
+                }
+                   
             }
         }
     },

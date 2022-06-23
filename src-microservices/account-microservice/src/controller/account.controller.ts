@@ -12,6 +12,7 @@ const saltRounds = 10;
 
 export async function createHandleUser(req:Request, res: Response) {
     try {
+
         if(req.body.username == '' || req.body.password == ''){
             return res.json({
                 ResponseResult: {

@@ -6,9 +6,11 @@ var { rsErrorOperation, rsErrorUnauthorized, rsErrorPermission, rsErrorTokenExpi
 
 const isAuth = async(req, res, next) => {
     try {
-
         if(req.originalUrl.includes('log-in')){
-            return next()
+            return next();
+        }
+        if(req.originalUrl.includes('create-user')){
+            return next();
         }
             //next();
         const token = req.token;

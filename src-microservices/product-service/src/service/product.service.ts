@@ -26,7 +26,7 @@ function doRequest(url: any) {
     });
   }
 
-export async function getAllProduct(){
+export async function getAllProduct(jsonUser: any){
     try {
         const listProduct = await Product.find({is_delete: false}).select({
             isDelete: 0
@@ -51,25 +51,45 @@ export async function getAllProduct(){
                 listProduct[i].amount = resultInventory[k].amount
               }
             }
-            let itemProduct = {
-                    id: listProduct[i]._id,
-                    name: listProduct[i].name,
-                    description: listProduct[i].description,
-                    price: listProduct[i].price,
-                    numberOfReviews: listProduct[i].numberOfReviews,
-                    quantitySold: listProduct[i].quantitySold,
-                    category: listProduct[i].category,
-                    branch: listProduct[i].branch,
-                    numberStar: listProduct[i].numberStar,
-                    linkPath: listPath,
-                    nameDiscount: result != null ? result.name : '',
-                    discount: result != null ? result.discount : '',
-                    timeStart: result != null ? result.timeStart : '',
-                    timeEnd: result != null ? result.timeEnd : '',
-                    amount: listProduct[i].amount ?? 0
-            };
-            listRes.push(itemProduct);
-        }
+            if(jsonUser.role == 'admin'){
+              let itemProduct = {
+                id: listProduct[i]._id,
+                name: listProduct[i].name,
+                description: listProduct[i].description,
+                price: listProduct[i].price,
+                numberOfReviews: listProduct[i].numberOfReviews,
+                quantitySold: listProduct[i].quantitySold,
+                category: listProduct[i].category,
+                branch: listProduct[i].branch,
+                numberStar: listProduct[i].numberStar,
+                linkPath: listPath,
+                nameDiscount: result != null ? result.name : '',
+                discount: result != null ? result.discount : '',
+                timeStart: result != null ? result.timeStart : '',
+                timeEnd: result != null ? result.timeEnd : '',
+                amount: listProduct[i].amount ?? 0
+              };
+          listRes.push(itemProduct);
+        }else{
+          let itemProduct = {
+            id: listProduct[i]._id,
+            name: listProduct[i].name,
+            description: listProduct[i].description,
+            price: listProduct[i].price,
+            numberOfReviews: listProduct[i].numberOfReviews,
+            quantitySold: listProduct[i].quantitySold,
+            category: listProduct[i].category,
+            branch: listProduct[i].branch,
+            numberStar: listProduct[i].numberStar,
+            linkPath: listPath,
+            nameDiscount: result != null ? result.name : '',
+            discount: result != null ? result.discount : '',
+            timeStart: result != null ? result.timeStart : '',
+            timeEnd: result != null ? result.timeEnd : ''
+          };
+          listRes.push(itemProduct);
+      }
+    }
         return listRes;
     
     } catch (error) {

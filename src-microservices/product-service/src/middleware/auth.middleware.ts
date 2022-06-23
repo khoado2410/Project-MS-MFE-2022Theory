@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import {rsErrorPermission} from '../helpers/respone';
 export function aMiddleware(req: Request, res: Response, next: NextFunction) {
     next();
 }
@@ -10,7 +9,7 @@ export function isAdmin (req: Request, res: Response, next: NextFunction) {
 	if(jsonJwt.role == 'admin')
 		next()
 	else{
-		return res.json({ ErrorCode: 400, Message: "Permission denied", Result: null });
+		return res.json({ResponseResult: { ErrorCode: 400, Message: "Permission denied", Result: null }});
 	}
 		
 }

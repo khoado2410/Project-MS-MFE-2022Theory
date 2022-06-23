@@ -27,7 +27,6 @@ export async function handleCreateProduct(req: Request, res: Response){
 
 export async function createProductHandler(req:Request, res: Response) {
     try {
-
         const body = req.body;
         request('http://api-gateway:3333/category/check-branch-valid', {
             method: 'POST',
@@ -150,7 +149,9 @@ export async function handleGetCountProduct(req: Request, res: Response){
 
 export async function handleGetAllProduct(req: Request, res: Response){
     try {
-        const product = await getAllProduct();
+        const jwt = req.headers['userjwt'] as string;
+	    const jsonJwt = JSON.parse(jwt);
+        const product = await getAllProduct(jsonJwt);
         //console.log('product: ', product)
     
         return res.json({

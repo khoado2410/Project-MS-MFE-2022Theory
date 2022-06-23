@@ -1,7 +1,7 @@
 import {Express, Request, Response, Router, NextFunction} from "express";
 import { createHandleUser, handleGetAll, handleLogin} from "./controller/account.controller";
 import {aMiddleware, isAdmin} from './middleware/auth.middleware';
-import { createUser } from "./service/account.service";
+
 //const router = Router();
 const express = require('express');
 
@@ -12,7 +12,7 @@ const app: Express = express();
 export default function(app: Express){
     app.get('/get-all-user', isAdmin, handleGetAll);
     app.post('/log-in', handleLogin);
-    app.post('/create-user', createUser);
+    app.post('/create-user', createHandleUser);
 }
 
 
