@@ -10,7 +10,7 @@ sharedMappings.register(
 
 module.exports = {
   output: {
-    uniqueName: "microFrontendShoppingCart",
+    uniqueName: "mf-shopping-cart",
     publicPath: "auto"
   },
   optimization: {
@@ -29,11 +29,12 @@ module.exports = {
         library: { type: "module" },
 
         // For remotes (please adjust)
-        // name: "microFrontendShoppingCart",
-        // filename: "remoteEntry.js",
-        // exposes: {
-        //     './Component': './/src/app/app.component.ts',
-        // },        
+        name: "mf-shopping-cart",
+        filename: "remoteEntry.js",
+        exposes: {
+            './ShoppingCartModule': './/src/app/shopping-cart/shopping-cart.module.ts',
+            './CheckoutModule': './/src/app/checkout/checkout.module.ts'
+        },        
         
         // For hosts (please adjust)
         // remotes: {

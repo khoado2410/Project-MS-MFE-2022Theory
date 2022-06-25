@@ -4,6 +4,8 @@ import { loadRemoteModule } from '@angular-architects/module-federation'
 
 const URL = 'http://localhost:5000/remoteEntry.js'
 const authenURL = "http://localhost:2002/remoteEntry.js"
+const cartURL = "http://localhost:61400/remoteEntry.js"
+const contactURL = "http://localhost:21021/remoteEntry.js"
 
 const routes: Routes = [
   {
@@ -36,6 +38,30 @@ const routes: Routes = [
       remoteEntry: URL,
       exposedModule: './CreateProductModule'
     }).then(m => m.CreateProductModule)
+  },
+
+  {
+    path: 'shopping-cart', loadChildren: () => loadRemoteModule({
+      type: 'module',
+      remoteEntry: cartURL,
+      exposedModule: './ShoppingCartModule'
+    }).then(m => m.ShoppingCartModule)
+  },
+
+  {
+    path: 'checkout', loadChildren: () => loadRemoteModule({
+      type: 'module',
+      remoteEntry: cartURL,
+      exposedModule: './CheckoutModule'
+    }).then(m => m.CheckoutModule)
+  },
+
+  {
+    path: 'contact', loadChildren: () => loadRemoteModule({
+      type: 'module',
+      remoteEntry: contactURL,
+      exposedModule: './ContactModule'
+    }).then(m => m.ContactModule)
   },
 
   {

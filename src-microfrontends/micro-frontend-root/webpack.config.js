@@ -39,7 +39,9 @@ module.exports = {
         remotes: {
           "mf-products": "http://localhost:5000/remoteEntry.js",
           "mf-authentication": "http://localhost:2002/remoteEntry.js",
-          "mf-layer": "http://localhost:8000/remoteEntry.js"
+          "mf-layer": "http://localhost:8000/remoteEntry.js",
+          "mf-shopping-cart": "http://localhost:61400/remoteEntry.js",
+          "mf-contact": "http://localhost:21021/remoteEntry.js"
         },
 
         shared: share({

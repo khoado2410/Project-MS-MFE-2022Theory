@@ -20,3 +20,13 @@ services:
     build: micro-frontend-layer
     ports:
       - "8000:8000"
+  mf-shopping-cart:
+    container_name: 'mf-shopping-cart'
+    build: micro-frontend-shopping-cart
+    ports:
+      - "61400:61400"
+  mf-contact:
+    container_name: 'mf-contact'
+    build: micro-frontend-contact
+    ports:
+      - "21021:21021"
