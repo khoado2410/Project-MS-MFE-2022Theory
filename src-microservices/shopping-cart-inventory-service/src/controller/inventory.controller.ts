@@ -24,7 +24,7 @@ export async function handleCheckInventory(req: Request, res: Response){
         const inventory = await checkInventory(req.body);
         if(inventory.length == 0){
             var resBill:any = {};
-            resBill = await doRequest(`http://localhost:3333/payment/create-bill`, {
+            resBill = await doRequest(`http://api-gateway:3333/payment/create-bill`, {
                 Authorization: req.headers['authorization'],
                 'Content-Type': 'application/json'
             }, req.body) as Object;

@@ -11,8 +11,9 @@ export async function createBill(input: any){
 
 export async function getBill(query: any){
     try {
+        
         const listBill = await Bill.find({
-            idCustomer: query.id_customer,
+            username: query.username,
             isDelete: 0
         });
         return listBill;
