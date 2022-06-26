@@ -19,6 +19,7 @@
                 placeholder="username">
             <input formControlName="password" type="password" id="password" class="fadeIn third" name="login"
                 placeholder="password">
+            <div *ngIf="invalid" class="text-accent">Username or Password is incorrect!</div>
             <input type="button" (click)="signIn()" class="fadeIn fourth" value="Log In">
         </div>
 

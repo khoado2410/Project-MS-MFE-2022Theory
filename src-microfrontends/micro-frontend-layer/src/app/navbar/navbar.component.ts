@@ -18,6 +18,11 @@ export class NavbarComponent implements OnInit {
       if (res.token != null)
         this.hasLogined = true;
     })
+    var result = localStorage.getItem('accessToken');
+    if (result)
+      this.hasLogined = true;
+    else
+      this.hasLogined = false;
   }
 
   toHome() {

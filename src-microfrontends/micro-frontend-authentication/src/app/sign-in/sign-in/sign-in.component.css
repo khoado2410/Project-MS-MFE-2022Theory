@@ -84,7 +84,9 @@ h2.active {
     border-bottom: 2px solid #5fbae9;
 }
 
-
+.text-accent {
+    color: red;
+}
 
 /* FORM TYPOGRAPHY*/
 

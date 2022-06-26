@@ -39,6 +39,7 @@ export class SignInComponent implements OnInit {
     this.router.navigate(['authentication/sign-up']);
   }
 
+  invalid: boolean = false;
   signIn() {
     if (this.signInForm.invalid)
       return;
@@ -46,6 +47,12 @@ export class SignInComponent implements OnInit {
       username: this.username,
       password: this.password
     }).subscribe((res: any) => {
+      if (res.ResponseResult.Result == null) {
+        this.invalid = true;
+        return;
+      }
+      else
+        this.invalid = false;
       localStorage.setItem('accessToken', res.ResponseResult.Result.accessToken);
       const observable = new Observable('mf-authentication-sendToken');
       observable.publish({ token: res.ResponseResult.Result.accessToken })
