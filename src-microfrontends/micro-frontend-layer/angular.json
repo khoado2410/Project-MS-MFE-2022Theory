@@ -29,7 +29,9 @@
 						"styles": [
 							"src/styles.css"
 						],
-						"scripts": [],
+						"scripts": [
+							"src/assets/js/main.js"
+						],
 						"extraWebpackConfig": "webpack.config.js",
 						"commonChunk": false
 					},

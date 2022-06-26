@@ -12,11 +12,14 @@ export class NavbarComponent implements OnInit {
   constructor(private router: Router) { }
 
   hasLogined: boolean = false;
+  numberProducts: number = 0;
   ngOnInit(): void {
     const observable = new Observable('mf-authentication-sendToken');
     observable.subscribe(res => {
       if (res.token != null)
         this.hasLogined = true;
+      else
+        this.hasLogined = false;
     })
     var result = localStorage.getItem('accessToken');
     if (result)
@@ -40,9 +43,16 @@ export class NavbarComponent implements OnInit {
   }
 
   toAddProduct() {
-    const observable = new Observable('mf-root-header');
-    observable.publish({nHeader: 'add product', mfName: 'mf-products'})
+    const observable2 = new Observable('mf-root-header');
+    observable2.publish({nHeader: 'add product', mfName: 'mf-products'})
     this.router.navigate(['/add-product'])
+  }
+
+  toSignOut() {
+    localStorage.removeItem('accessToken');
+    const observable3 = new Observable('mf-authentication-sendToken');
+    observable3.publish({token: null})
+    this.router.navigate(['/authentication/sign-in']);
   }
 
 }
