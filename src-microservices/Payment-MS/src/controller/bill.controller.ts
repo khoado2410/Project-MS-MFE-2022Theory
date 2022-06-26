@@ -4,11 +4,22 @@ import log from '../logger';
 
 export async function createBillHandler(req:Request, res: Response) {
     try {
-        const promotion = await createBill(req.body);
-        return res.json({
+        
+        const body = {
+            infoCustomer: JSON.parse(req.headers['userjwt'] as string),
+            listBill: req.body.list_item,
+            total: req.body.total,
+            status: 0,
+            typeOfPaymentMethod: req.body.typeOfPaymentMethod
+        };
+
+       
+        await createBill(body);
+        return res.json({ResponseResult:{
             ErrorCode: 0,
-            Message: null
-        });
+            Message: 'Thành công',
+            Result: null
+        }});
     } catch (e) {
         log.error(e);
         return res.status(400).send('Error when create bill');

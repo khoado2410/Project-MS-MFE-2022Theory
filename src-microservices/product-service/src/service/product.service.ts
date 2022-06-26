@@ -26,6 +26,17 @@ function doRequest(url: any) {
     });
   }
 
+export async function getAllProductForCart(){
+  try {
+    const listProduct = await Product.find({is_delete: false}).select({
+      isDelete: 0
+  });
+  return listProduct;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function getAllProduct(jsonUser: any){
     try {
         const listProduct = await Product.find({is_delete: false}).select({
@@ -41,7 +52,6 @@ export async function getAllProduct(jsonUser: any){
             var countItem = listProduct[i].listImage.length;
             for(let j = 0; j < countItem; j++){
                 listPath.push(`localhost:3333/product/upload/${listProduct[i].listImage[j].filename}`);
-
             }
             var res :any = {};
             res = await doRequest(`http://api-gateway:3333/price-promo/get-promotion-by-product?productId=${listProduct[i]._id}&productType=${listProduct[i].branch}`) as Object;

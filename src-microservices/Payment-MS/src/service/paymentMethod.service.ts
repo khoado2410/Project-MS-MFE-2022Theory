@@ -12,7 +12,9 @@ export async function createPaymentMethod(input: DocumentDefinition<PaymentMetho
 export async function getPaymentMethod(query: FilterQuery<PaymentMethodDocument>){
     try {
        
-        const listBill = await PaymentMethod.find();
+        const listBill = await PaymentMethod.find({
+            idDelete: 0
+        });
         return listBill;
     } catch (error) {
         throw error;
