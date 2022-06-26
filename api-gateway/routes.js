@@ -1,4 +1,4 @@
-
+const {config} = require('./config/env/index');
 
 const ROUTES = [
     {
@@ -23,7 +23,7 @@ const ROUTES = [
         creditCheck: false,
         //http://product-ms:8383
         proxy: {
-            target: "http://product-ms:8383",
+            target: config.url_product,
             changeOrigin: true,
             pathRewrite: {
                 [`^/product`]: '',
@@ -40,7 +40,7 @@ const ROUTES = [
         auth: false,
         creditCheck: false,
         proxy: {
-            target: "http://category-ms:8282",
+            target: config.url_category,
             changeOrigin: true,
             pathRewrite: {
                 [`^/category`]: '',
@@ -49,10 +49,10 @@ const ROUTES = [
     },
     {
         url: '/inventory-cart-ms',
-        auth: false,
+        auth: true,
         creditCheck: false,
         proxy: {
-            target: "http://cart-inventory-ms:1115",
+            target: config.url_inventory,
             changeOrigin: true,
             pathRewrite: {
                 [`^/inventory-cart-ms`]: '',
@@ -65,7 +65,7 @@ const ROUTES = [
         creditCheck: false,
         //http://account-ms:1717
         proxy: {
-            target: "http://account-ms:1717",
+            target: config.url_account,
             changeOrigin: true,
             pathRewrite: {
                 [`^/account`]: '',
@@ -85,10 +85,22 @@ const ROUTES = [
         auth: false,
         creditCheck: false,
         proxy: {
-            target: "http://price-promo-ms:6666",
+            target: config.url_price_promo,
             changeOrigin: true,
             pathRewrite: {
                 [`^/price-promo`]: '',
+            },
+        }
+    },
+    {
+        url: '/payment',
+        auth: true,
+        creditCheck: false,
+        proxy: {
+            target: config.url_payment,
+            changeOrigin: true,
+            pathRewrite: {
+                [`^/payment`]: '',
             },
         }
     }
