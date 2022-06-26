@@ -22,8 +22,10 @@ export async function handleGetBill(req: Request, res: Response){
 
 export async function createBillHandler(req:Request, res: Response) {
     try {
+        const user = JSON.parse(req.headers['userjwt'] as string);
         const body = {
-            infoCustomer: JSON.parse(req.headers['userjwt'] as string),
+            username: user.username,
+            infoCustomer: user,
             listBill: req.body.list_item,
             total: req.body.total,
             status: 0,

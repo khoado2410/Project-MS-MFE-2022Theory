@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 export interface BillDocument extends mongoose.Document{
+   username: String,
    infoCustomer: Object,
    listBill: Array<Object>,
    total: Number,
@@ -12,6 +13,7 @@ export interface BillDocument extends mongoose.Document{
 
 const BillSchema = new mongoose.Schema(
     {
+        username: {type: String, default: null},
         infoCustomer: {type: Object, required: true},
         listBill: {type: Array, required: true},
         total: {type: Number, required: true},
