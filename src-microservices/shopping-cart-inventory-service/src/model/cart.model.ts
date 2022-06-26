@@ -1,29 +1,19 @@
 
+
+
 module.exports = (sequelize: any, Sequelize: any) => {
-    const Inventory = sequelize.define("t_inventory", {
-      idProduct: {
+    const Cart = sequelize.define("cart", {
+      idCustomer: {
         type: Sequelize.STRING,
         unique: true
-      },
-      amount: {
-        type: Sequelize.INTEGER
       },
       createdDate: {
         type: Sequelize.DATE,
         default: Date.now()
       },
-      categoryProduct: {
-        type: Sequelize.STRING 
-      },
-      branchProduct: {
-        type: Sequelize.STRING 
-      },
-      nameProduct: {
-        type: Sequelize.STRING 
-      },
       isDelete: {
-        type: Sequelize.BOOLEAN,
-        default: false
+        type: Sequelize.INTEGER,
+        default: 0
       },
       updatedDate: {
         type: Sequelize.DATE,
@@ -38,10 +28,12 @@ module.exports = (sequelize: any, Sequelize: any) => {
         default: ''
       }
     });
-  
-    return Inventory
+    
+    return Cart;
   };
   
+
+
 
 
 

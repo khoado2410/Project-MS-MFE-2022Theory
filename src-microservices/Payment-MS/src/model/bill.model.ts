@@ -1,9 +1,8 @@
 import mongoose from "mongoose";
 
 export interface BillDocument extends mongoose.Document{
-   billNumber: String,
    infoCustomer: Object,
-   listBill: Object,
+   listBill: Array<Object>,
    total: Number,
    dateCreated: Date,
    status: Number,
@@ -12,9 +11,8 @@ export interface BillDocument extends mongoose.Document{
 
 const BillSchema = new mongoose.Schema(
     {
-        billNumber: {type: String, required: true, unique: true},
         infoCustomer: {type: Object, required: true},
-        listBill: {type: Object, required: true},
+        listBill: {type: Array, required: true},
         total: {type: Number, required: true},
         dateCreated: {type: Date, required: true, default: Date.now()},
         status: {type: Number},

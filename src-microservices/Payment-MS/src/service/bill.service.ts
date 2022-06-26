@@ -1,7 +1,7 @@
 import {DocumentDefinition, FilterQuery} from 'mongoose';
 import Bill, {BillDocument} from '../model/bill.model';
 
-export async function createBill(input: DocumentDefinition<BillDocument>){
+export async function createBill(input: any){
     try {
         return await Bill.create(input);
     } catch (error) {

@@ -1,9 +1,30 @@
 import {Request, Response} from 'express';
-import {createProduct, getAllProduct, getCountListProductByCategory} from '../service/product.service';
+import {createProduct, getAllProduct, getCountListProductByCategory,
+getAllProductForCart} from '../service/product.service';
 import request from 'request';
 import log from '../logger';
 import client from '../logger/client'
 
+export async function handleGetProductForCart(req: Request, res: Response) {
+    try {
+        const listProduct = await getAllProductForCart();
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 0,
+                Message:'Thành công',
+                Result: listProduct
+            }
+         });
+    } catch (error) {
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 0,
+                Message:'Error when create product',
+                Result: error
+            }
+         });
+    }
+}
 
 export async function handleCreateProduct(req: Request, res: Response){
     try {

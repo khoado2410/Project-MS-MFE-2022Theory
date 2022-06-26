@@ -31,7 +31,6 @@ const ROUTES = [
             onProxyReq: function onProxyReq(onProxyReq, req, res){
                 onProxyReq.setHeader('userJwt', JSON.stringify(req.jwtDecode));
                 
-                   
             }
         }
     },
@@ -57,6 +56,10 @@ const ROUTES = [
             pathRewrite: {
                 [`^/inventory-cart-ms`]: '',
             },
+            onProxyReq: function onProxyReq(onProxyReq, req, res){
+                onProxyReq.setHeader('userJwt', JSON.stringify(req.jwtDecode));
+                
+            }
         }
     },
     {
@@ -102,6 +105,10 @@ const ROUTES = [
             pathRewrite: {
                 [`^/payment`]: '',
             },
+            onProxyReq: function onProxyReq(onProxyReq, req, res){
+                onProxyReq.setHeader('userJwt', JSON.stringify(req.jwtDecode));
+                
+            }
         }
     }
 

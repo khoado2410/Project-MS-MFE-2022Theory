@@ -1,7 +1,6 @@
 import express from "express";
 import config from "../config/default";
 import log from './logger';
-// import {db} from './db/connect';
 import routes from "./routes";
 import logger from 'morgan';
 import jsonLog from 'morgan-json';
@@ -9,7 +8,7 @@ import requestIp from 'request-ip';
 const dotenv = require('dotenv');
 dotenv.config();
 const db = require('./model/index');
-db.sequelize.sync();
+
 logger.token("clientRealIp", function (req, res) {
     var ip = requestIp.getClientIp(req);
     return ip || undefined;
@@ -38,11 +37,16 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 // app.use(logger)
 
-app.listen(port, () => {
-    log.info(`Server is running on :${port}`);
-    
-    // db;
-    routes(app);
-});
+//try {
+    app.listen(port, () => {
+        log.info(`Server is running on :${port}`);
+        db.sequelize.sync();
+        // db;
+        routes(app);
+    });
+// } catch (error) {
+//     console.log('error: ', error);
+// }
+
 
 

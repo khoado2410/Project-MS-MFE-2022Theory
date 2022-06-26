@@ -27,5 +27,10 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.t_inventories = require("./inventory.model")(sequelize, Sequelize);
+db.cart = require('./cart.model')(sequelize, Sequelize);
+db.t_cart_item = require('./cart_item.model')(sequelize, Sequelize);
+
+//db.cart.hasMany(db.t_cart_item);
+
 
 module.exports = db;
