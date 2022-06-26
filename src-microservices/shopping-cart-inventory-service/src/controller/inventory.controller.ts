@@ -28,7 +28,6 @@ export async function handleCheckInventory(req: Request, res: Response){
                 Authorization: req.headers['authorization'],
                 'Content-Type': 'application/json'
             }, req.body) as Object;
-            console.log('res bill: ', resBill)
         } 
     
         return res.json({ResponseResult: {

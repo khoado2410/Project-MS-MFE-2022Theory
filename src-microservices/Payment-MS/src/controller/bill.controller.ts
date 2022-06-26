@@ -2,9 +2,26 @@ import {Request, Response} from 'express';
 import {createBill, getBill} from '../service/bill.service';
 import log from '../logger';
 
+export async function handleGetBill(req: Request, res: Response){
+    try {
+        const listBill = await getBill(req.query);
+        return res.json({ResponseResult:{
+            ErrorCode: 0,
+            Message: 'Thành công',
+            Result: listBill
+        }});
+    } catch (error) {
+        log.error(error);
+        return res.json({ResponseResult:{
+            ErrorCode: 400,
+            Message: 'Error when get bill',
+            Result: null
+        }});
+    }
+}
+
 export async function createBillHandler(req:Request, res: Response) {
     try {
-        
         const body = {
             infoCustomer: JSON.parse(req.headers['userjwt'] as string),
             listBill: req.body.list_item,
@@ -12,8 +29,6 @@ export async function createBillHandler(req:Request, res: Response) {
             status: 0,
             typeOfPaymentMethod: req.body.typeOfPaymentMethod
         };
-
-       
         await createBill(body);
         return res.json({ResponseResult:{
             ErrorCode: 0,
@@ -22,20 +37,11 @@ export async function createBillHandler(req:Request, res: Response) {
         }});
     } catch (e) {
         log.error(e);
-        return res.status(400).send('Error when create bill');
+        return res.json({ResponseResult:{
+            ErrorCode: 400,
+            Message: 'Error when get bill',
+            Result: null
+        }});
     }
 }
-
-// export async function handleGetPromotionByProductType(req: Request, res: Response){
-//     try {
-//         const promotion = await getPromotionByTypeProduct(req.query);
-//         return res.json({
-//             ErrorCode: 0,
-//             Message: promotion
-//         });
-//     } catch (e) {
-//         log.error(e);
-//         return res.status(400).send('Error when get promotion by product type');
-//     }
-// }
 

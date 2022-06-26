@@ -9,11 +9,13 @@ export async function createBill(input: any){
     }
 }
 
-export async function getBill(query: FilterQuery<BillDocument>){
+export async function getBill(query: any){
     try {
-        // query.expire = true;
-        // const listPromotion = await Promotion.findOne(query).sort("-discount");
-        // return listPromotion;
+        const listBill = await Bill.find({
+            idCustomer: query.id_customer,
+            isDelete: 0
+        });
+        return listBill;
     } catch (error) {
         throw error;
     }
