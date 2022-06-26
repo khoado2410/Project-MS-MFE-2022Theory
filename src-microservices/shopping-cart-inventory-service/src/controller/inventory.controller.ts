@@ -28,13 +28,20 @@ export async function handleCheckInventory(req: Request, res: Response){
                 Authorization: req.headers['authorization'],
                 'Content-Type': 'application/json'
             }, req.body) as Object;
+            return res.json({ResponseResult: {
+                ErrorCode: 0,
+                Message: 'Thành công',
+                Result: null
+            }})
         } 
-    
-        return res.json({ResponseResult: {
-            ErrorCode: 0,
-            Message: 'Thành công',
-            Result: null
-        }})
+        else{
+            return res.json({ResponseResult: {
+                ErrorCode: 400,
+                Message: 'Sản phẩm không hợp lệ!',
+                Result: inventory
+            }})
+        }
+        
     } catch (error) {
         console.log('error: ', error);
         return res.json({
