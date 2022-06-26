@@ -63,7 +63,7 @@ export async function handleGetAllInventory(req: Request, res: Response){
     } catch (error) {
         console.log('error: ', error);
         return res.json({
-                ErrorCode: 0,
+                ErrorCode: 400,
                 Message: 'Error when get all inventory',
                 Result: null
         });
@@ -81,8 +81,8 @@ export async function handleCreateInventory(req: Request, res: Response){
     } catch (error) {
         console.log('error: ', error);
         return res.json({
-            ErrorCode: 0,
-            Message: 'Error when get all inventory',
+            ErrorCode: 400,
+            Message: 'Error when create inventory',
             Result: null
         });
     }

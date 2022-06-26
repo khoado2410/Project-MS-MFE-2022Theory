@@ -8,7 +8,7 @@ import requestIp from 'request-ip';
 const dotenv = require('dotenv');
 dotenv.config();
 const db = require('./model/index');
-
+db.sequelize.sync();
 logger.token("clientRealIp", function (req, res) {
     var ip = requestIp.getClientIp(req);
     return ip || undefined;
@@ -40,7 +40,7 @@ app.use(express.urlencoded({extended: false}));
 //try {
     app.listen(port, () => {
         log.info(`Server is running on :${port}`);
-        db.sequelize.sync();
+        //db.sequelize.sync();
         // db;
         routes(app);
     });
