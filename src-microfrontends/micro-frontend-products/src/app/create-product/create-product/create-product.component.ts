@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -70,20 +70,20 @@ export class CreateProductComponent implements OnInit {
   }
 
   addProduct() {
-    if (this.productForm?.invalid){
+    if (this.productForm?.invalid) {
       return;
     }
 
     if (this.branchName?.value == 0 || this.category?.value == 0)
       return;
-    
+
     if (this.images.value[0] == '')
       return;
 
     this.listFiles.forEach((file: any, index: any) => {
       this.images.value[index] = file
     })
-    
+
     var formData = new FormData();
     formData.append('name', this.nameProduct?.value);
     formData.append('description', this.description?.value);
@@ -95,9 +95,15 @@ export class CreateProductComponent implements OnInit {
       formData.append('listImage', file, file.name)
     })
 
-    this.http.post(this.URL + 'product/create-product', formData).subscribe((res: any) => {
-      if (res.ResponseResult.ErrorCode != 0) {
-        alert(res.ResponseResult.Message);
+    var token = localStorage.getItem('accessToken');
+    var header = new HttpHeaders({
+      'Authorization': 'Bearer ' + token
+    });
+    console.log(header)
+    this.http.post(this.URL + 'product/create-product', formData, { headers: header }).subscribe((res: any) => {
+      console.log(res);
+      if (res.ResponseResult?.ErrorCode != 0) {
+        alert(res.Message);
         return
       }
       this.router.navigate(['']);
@@ -142,7 +148,7 @@ export class CreateProductComponent implements OnInit {
         var id = input.target?.id.split('fileInput')[1];
         document.getElementById('output' + id)?.setAttribute('src', e.target?.result as string);
       };
-  
+
       reader.readAsDataURL(input.target.files[0]);
     }
   }
@@ -150,7 +156,7 @@ export class CreateProductComponent implements OnInit {
   addMoreImages() {
     if (this.images.value[this.images.length - 1] == '')
       return;
-    
+
     this.images.push(this.formBuilder.control(['']));
   }
 }
