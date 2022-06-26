@@ -1,6 +1,28 @@
 import {Request, Response} from 'express';
-import {createCategory, getCategory, getCategoryByBranch, checkCategoryValid} from '../service/category.service';
+import {createCategory, getCategory, getCategoryByBranch, checkCategoryValid, getCategoryByCountProduct} from '../service/category.service';
 import log from '../logger';
+
+export async function handleGetCategoryForHomePage(req: Request, res: Response){
+    try {
+        const result = await getCategoryByCountProduct();
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 0,
+                Message:'Thành công',
+                Result: result
+            }
+        });
+    } catch (error) {
+        console.log('error: ', error);
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 400,
+                Message:'error when get category',
+                Result: null
+            }
+        });
+    }
+}
 
 export async function createCategoryHandler(req:Request, res: Response) {
     try {

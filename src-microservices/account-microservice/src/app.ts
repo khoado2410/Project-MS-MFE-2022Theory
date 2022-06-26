@@ -1,13 +1,22 @@
 import express from "express";
 import log from './logger';
 import connect from './db/connect';
-import routes from "./routes";
 import logger from 'morgan';
 import jsonLog from 'morgan-json';
 import requestIp from 'request-ip';
+import routes from "./routes";
+
 const bearerToken = require('express-bearer-token');
 const dotenv = require('dotenv');
 dotenv.config();
+
+declare global {
+    namespace Express {
+      interface Request {
+        auth?: any
+      }
+    }
+  }
 
 logger.token("clientRealIp", function (req, res) {
     var ip = requestIp.getClientIp(req);
@@ -36,13 +45,13 @@ app.use(bearerToken());
 app.use(logger(loggerFormat));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+//app.use('/', AccountRoutes);
 // app.use(logger)
 
 app.listen(port, () => {
     log.info(`Server is running on ${port}`);
-
-    connect();
     routes(app);
+    connect();
 });
 
 

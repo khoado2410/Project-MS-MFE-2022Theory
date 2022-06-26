@@ -1,7 +1,9 @@
+const {config} = require('./config/env/index');
+
 const ROUTES = [
     {
         url: '/free',
-        auth: false,
+        auth: true,
         creditCheck: false,
         rateLimit: {
             windowMs: 15 * 60 * 1000,
@@ -12,19 +14,25 @@ const ROUTES = [
             changeOrigin: true,
             pathRewrite: {
                 [`^/free`]: '',
-            },
+            }
         }
     },
     {
         url: '/product',
-        auth: false,
+        auth: true,
         creditCheck: false,
+        //http://product-ms:8383
         proxy: {
-            target: "http://product-ms:8383",
+            target: config.url_product,
             changeOrigin: true,
             pathRewrite: {
                 [`^/product`]: '',
             },
+            onProxyReq: function onProxyReq(onProxyReq, req, res){
+                onProxyReq.setHeader('userJwt', JSON.stringify(req.jwtDecode));
+                
+                   
+            }
         }
     },
     {
@@ -32,7 +40,7 @@ const ROUTES = [
         auth: false,
         creditCheck: false,
         proxy: {
-            target: "http://category-ms:8282",
+            target: config.url_category,
             changeOrigin: true,
             pathRewrite: {
                 [`^/category`]: '',
@@ -41,10 +49,10 @@ const ROUTES = [
     },
     {
         url: '/inventory-cart-ms',
-        auth: false,
+        auth: true,
         creditCheck: false,
         proxy: {
-            target: "http://cart-inventory-ms:1115",
+            target: config.url_inventory,
             changeOrigin: true,
             pathRewrite: {
                 [`^/inventory-cart-ms`]: '',
@@ -53,16 +61,50 @@ const ROUTES = [
     },
     {
         url: '/account',
-        auth: false,
+        auth: true,
         creditCheck: false,
+        //http://account-ms:1717
         proxy: {
-            target: "http://account-ms:1717",
+            target: config.url_account,
             changeOrigin: true,
             pathRewrite: {
                 [`^/account`]: '',
             },
+            onProxyReq: function onProxyReq(onProxyReq, req, res){
+                if(req.originalUrl.includes('log-in') || req.originalUrl.includes('create-user')){
+                   
+                }else{
+                    onProxyReq.setHeader('userJwt', JSON.stringify(req.jwtDecode));
+                }
+                   
+            }
+        }
+    },
+    {
+        url: '/price-promo',
+        auth: false,
+        creditCheck: false,
+        proxy: {
+            target: config.url_price_promo,
+            changeOrigin: true,
+            pathRewrite: {
+                [`^/price-promo`]: '',
+            },
+        }
+    },
+    {
+        url: '/payment',
+        auth: true,
+        creditCheck: false,
+        proxy: {
+            target: config.url_payment,
+            changeOrigin: true,
+            pathRewrite: {
+                [`^/payment`]: '',
+            },
         }
     }
+
 
 
 

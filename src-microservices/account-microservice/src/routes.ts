@@ -1,24 +1,25 @@
-import {Express, Request, Response} from "express";
+import {Express, Request, Response, Router, NextFunction} from "express";
 import { createHandleUser, handleGetAll, handleLogin} from "./controller/account.controller";
-import {isAuth} from './middleware/auth.middleware';
-//import isAuth from '@middleware/user';
+import {aMiddleware, isAdmin} from './middleware/auth.middleware';
 
-export default function(app: Express) {
-  
-   
-    app.post('/create-user', createHandleUser);
+//const router = Router();
+const express = require('express');
+
+const app: Express = express(); 
+
+
+
+export default function(app: Express){
+    app.get('/get-all-user', isAdmin, handleGetAll);
     app.post('/log-in', handleLogin);
-
-    //app.get('/get-all-user', [isAuth], handleGetAll);
-    // app.get('/get-all-category', getAllCategoryHandler);
-    // app.post('/check-category-valid', handleCheckCategoryValid);
-
-    // app.post('/create-branch', createBranchHandler);
-    // app.get('/get-all-branch', handleGetBranch);
-    // app.post('/check-branch-valid', handleCheckBranchyValid);
-
-    // app.post('/check-category-branch', handleCheckBranchCategoryValid);
-
-  
-
+    app.post('/create-user', createHandleUser);
 }
+
+
+
+// router.route('/get-all-user').get(isLoggedIn, handleGetAll);
+//  router.route('/create-user').post(createHandleUser);
+//  router.route('/log-in').post(handleLogin);
+   
+// export {router as AccountRoutes}
+//}

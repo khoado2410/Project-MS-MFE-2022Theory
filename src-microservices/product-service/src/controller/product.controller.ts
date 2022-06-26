@@ -1,12 +1,33 @@
-import { Request, Response } from 'express';
-import { createProduct, getAllProduct } from '../service/product.service';
+import {Request, Response} from 'express';
+import {createProduct, getAllProduct, getCountListProductByCategory} from '../service/product.service';
 import request from 'request';
 import log from '../logger';
 import client from '../logger/client'
 
-export async function createProductHandler(req: Request, res: Response) {
-    try {
 
+export async function handleCreateProduct(req: Request, res: Response){
+    try {
+        const inputProduct = {...req.body};
+        inputProduct.listImage = req.files;
+        await createProduct(inputProduct);
+        return res.json({ResponseResult: {
+            ErrorCode: 0,
+            Message:'Thành công',
+            Result: null
+        }});
+    } catch (error) {
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 0,
+                Message:'Error when create product',
+                Result: error
+            }
+         });
+    }
+}
+
+export async function createProductHandler(req:Request, res: Response) {
+    try {
         const body = req.body;
         request('http://api-gateway:3333/category/check-branch-valid', {
             method: 'POST',
@@ -51,9 +72,10 @@ export async function createProductHandler(req: Request, res: Response) {
                                     'Content-Type': 'application/json'
                                 },
                                 json: true
-                            }, function (err, resInventory) {
-                                console.log('inventory: ', err)
-                                if (err) {
+                            }, function(err, resInventory){
+                                //console.log('inventory: ', resInventory)
+                                if(err){
+                                    console.log('err: ', err);
                                     return res.json({
                                         ResponseResult: {
                                             ErrorCode: 0,
@@ -108,17 +130,34 @@ export async function createProductHandler(req: Request, res: Response) {
     }
 }
 
-export async function handleGetAllProduct(req: Request, res: Response) {
+export async function handleGetCountProduct(req: Request, res: Response){
     try {
-        client.LogInfo({ level: 'info', topic: 'micro-service-product', msg: '[ms-product]: getAllProduct' }, (err, result) => {
-            if (err)
-                console.log('ERROR: ', err)
-        })
-        const product = await getAllProduct();
-        const listResponse: Array<Object> = [];
-        // product.forEach(item => {
-        //     //const 
-        // })
+        const body = req.body;
+        const count = await getCountListProductByCategory(body);
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 0,
+                Message:'Thành công',
+                Result: count
+        }});
+    } catch (error) {
+        log.error(error);
+        return res.json({
+            ResponseResult: {
+                ErrorCode: 401,
+                Message:'Error when create product',
+                Result: null
+            }});
+    }
+}
+
+export async function handleGetAllProduct(req: Request, res: Response){
+    try {
+        const jwt = req.headers['userjwt'] as string;
+	    const jsonJwt = JSON.parse(jwt);
+        const product = await getAllProduct(jsonJwt);
+        //console.log('product: ', product)
+    
         return res.json({
             ResponseResult: {
                 ErrorCode: 0,

@@ -1,8 +1,10 @@
+
 import {query, Request, Response} from 'express';
 import {createUser, getAllUser, getUserByUsername, updateRefreshToken} from '../service/account.service';
 import {generateToken, verifyToken} from '../helpers/jwt';
 import config from '../../config/default';
 import log from '../logger';
+//import {IGetUserAuthInfoRequest} from '../types/IGetUserAuthInfoRequest';
 const randToken = require('rand-token');
 
 const bcrypt = require('bcrypt');
@@ -10,6 +12,7 @@ const saltRounds = 10;
 
 export async function createHandleUser(req:Request, res: Response) {
     try {
+
         if(req.body.username == '' || req.body.password == ''){
             return res.json({
                 ResponseResult: {
@@ -23,7 +26,11 @@ export async function createHandleUser(req:Request, res: Response) {
             try {
                 const user = {
                     username: req.body.username,
-                    password: hash
+                    password: hash,
+                    role: req.body.role,
+                    address: req.body.address,
+                    full_name: req.body.full_name,
+                    age: req.body.age
                 };
                 await createUser(user);
                 return res.json({
@@ -36,10 +43,7 @@ export async function createHandleUser(req:Request, res: Response) {
             } catch (error) {
                 return res.status(400).send('Error when create user');
             }
-           
         });
-       
-     
     } catch (e) {
         log.error(e);
         console.log('error: ', e);
@@ -49,6 +53,9 @@ export async function createHandleUser(req:Request, res: Response) {
 
 export async function handleGetAll(req: Request, res: Response){
     try {
+        
+        //console.log('req from gateway: ', req?.user);
+        //console.log('req auth: ', JSON.parse(req.headers['userjwt']));
         const listUser = await getAllUser();
         return res.json({
             ResponseResult: {
@@ -83,7 +90,8 @@ export async function handleLogin(req: Request, res: Response){
                 }
             });
         }
-        const isPasswordValid = bcrypt.compare(req.body.password, password);
+        const isPasswordValid = await bcrypt.compare(req.body.password, password);
+
         if(!isPasswordValid){
             return res.json({
                 ResponseResult: {
@@ -127,7 +135,12 @@ export async function handleLogin(req: Request, res: Response){
                     Message:'Thành công',
                     Result: {
                         accessToken: access_token,
-                        refreshToken: refresh_token
+                        refreshToken: refresh_token,
+                        username: user.username,
+                        role: user.role,
+                        address: user.address,
+                        full_name: user.full_name,
+                        age: user.age
                     }
                 }
             });

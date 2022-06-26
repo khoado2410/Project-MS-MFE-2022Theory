@@ -1,36 +1,49 @@
-import { NextFunction } from 'express';
-var {config} = require('../../config/env');
-var authMethod = require('../helpers/jwt');
-var {isJwtExpired} = require('jwt-check-expiration');
-
-export const isAuth = (req:Request, res: Response, next: NextFunction) => {
-    // if(req.token){
+import { NextFunction, Request, Response } from 'express';
+import {rsErrorPermission} from '../helpers/respone';
+export function aMiddleware(req: Request, res: Response, next: NextFunction) {
     next();
-    // }
-    //console.log('token: ', req.token);
-	// Lấy access token từ header
-	//const accessTokenFromHeader = req.token;
-	// if (!accessTokenFromHeader) {
-	// 	return res.status(401).send('Không tìm thấy access token!');
-	// }
+}
+export function isAdmin (req: Request, res: Response, next: NextFunction) {
+	
+	const jwt = req.headers['userjwt'] as string;
+	const jsonJwt = JSON.parse(jwt);
+	if(jsonJwt.role == 'admin')
+		next()
+	else{
+		return res.json({ ErrorCode: 400, Message: "Permission denied", Result: null });
+	}
+		
+}
 
-	// const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
-	// const verified = await authMethod.verifyToken(
-	// 	accessTokenFromHeader,
-	// 	accessTokenSecret,
-	// );
-	// if (!verified) {
-	// 	return res
-	// 		.status(401)
-	// 		.send('Bạn không có quyền truy cập vào tính năng này!');
-	// }
+// export const isAuth = (req:Request, res: Response, next: NextFunction) => {
+//     // if(req.token){
+//     next();
+//     // }
+//     //console.log('token: ', req.token);
+// 	// Lấy access token từ header
+// 	//const accessTokenFromHeader = req.token;
+// 	// if (!accessTokenFromHeader) {
+// 	// 	return res.status(401).send('Không tìm thấy access token!');
+// 	// }
 
-	// const user = await userModle.getUser(verified.payload.username);
-	// req.user = user;
+// 	// const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
 
-	// return next();
-};
+// 	// const verified = await authMethod.verifyToken(
+// 	// 	accessTokenFromHeader,
+// 	// 	accessTokenSecret,
+// 	// );
+// 	// if (!verified) {
+// 	// 	return res
+// 	// 		.status(401)
+// 	// 		.send('Bạn không có quyền truy cập vào tính năng này!');
+// 	// }
+
+// 	// const user = await userModle.getUser(verified.payload.username);
+// 	// req.user = user;
+
+// 	// return next();
+// };
 // const isRoleRoot = async(req, res, next) => {
 //     try {
 //         const partner = req.jwtDecode;

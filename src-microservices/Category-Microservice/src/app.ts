@@ -35,6 +35,7 @@ app.use(logger(loggerFormat));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 // app.use(logger)
+app.use('/upload', express.static('uploads'));
 
 app.listen(port, () => {
     log.info(`Server is running on ${port}`);

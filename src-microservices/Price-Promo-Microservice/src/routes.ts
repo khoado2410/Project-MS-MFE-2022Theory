@@ -1,7 +1,7 @@
 import {Express, Request, Response} from "express";
 import { createPromotionHandler,handleGetPromotionByProductType, 
     handleGetPromoByProduct, handleRemove, handleUpdate
-    , handleGetListPromoByPaymentMethod } from "./controller/promotion.controller";
+    , handleGetListPromoByPaymentMethod, handleGetAllPromotion } from "./controller/promotion.controller";
 
 
 export default function(app: Express) {
@@ -18,6 +18,8 @@ export default function(app: Express) {
     // hong thi search theo type product, search them product do co nam trong ds nhung product dang km k
     // roi lay cai lon nhat (chi lay theo %)
     app.get('/get-promotion-by-product', handleGetPromoByProduct);
+
+    app.get('/get-all-promotion', handleGetAllPromotion);
 
     app.post('/update-promo', handleUpdate);
     
