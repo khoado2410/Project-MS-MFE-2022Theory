@@ -17,24 +17,27 @@ export class ProductsComponent implements OnInit {
     private sanitizer: DomSanitizer) { }
 
   listProducts: any[] = []
+  token: string = ""
   ngOnInit(): void {
     const observable = new Observable('mf-root-header');
-    observable.publish({nHeader: 'home', mfName: 'mf-products'});
-    var token = localStorage.getItem('accessToken');
+    observable.publish({ nHeader: 'home', mfName: 'mf-products' });
+    this.token = localStorage.getItem('accessToken') ?? "";
     const obs = new Observable('mf-authentication-sendToken');
     obs.subscribe(res => {
       let aToken = res.token;
-      if (aToken != token)
-        token = aToken;
+      if (aToken != this.token)
+        this.token = aToken;
     })
-    var header = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    });
-    this.http.get(this.URL + 'product/get-all-product', { headers: header }).subscribe((res: any) => {
-      console.log(res)
-      this.listProducts = res.ResponseResult.Result;
-    })
+    if (this.token) {
+      var header = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + this.token
+      });
+      this.http.get(this.URL + 'product/get-all-product', { headers: header }).subscribe((res: any) => {
+        console.log(res)
+        this.listProducts = res.ResponseResult.Result;
+      })
+    }
   }
 
   safeUrl(value: string) {
@@ -43,5 +46,23 @@ export class ProductsComponent implements OnInit {
 
   toShopDetail() {
     this.router.navigate(['product-detail'])
+  }
+
+  addToCart(product: any) {
+    var observable = new Observable('mf-products-add-to-cart');
+    observable.publish({});
+    var header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.token
+    });
+    try {
+      // this.http.post(this.URL + 'product/get-all-product', { headers: header }).subscribe((res: any) => {
+      //   console.log(res)
+      //   this.listProducts = res.ResponseResult.Result;
+      // })
+    }
+    catch (e) {
+
+    }
   }
 }

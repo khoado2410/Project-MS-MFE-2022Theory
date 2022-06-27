@@ -26,6 +26,11 @@ export class NavbarComponent implements OnInit {
       this.hasLogined = true;
     else
       this.hasLogined = false;
+
+    const obs = new Observable('mf-products-add-to-cart');
+    obs.subscribe((res: any) => {
+      this.numberProducts += 1;
+    })
   }
 
   toHome() {
