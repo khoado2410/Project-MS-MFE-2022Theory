@@ -19,8 +19,14 @@ export class ProductsComponent implements OnInit {
   listProducts: any[] = []
   ngOnInit(): void {
     const observable = new Observable('mf-root-header');
-    observable.publish({nHeader: 'home', mfName: 'mf-products'})
+    observable.publish({nHeader: 'home', mfName: 'mf-products'});
     var token = localStorage.getItem('accessToken');
+    const obs = new Observable('mf-authentication-sendToken');
+    obs.subscribe(res => {
+      let aToken = res.token;
+      if (aToken != token)
+        token = aToken;
+    })
     var header = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + token
