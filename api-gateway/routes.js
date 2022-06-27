@@ -85,7 +85,7 @@ const ROUTES = [
     },
     {
         url: '/price-promo',
-        auth: false,
+        auth: true,
         creditCheck: false,
         proxy: {
             target: config.url_price_promo,

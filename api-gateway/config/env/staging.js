@@ -15,6 +15,6 @@ module.exports = {
     url_inventory: "http://cart-inventory-ms:1115",
     url_account: "http://account-ms:1717",
     url_price_promo: "http://price-promo-ms:6666",
-    url_payment: "http://price-promo-ms:7788"
+    url_payment: "http://payment-ms:7788"
  
 }

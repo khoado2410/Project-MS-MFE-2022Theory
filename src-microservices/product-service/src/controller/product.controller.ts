@@ -209,6 +209,7 @@ export async function handleGetAllProduct(req: Request, res: Response){
         }
         ) as Object;
         const resultInventory = resInventory.Result;
+        //console.log('res: ', resultInventory);
         for(let i = 0; i < count; i++){
             let listPath: Array<String> = [];
             var countItem = listProduct[i].listImage.length;
@@ -222,6 +223,7 @@ export async function handleGetAllProduct(req: Request, res: Response){
                 'Content-Type': 'application/json'
             }) as Object;
             let result = resPromo.Result;
+            console.log('result: ', result)
             for(let k = 0; k < resultInventory.length; k++){
               if(listProduct[i]._id == resultInventory[k].idProduct){
                 listProduct[i].amount = resultInventory[k].amount
@@ -266,7 +268,6 @@ export async function handleGetAllProduct(req: Request, res: Response){
           listRes.push(itemProduct);
       }
     }
-    
         return res.json({
             ResponseResult: {
                 ErrorCode: 0,
@@ -276,7 +277,8 @@ export async function handleGetAllProduct(req: Request, res: Response){
         });
     } catch (e) {
         log.error(e);
-        return res.status(400).send('Error when get promotion by product type');
+        console.log('error: ', e)
+        return res.status(400).send('Error when get all product');
     }
 }
 
