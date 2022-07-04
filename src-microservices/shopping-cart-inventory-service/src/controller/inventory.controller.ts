@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import {findAll, createInventory, checkInventory} from '../service/inventory.service';
 import request from 'request';
+import config from '../../config/env/index';
 
 function doRequest(url: any, header: object, bodyPost: object) {
     return new Promise(function (resolve, reject) {
@@ -24,7 +25,7 @@ export async function handleCheckInventory(req: Request, res: Response){
         const inventory = await checkInventory(req.body);
         if(inventory.length == 0){
             var resBill:any = {};
-            resBill = await doRequest(`http://api-gateway:3333/payment/create-bill`, {
+            resBill = await doRequest(config.index.url_payment, {
                 Authorization: req.headers['authorization'],
                 'Content-Type': 'application/json'
             }, req.body) as Object;

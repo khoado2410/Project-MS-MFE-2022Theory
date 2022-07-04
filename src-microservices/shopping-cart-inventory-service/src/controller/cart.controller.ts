@@ -1,6 +1,8 @@
 import {Request, Response} from 'express';
 import {createCart, getCartByAccount} from '../service/cart.service';
 import request from 'request';
+import config from '../../config/env/index';
+
 
 function doRequest(url: any, header: object) {
     return new Promise(function (resolve, reject) {
@@ -29,7 +31,7 @@ export async function handleGetCartByAccount(req: Request, res: Response){
         const listItem = data.listItem;
         const listRes: Array<Object> = [];
         var resProduct:any = {};
-        resProduct = await doRequest(`http://api-gateway:3333/product/get-all-product`, {
+        resProduct = await doRequest(config.index.url_product, {
             Authorization: req.headers['authorization']
         }) as Object;
         const listProduct = resProduct.ResponseResult.Result;

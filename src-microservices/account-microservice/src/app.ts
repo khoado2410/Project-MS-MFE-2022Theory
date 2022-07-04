@@ -5,6 +5,7 @@ import logger from 'morgan';
 import jsonLog from 'morgan-json';
 import requestIp from 'request-ip';
 import routes from "./routes";
+//import config from '../config/env/index';
 
 const bearerToken = require('express-bearer-token');
 const dotenv = require('dotenv');

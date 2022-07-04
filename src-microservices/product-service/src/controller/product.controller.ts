@@ -3,7 +3,8 @@ import {createProduct, getAllProduct, getCountListProductByCategory,
 getAllProductForCart} from '../service/product.service';
 import request from 'request';
 import log from '../logger';
-import client from '../logger/client'
+import client from '../logger/client';
+import config from '../../config/env/index';
 
 export async function handleGetProductForCart(req: Request, res: Response) {
     try {
