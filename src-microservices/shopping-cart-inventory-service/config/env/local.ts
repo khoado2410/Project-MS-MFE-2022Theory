@@ -10,8 +10,11 @@ export default {
     // Map host: 172.20.18.252 inside-api-dev.opennet.com.kh, đồng bộ account từ inside về
     urlInside: "http://inside-api-dev.opennet.com.kh",
 
-    url_product: "http://localhost:3333/product/get-all-product",
-    url_payment: "http://localhost:3333/payment/create-bill"
+    url_product: "http://localhost:8383",
+    url_category: "http://localhost:8282",
+    url_cart_inventory: "http://localhost:1115",
+    url_price_promo: "http://localhost:6666",
+    url_payment: "http://localhost:7788"
 }
 
 

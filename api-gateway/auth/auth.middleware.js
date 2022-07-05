@@ -12,14 +12,26 @@ const isAuth = async(req, res, next) => {
         if(req.originalUrl.includes('create-user')){
             return next();
         }
-            //next();
         const token = req.token;
+        const tokenSecret = config.ACCESS_TOKEN_SECRET;
+        console.log('req token: ', req.token)
+        if(req.originalUrl.includes('get-all-product')){
+            if(!token)
+                req.jwtDecode = null;
+            else{
+                if(isJwtExpired(token))
+                    return res.json(rsErrorTokenExpired());
+                const decoded = await authMethod.verifyToken(token, tokenSecret);
+                req.jwtDecode = decoded.payload;
+            }    
+                return next();
+        }
+            //next();
+        const decoded = await authMethod.verifyToken(token, tokenSecret);
         if(!token)
             return res.json(rsErrorUnauthorized());
         if(isJwtExpired(token))
             return res.json(rsErrorTokenExpired());
-        const tokenSecret = config.ACCESS_TOKEN_SECRET;
-        const decoded = await authMethod.verifyToken(token, tokenSecret);
         req.jwtDecode = decoded.payload;
         return next();
     } catch (error) {

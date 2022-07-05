@@ -52,7 +52,7 @@ export async function handleCreateProduct(req: Request, res: Response){
 export async function createProductHandler(req:Request, res: Response) {
     try {
         const body = req.body;
-        request('http://api-gateway:3333/category/check-branch-valid', {
+        request(`${config.index.url_category}/check-branch-valid`, {
             method: 'POST',
             body: {
                 category: body.category,
@@ -83,7 +83,7 @@ export async function createProductHandler(req:Request, res: Response) {
                             inputProduct.listImage = req.files;
                             console.log('input product: ', inputProduct);
                             const product = await createProduct(inputProduct);
-                            request('http://api-gateway:3333/inventory-cart-ms/create-inventory', {
+                            request(`${config.index.url_cart_inventory}/create-inventory`, {
                                 method: 'POST',
                                 body: {
                                     id_product: product._id.toString(),
@@ -196,86 +196,88 @@ function doRequest(url: any, header: any) {
 
 export async function handleGetAllProduct(req: Request, res: Response){
     try {
-        const jwt = req.headers['userjwt'] as string;
-	    const jsonJwt = JSON.parse(jwt);
-        const listProduct = await getAllProduct(jsonJwt);
+        //console.log('aaaaaa')
+    const jwt = req.headers['userjwt'] as string;
+    console.log('jwt: ', jwt);
+	//     const jsonJwt = JSON.parse(jwt);
+    //     const listProduct = await getAllProduct(jsonJwt);
 
-        const listRes: Array<Object> = [];
-        let count = listProduct.length;
-        var resInventory:any = {}
-        resInventory = await doRequest(`http://api-gateway:3333/inventory-cart-ms/get-all-inventory`,
-        {
-            Authorization: req.headers['authorization'],
-            'Content-Type': 'application/json'
-        }
-        ) as Object;
-        const resultInventory = resInventory.Result;
-        //console.log('res: ', resultInventory);
-        for(let i = 0; i < count; i++){
-            let listPath: Array<String> = [];
-            var countItem = listProduct[i].listImage.length;
-            for(let j = 0; j < countItem; j++){
-                listPath.push(`localhost:3333/product/upload/${listProduct[i].listImage[j].filename}`);
-            }
-            var resPromo :any = {};
-            resPromo = await doRequest(`http://api-gateway:3333/price-promo/get-promotion-by-product?productId=${listProduct[i]._id}&productType=${listProduct[i].branch}`,
-            {
-                Authorization: req.headers['authorization'],
-                'Content-Type': 'application/json'
-            }) as Object;
-            let result = resPromo.Result;
-            console.log('result: ', result)
-            for(let k = 0; k < resultInventory.length; k++){
-              if(listProduct[i]._id == resultInventory[k].idProduct){
-                listProduct[i].amount = resultInventory[k].amount
-              }
-            }
-            if(jsonJwt.role == 'admin'){
-              let itemProduct = {
-                id: listProduct[i]._id,
-                name: listProduct[i].name,
-                description: listProduct[i].description,
-                price: listProduct[i].price,
-                numberOfReviews: listProduct[i].numberOfReviews,
-                quantitySold: listProduct[i].quantitySold,
-                category: listProduct[i].category,
-                branch: listProduct[i].branch,
-                numberStar: listProduct[i].numberStar,
-                linkPath: listPath,
-                nameDiscount: result != null ? result.name : '',
-                discount: result != null ? result.discount : '',
-                timeStart: result != null ? result.timeStart : '',
-                timeEnd: result != null ? result.timeEnd : '',
-                amount: listProduct[i].amount ?? 0
-              };
-          listRes.push(itemProduct);
-        }else{
-          let itemProduct = {
-            id: listProduct[i]._id,
-            name: listProduct[i].name,
-            description: listProduct[i].description,
-            price: listProduct[i].price,
-            numberOfReviews: listProduct[i].numberOfReviews,
-            quantitySold: listProduct[i].quantitySold,
-            category: listProduct[i].category,
-            branch: listProduct[i].branch,
-            numberStar: listProduct[i].numberStar,
-            linkPath: listPath,
-            nameDiscount: result != null ? result.name : '',
-            discount: result != null ? result.discount : '',
-            timeStart: result != null ? result.timeStart : '',
-            timeEnd: result != null ? result.timeEnd : ''
-          };
-          listRes.push(itemProduct);
-      }
-    }
-        return res.json({
-            ResponseResult: {
-                ErrorCode: 0,
-                Message: 'Thành công',
-                Result: listRes
-            }
-        });
+    //     const listRes: Array<Object> = [];
+    //     let count = listProduct.length;
+    //     var resInventory:any = {}
+    //     resInventory = await doRequest(`${config.index.url_cart_inventory}/get-all-inventory`,
+    //     {
+    //         Authorization: req.headers['authorization'],
+    //         'Content-Type': 'application/json'
+    //     }
+    //     ) as Object;
+    //     const resultInventory = resInventory.Result;
+    //     //console.log('res: ', resultInventory);
+    //     for(let i = 0; i < count; i++){
+    //         let listPath: Array<String> = [];
+    //         var countItem = listProduct[i].listImage.length;
+    //         for(let j = 0; j < countItem; j++){
+    //             listPath.push(`localhost:3333/product/upload/${listProduct[i].listImage[j].filename}`);
+    //         }
+    //         var resPromo :any = {};
+    //         resPromo = await doRequest(`${config.index.url_price_promo}/get-promotion-by-product?productId=${listProduct[i]._id}&productType=${listProduct[i].branch}`,
+    //         {
+    //             Authorization: req.headers['authorization'],
+    //             'Content-Type': 'application/json'
+    //         }) as Object;
+    //         let result = resPromo.Result;
+            
+    //         for(let k = 0; k < resultInventory.length; k++){
+    //           if(listProduct[i]._id == resultInventory[k].idProduct){
+    //             listProduct[i].amount = resultInventory[k].amount
+    //           }
+    //         }
+    //         if(jsonJwt != null && jsonJwt.role == 'admin'){
+    //           let itemProduct = {
+    //             id: listProduct[i]._id,
+    //             name: listProduct[i].name,
+    //             description: listProduct[i].description,
+    //             price: listProduct[i].price,
+    //             numberOfReviews: listProduct[i].numberOfReviews,
+    //             quantitySold: listProduct[i].quantitySold,
+    //             category: listProduct[i].category,
+    //             branch: listProduct[i].branch,
+    //             numberStar: listProduct[i].numberStar,
+    //             linkPath: listPath,
+    //             nameDiscount: result != null ? result.name : '',
+    //             discount: result != null ? result.discount : '',
+    //             timeStart: result != null ? result.timeStart : '',
+    //             timeEnd: result != null ? result.timeEnd : '',
+    //             amount: listProduct[i].amount ?? 0
+    //           };
+    //       listRes.push(itemProduct);
+    //     }else{
+    //       let itemProduct = {
+    //         id: listProduct[i]._id,
+    //         name: listProduct[i].name,
+    //         description: listProduct[i].description,
+    //         price: listProduct[i].price,
+    //         numberOfReviews: listProduct[i].numberOfReviews,
+    //         quantitySold: listProduct[i].quantitySold,
+    //         category: listProduct[i].category,
+    //         branch: listProduct[i].branch,
+    //         numberStar: listProduct[i].numberStar,
+    //         linkPath: listPath,
+    //         nameDiscount: result != null ? result.name : '',
+    //         discount: result != null ? result.discount : '',
+    //         timeStart: result != null ? result.timeStart : '',
+    //         timeEnd: result != null ? result.timeEnd : ''
+    //       };
+    //       listRes.push(itemProduct);
+    //   }
+    // }
+    //     return res.json({
+    //         ResponseResult: {
+    //             ErrorCode: 0,
+    //             Message: 'Thành công',
+    //             Result: listRes
+    //         }
+    //     });
     } catch (e) {
         log.error(e);
         console.log('error: ', e)

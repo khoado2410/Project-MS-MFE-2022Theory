@@ -5,11 +5,10 @@ export default {
     ACCESS_TOKEN_SECRET: "access-token-secret-0a6b944d-d2fb-46fc-a85e-0295c986cd9f",
     ACCESS_TOKEN_LIFE: '1h',
 
-    // lấy tọa độ từ bên thứ 3.
-    API_CUS:  "http://mapapistag.fpt.vn",
-    // Map host: 172.20.18.252 inside-api-dev.opennet.com.kh, đồng bộ account từ inside về
-    urlInside: "http://inside-api-dev.opennet.com.kh",
 
-    url_product: "http://localhost:3333/product/get-all-product",
-    url_payment: "http://localhost:3333/payment/create-bill"
+    url_product: "http://localhost:3333/product",
+    url_category: "http://localhost:3333/categpry",
+    url_cart_inventory: "http://localhost:3333/inventory-cart-ms",
+    url_price_promo: "http://localhost:3333/price-promo",
+    url_payment: "http://localhost:3333/payment"
 }

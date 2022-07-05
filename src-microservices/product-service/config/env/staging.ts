@@ -5,12 +5,12 @@ module.exports = {
     ACCESS_TOKEN_SECRET: "access-token-secret-0a6b944d-d2fb-46fc-a85e-0295c986cd9f",
     ACCESS_TOKEN_LIFE: '1h',
 
-    // lấy tọa độ từ bên thứ 3.
-    API_CUS:  "http://mapapistag.fpt.vn",
-    // Map host: 172.20.18.252 inside-api-dev.opennet.com.kh, đồng bộ account từ inside về
-    urlInside: "http://inside-api-dev.opennet.com.kh",
+    
 
-    url_product: "http://api-gateway:3333/product/get-all-product",
-    url_payment: "http://api-gateway:3333/payment/create-bill"
+    url_product: "http://api-gateway:3333/product",
+    url_payment: "http://api-gateway:3333/payment",
+    url_category: "http://api-gateway:3333/category",
+    url_cart_inventory: "http://api-gateway:3333/inventory-cart-ms",
+    url_price_promo: "http://api-gateway:3333/price-promo"
  
 }
