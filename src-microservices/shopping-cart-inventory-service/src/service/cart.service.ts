@@ -36,7 +36,6 @@ export async function createCart(input: any){
             idCustomer: input.id_customer,
             isDelete: 0
         }});
-        const item = input.item;
         if(cart == null){
             const body = {
                 idCustomer: input.id_customer,
@@ -45,16 +44,16 @@ export async function createCart(input: any){
             const cartCreated = await Cart.create(body);
             const item_cart = {
                 idCart: cartCreated.id,
-                amount: item.amount,
-                idProduct: item.id_product,
+                amount: 1,
+                idProduct: input.id_product,
             }
-                await createCartItem(item_cart);
-            }
+            await createCartItem(item_cart);
+        }
         else{
            const item_cart = {
                 idCart: cart.id,
-                amount: item.amount,
-                idProduct: item.id_product
+                amount: 1,
+                idProduct: input.id_product
             }
             await createCartItem(item_cart);
             

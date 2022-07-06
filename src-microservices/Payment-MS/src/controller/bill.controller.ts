@@ -23,14 +23,25 @@ export async function handleGetBill(req: Request, res: Response){
 export async function createBillHandler(req:Request, res: Response) {
     try {
         const user = JSON.parse(req.headers['userjwt'] as string);
+        const info_bill = {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email: req.body.email,
+            address_line_1: req.body.address_line_1,
+            address_line_2: req.body.address_line_2,
+            mobile_no: req.body.mobile_no,
+
+        };
         const body = {
             username: user.username,
             infoCustomer: user,
             listBill: req.body.list_item,
             total: req.body.total,
             status: 0,
-            typeOfPaymentMethod: req.body.typeOfPaymentMethod
+            typeOfPaymentMethod: req.body.payment,
+            info_bill: info_bill
         };
+        //console.log('body: ', body)
         await createBill(body);
         return res.json({ResponseResult:{
             ErrorCode: 0,

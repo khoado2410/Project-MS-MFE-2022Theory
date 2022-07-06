@@ -8,7 +8,8 @@ export interface BillDocument extends mongoose.Document{
    dateCreated: Date,
    status: Number,
    typeOfPaymentMethod: String,
-   isDelete: Number
+   isDelete: Number,
+   info_bill: Object
 }
 
 const BillSchema = new mongoose.Schema(
@@ -20,6 +21,7 @@ const BillSchema = new mongoose.Schema(
         dateCreated: {type: Date, required: true, default: Date.now()},
         status: {type: Number},
         typeOfPaymentMethod: {type: String},
+        info_bill: {type:Object, default: null},
         isDelete: {type: Number, default: 0}
     }   
 );
