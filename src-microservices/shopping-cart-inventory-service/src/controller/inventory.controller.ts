@@ -23,26 +23,12 @@ function doRequest(url: any, header: object, bodyPost: object) {
 export async function handleCheckInventory(req: Request, res: Response){
     try {
         const inventory = await checkInventory(req.body);
-        if(inventory.length == 0){
-            var resBill:any = {};
-            resBill = await doRequest(config.index.url_payment, {
-                Authorization: req.headers['authorization'],
-                'Content-Type': 'application/json'
-            }, req.body) as Object;
-            return res.json({ResponseResult: {
-                ErrorCode: 0,
-                Message: 'Thành công',
-                Result: null
-            }})
-        } 
-        else{
-            return res.json({ResponseResult: {
+       
+             return res.json({ResponseResult: {
                 ErrorCode: 400,
                 Message: 'Sản phẩm không hợp lệ!',
                 Result: inventory
             }})
-        }
-        
     } catch (error) {
         console.log('error: ', error);
         return res.json({

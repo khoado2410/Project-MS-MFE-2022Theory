@@ -11,17 +11,24 @@ export async function checkInventory(body: any){
         const listItem = body.list_item;
         let count = 0;
         for(let i = 0; i < listItem.length; i++){
-            const inventory = Inventory.findOne({
-                idProduct: listItem[i].id_product
+            const inventory = await Inventory.findOne({
+                idProduct: listItem[i].id
             })
+            // const data = JSON.stringify(inventory, null, 2);
+            console.log('---------------------------------')
+            console.log('inventory: ', inventory);
+            console.log('-------------------------')
             if(inventory != null){
-                if(listItem[i].amount > inventory.amount){
+                //console.log('id inventory: ', listItem[i].id)
+                //console.log('id item: ', inventory.idProduct)
+                if(listItem[i].quantityCart > inventory.amount){
+                  
                     arrData.push(listItem[i].name);
                     count++;
                 }
             }
         }
-        return arrData;
+       return arrData;
         
         
     } catch (error) {

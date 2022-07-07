@@ -29,7 +29,6 @@ export async function handleGetCartByAccount(req: Request, res: Response){
                 Result: null
             });
         const listItem = data.listItem;
-        console.log('list item: ', listItem)
         const listRes: Array<Object> = [];
         var resProduct:any = {};
        
