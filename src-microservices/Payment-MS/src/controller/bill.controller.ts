@@ -1,6 +1,8 @@
 import {Request, Response} from 'express';
 import {createBill, getBill} from '../service/bill.service';
 import log from '../logger';
+import config from '../../config/env/index';
+import request from 'request';
 
 export async function handleGetBill(req: Request, res: Response){
     try {
@@ -20,17 +22,62 @@ export async function handleGetBill(req: Request, res: Response){
     }
 }
 
+function doRequest(url: any, header: object, bodyPost: object) {
+    return new Promise(function (resolve, reject) {
+      request(url, {
+        method: 'POST',
+        headers: header,
+        body: JSON.stringify(bodyPost)
+      }, function (error: any, res: any, body: string) {
+        if (!error && res.statusCode == 200) {
+            console.log('res: ', body);
+            const res = JSON.parse(body);
+          resolve(res);
+        } else {
+          reject(error);
+        }
+      });
+    });
+  }
+
 export async function createBillHandler(req:Request, res: Response) {
     try {
         const user = JSON.parse(req.headers['userjwt'] as string);
+        const info_bill = {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            email: req.body.email,
+            address_line_1: req.body.address_line_1,
+            address_line_2: req.body.address_line_2,
+            mobile_no: req.body.mobile_no,
+
+        };
         const body = {
             username: user.username,
             infoCustomer: user,
             listBill: req.body.list_item,
             total: req.body.total,
             status: 0,
-            typeOfPaymentMethod: req.body.typeOfPaymentMethod
+            typeOfPaymentMethod: req.body.payment,
+            info_bill: info_bill
         };
+        var checkInventory:any = {};
+       
+        checkInventory = await doRequest(`${config.index.url_cart_inventory}/check-inventory`, {
+            Authorization: req.headers['authorization'],
+            'Content-Type': 'application/json',
+        }, {
+            list_item: req.body.list_item
+        }) as Object;
+
+        const listProduct = checkInventory.ResponseResult.Result;
+        if(listProduct.length != 0){
+             return res.json({ResponseResult:{
+            ErrorCode: 400,
+            Message: 'Các sản phẩm sau không còn hàng!',
+            Result: listProduct
+        }});
+        }
         await createBill(body);
         return res.json({ResponseResult:{
             ErrorCode: 0,
@@ -39,6 +86,7 @@ export async function createBillHandler(req:Request, res: Response) {
         }});
     } catch (e) {
         log.error(e);
+        console.log('error: ', e)
         return res.json({ResponseResult:{
             ErrorCode: 400,
             Message: 'Error when get bill',

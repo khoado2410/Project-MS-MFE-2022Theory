@@ -1,4 +1,5 @@
 const dbModel = require("../model/index");
+import { isKeyObject } from 'util/types';
 import {createCartItem, getCartItem} from './cart_item.service';
 
 const Cart = dbModel.cart;
@@ -35,30 +36,27 @@ export async function createCart(input: any){
             idCustomer: input.id_customer,
             isDelete: 0
         }});
-        const list_item = input.list_item;
         if(cart == null){
             const body = {
                 idCustomer: input.id_customer,
                 isDelete: 0
             };
             const cartCreated = await Cart.create(body);
-            for(var i = 0; i < list_item.length; i++){
-                const item = {
-                    idCart: cartCreated.id,
-                    amount: list_item[i].amount,
-                    idProduct: list_item[i].id_product,
-                }
-                await createCartItem(item);
+            const item_cart = {
+                idCart: cartCreated.id,
+                amount: 1,
+                idProduct: input.id_product,
             }
-        }else{
-            for(var i = 0; i < list_item.length; i++){
-                const item = {
-                    idCart: cart.id,
-                    amount: list_item[i].amount,
-                    idProduct: list_item[i].id_product
-                }
-                await createCartItem(item);
+            await createCartItem(item_cart);
+        }
+        else{
+           const item_cart = {
+                idCart: cart.id,
+                amount: 1,
+                idProduct: input.id_product
             }
+            await createCartItem(item_cart);
+            
         }
 
     } catch (error) {

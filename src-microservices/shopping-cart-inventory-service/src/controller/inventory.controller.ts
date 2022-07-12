@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import {findAll, createInventory, checkInventory} from '../service/inventory.service';
 import request from 'request';
+import config from '../../config/env/index';
 
 function doRequest(url: any, header: object, bodyPost: object) {
     return new Promise(function (resolve, reject) {
@@ -22,26 +23,12 @@ function doRequest(url: any, header: object, bodyPost: object) {
 export async function handleCheckInventory(req: Request, res: Response){
     try {
         const inventory = await checkInventory(req.body);
-        if(inventory.length == 0){
-            var resBill:any = {};
-            resBill = await doRequest(`http://api-gateway:3333/payment/create-bill`, {
-                Authorization: req.headers['authorization'],
-                'Content-Type': 'application/json'
-            }, req.body) as Object;
-            return res.json({ResponseResult: {
-                ErrorCode: 0,
-                Message: 'Thành công',
-                Result: null
-            }})
-        } 
-        else{
-            return res.json({ResponseResult: {
+       
+             return res.json({ResponseResult: {
                 ErrorCode: 400,
                 Message: 'Sản phẩm không hợp lệ!',
                 Result: inventory
             }})
-        }
-        
     } catch (error) {
         console.log('error: ', error);
         return res.json({

@@ -3,7 +3,8 @@ import {createProduct, getAllProduct, getCountListProductByCategory,
 getAllProductForCart} from '../service/product.service';
 import request from 'request';
 import log from '../logger';
-import client from '../logger/client'
+import client from '../logger/client';
+import config from '../../config/env/index';
 
 export async function handleGetProductForCart(req: Request, res: Response) {
     try {
@@ -51,7 +52,7 @@ export async function handleCreateProduct(req: Request, res: Response){
 export async function createProductHandler(req:Request, res: Response) {
     try {
         const body = req.body;
-        request('http://api-gateway:3333/category/check-branch-valid', {
+        request(`${config.index.url_category}/check-branch-valid`, {
             method: 'POST',
             body: {
                 category: body.category,
@@ -68,7 +69,7 @@ export async function createProductHandler(req:Request, res: Response) {
                 try {
                     const result = response.body.ResponseResult.Result.check;
                     if (result == false) {
-                        console.log('category ms: ', result);
+                        
                         return res.json({
                             ResponseResult: {
                                 ErrorCode: 401,
@@ -82,7 +83,7 @@ export async function createProductHandler(req:Request, res: Response) {
                             inputProduct.listImage = req.files;
                             console.log('input product: ', inputProduct);
                             const product = await createProduct(inputProduct);
-                            request('http://api-gateway:3333/inventory-cart-ms/create-inventory', {
+                            request(`${config.index.url_cart_inventory}/create-inventory`, {
                                 method: 'POST',
                                 body: {
                                     id_product: product._id.toString(),
@@ -97,10 +98,8 @@ export async function createProductHandler(req:Request, res: Response) {
                                 },
                                 json: true
                             }, function(err, resInventory){
-                                console.log('inventory: ', resInventory)
                                 if(err){
                                     console.log('err: ', err);
-
                                     return res.json({
                                         ResponseResult: {
                                             ErrorCode: 0,
@@ -142,8 +141,6 @@ export async function createProductHandler(req:Request, res: Response) {
                 }
             }
         });
-
-
     } catch (e) {
         log.error(e);
         return res.json({
@@ -195,20 +192,25 @@ function doRequest(url: any, header: any) {
 
 export async function handleGetAllProduct(req: Request, res: Response){
     try {
-        const jwt = req.headers['userjwt'] as string;
+        //console.log('aaaaaa')
+    const jwt = req.headers['userjwt'] as string;
+    console.log('jwt: ', jwt);
 	    const jsonJwt = JSON.parse(jwt);
         const listProduct = await getAllProduct(jsonJwt);
 
         const listRes: Array<Object> = [];
         let count = listProduct.length;
-        var resInventory:any = {}
-        resInventory = await doRequest(`http://api-gateway:3333/inventory-cart-ms/get-all-inventory`,
-        {
-            Authorization: req.headers['authorization'],
-            'Content-Type': 'application/json'
+        var resInventory:any = {};
+        let resultInventory: Array<any> = [];
+        if(jsonJwt != null && jsonJwt.role == 'admin'){
+            resInventory = await doRequest(`${config.index.url_cart_inventory}/get-all-inventory`,
+            {
+                Authorization: req.headers['authorization'],
+                'Content-Type': 'application/json'
+            }) as Object;
+            resultInventory = resInventory.Result
         }
-        ) as Object;
-        const resultInventory = resInventory.Result;
+        
         //console.log('res: ', resultInventory);
         for(let i = 0; i < count; i++){
             let listPath: Array<String> = [];
@@ -217,19 +219,19 @@ export async function handleGetAllProduct(req: Request, res: Response){
                 listPath.push(`localhost:3333/product/upload/${listProduct[i].listImage[j].filename}`);
             }
             var resPromo :any = {};
-            resPromo = await doRequest(`http://api-gateway:3333/price-promo/get-promotion-by-product?productId=${listProduct[i]._id}&productType=${listProduct[i].branch}`,
+            resPromo = await doRequest(`${config.index.url_price_promo}/get-promotion-by-product?productId=${listProduct[i]._id}&productType=${listProduct[i].branch}`,
             {
                 Authorization: req.headers['authorization'],
                 'Content-Type': 'application/json'
             }) as Object;
             let result = resPromo.Result;
-            console.log('result: ', result)
+            
             for(let k = 0; k < resultInventory.length; k++){
               if(listProduct[i]._id == resultInventory[k].idProduct){
                 listProduct[i].amount = resultInventory[k].amount
               }
             }
-            if(jsonJwt.role == 'admin'){
+            if(jsonJwt != null && jsonJwt.role == 'admin'){
               let itemProduct = {
                 id: listProduct[i]._id,
                 name: listProduct[i].name,

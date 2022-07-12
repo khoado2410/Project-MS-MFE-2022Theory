@@ -1,6 +1,8 @@
 import {Request, Response} from 'express';
 import {createCart, getCartByAccount} from '../service/cart.service';
 import request from 'request';
+import config from '../../config/env/index';
+
 
 function doRequest(url: any, header: object) {
     return new Promise(function (resolve, reject) {
@@ -29,16 +31,19 @@ export async function handleGetCartByAccount(req: Request, res: Response){
         const listItem = data.listItem;
         const listRes: Array<Object> = [];
         var resProduct:any = {};
-        resProduct = await doRequest(`http://api-gateway:3333/product/get-all-product`, {
-            Authorization: req.headers['authorization']
+       
+        resProduct = await doRequest(`${config.index.url_product}/get-all-product`, {
+            Authorization: req.headers['authorization'],
+            'Content-Type': 'application/json'
         }) as Object;
         const listProduct = resProduct.ResponseResult.Result;
+       
         let count = listProduct.length;
         for(let i = 0; i < listItem.length; i++){
             for(let k = 0; k < count; k++){
-                if(listItem[i].idProduct == listProduct[k]._id){
+                if(listItem[i].idProduct == listProduct[k].id){
                     let itemProduct = {
-                        id: listProduct[k]._id,
+                        id: listProduct[k].id,
                         name: listProduct[k].name,
                         description: listProduct[k].description,
                         price: listProduct[k].price,
@@ -71,7 +76,7 @@ export async function handleGetCartByAccount(req: Request, res: Response){
         console.log('error: ', error);
         return res.json({
                 ErrorCode: 400,
-                Message: 'Error when get all inventory',
+                Message: 'Error when get cart by account',
                 Result: null
         });
     }
@@ -89,7 +94,7 @@ export async function handleCreateCart(req: Request, res: Response){
         console.log('error: ', error);
         return res.json({
             ErrorCode: 0,
-            Message: 'Error when get all inventory',
+            Message: 'Error when create cart',
             Result: null
         });
     }

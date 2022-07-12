@@ -1,10 +1,10 @@
 import express from "express";
-import config from "../config/default";
 import log from './logger';
 import routes from "./routes";
 import logger from 'morgan';
 import jsonLog from 'morgan-json';
 import requestIp from 'request-ip';
+
 const dotenv = require('dotenv');
 dotenv.config();
 const db = require('./model/index');
