@@ -219,21 +219,6 @@ export async function handleGetAllProduct(req: Request, res: Response) {
         }
         
         //console.log('res: ', resultInventory);
-        for(let i = 0; i < count; i++){
-            let listPath: Array<String> = [];
-            var countItem = listProduct[i].listImage.length;
-            for(let j = 0; j < countItem; j++){
-                listPath.push(`localhost:3333/product/upload/${listProduct[i].listImage[j].filename}`);
-            }
-            var resPromo :any = {};
-            resPromo = await doRequest(`${config.index.url_price_promo}/get-promotion-by-product?productId=${listProduct[i]._id}&productType=${listProduct[i].branch}`,
-            {
-                Authorization: req.headers['authorization'],
-                'Content-Type': 'application/json'
-            }
-        ) as Object;
-        const resultInventory = resInventory.Result;
-        //console.log('res: ', resultInventory);
         for (let i = 0; i < count; i++) {
             let listPath: Array<String> = [];
             var countItem = listProduct[i].listImage.length;
@@ -241,18 +226,18 @@ export async function handleGetAllProduct(req: Request, res: Response) {
                 listPath.push(`localhost:3333/product/upload/${listProduct[i].listImage[j].filename}`);
             }
             var resPromo: any = {};
-            resPromo = await doRequest(`http://api-gateway:3333/price-promo/get-promotion-by-product?productId=${listProduct[i]._id}&productType=${listProduct[i].branch}`,
+            resPromo = await doRequest(`${config.index.url_price_promo}/get-promotion-by-product?productId=${listProduct[i]._id}&productType=${listProduct[i].branch}`,
                 {
                     Authorization: req.headers['authorization'],
                     'Content-Type': 'application/json'
                 }) as Object;
             let result = resPromo.Result;
-            
+            if(jsonJwt != null && jsonJwt.role == 'admin'){
             for(let k = 0; k < resultInventory.length; k++){
               if(listProduct[i]._id == resultInventory[k].idProduct){
                 listProduct[i].amount = resultInventory[k].amount
               }
-            }
+            }}
             if(jsonJwt != null && jsonJwt.role == 'admin'){
               let itemProduct = {
                 id: listProduct[i]._id,
@@ -299,7 +284,7 @@ export async function handleGetAllProduct(req: Request, res: Response) {
                 Result: listRes
             }
         });
-    } }catch (e) {
+     }catch (e) {
         log.error(e);
         console.log('error: ', e)
         return res.status(400).send('Error when get all product');
