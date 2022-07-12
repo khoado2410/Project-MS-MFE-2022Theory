@@ -1,4 +1,4 @@
-version: "4.8"
+version: "3.8"
 services:
   # Kafka Server & Zookeeper Docker Image
   kafkaserver:
@@ -75,12 +75,14 @@ services:
       - './logstash:/usr/share/logstash/pipeline/'
 
   #server gRPC
-  grpcserver:
+  grpc-server:
     container_name: grpc-server
     build: ../log-service
+    ports:
+      - '50051:50051'
     networks:
       - api-gateway_microservice
 # Use bridge network for all the container, keeping all the container in same network will simplify the communication between the container.
-networks: 
+networks:
   api-gateway_microservice:
-    driver: bridge
+     external: true

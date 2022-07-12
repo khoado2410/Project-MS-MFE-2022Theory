@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app
 RUN npm install
 
+EXPOSE 50051
 # copy source code
 COPY . /usr/src/app
-
 CMD ["npm", "start"]
