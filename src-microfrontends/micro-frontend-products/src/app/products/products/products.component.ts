@@ -56,10 +56,10 @@ export class ProductsComponent implements OnInit {
       'Authorization': 'Bearer ' + this.token
     });
     try {
-      // this.http.post(this.URL + 'product/get-all-product', { headers: header }).subscribe((res: any) => {
-      //   console.log(res)
-      //   this.listProducts = res.ResponseResult.Result;
-      // })
+      this.http.post(this.URL + 'inventory-cart-ms/create-cart', { headers: header }).subscribe((res: any) => {
+        console.log(res)
+        this.listProducts = res.ResponseResult.Result;
+      })
     }
     catch (e) {
 

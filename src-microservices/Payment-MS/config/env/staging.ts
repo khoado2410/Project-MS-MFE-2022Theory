@@ -1,4 +1,4 @@
-module.exports = {
+export default{
     env: 'development',
     db: 'mongodb://localhost:27017/TRACKING-FCAM',
     port: '',
