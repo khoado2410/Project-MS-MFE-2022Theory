@@ -198,8 +198,6 @@ function doRequest(url: any, header: any) {
 }
 
 export async function handleGetAllProduct(req: Request, res: Response) {
-    console.log(client);
-    client.logInfo({ 'level': 'info', 'msg': '[ms-products] Get all products', 'topic': 'micro-service-product' }, () => { });
     try {
         //console.log('aaaaaa')
     const jwt = req.headers['userjwt'] as string;
@@ -301,7 +299,7 @@ export async function handleGetAllProduct(req: Request, res: Response) {
                 Result: listRes
             }
         });
-    } catch (e) {
+    } }catch (e) {
         log.error(e);
         console.log('error: ', e)
         return res.status(400).send('Error when get all product');
