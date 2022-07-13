@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'windowed-observable'
 
@@ -20,12 +20,31 @@ export class ShoppingCartComponent implements OnInit {
     const observable = new Observable('mf-root-header');
     observable.publish({nHeader: 'Shopping-Cart', mfName: 'mf-shopping-cart'})
     this.token = localStorage.getItem('accessToken') ?? ""
-    var header = new Headers({
+    var header = new HttpHeaders({
       "Authorization": "Bearer " + this.token
     })
-    this.http.get(this.URL + "inventory-cart-ms?get-cart?id_customer=2").subscribe((res: any) => {
-      this.listProducts = res;
+    this.http.get(this.URL + "inventory-cart-ms/get-cart", { headers: header }).subscribe((res: any) => {
+      this.listProducts = res.Result.listItem;
+      this.listProducts.map((x: any) => {
+        x['isChange'] = false
+        x['defaultQuantity'] = x.quantityCart;
+      })
     })
   }
 
+  onChangeQuantityPlus(product: any) {
+    product.quantityCart += 1;
+    if (product.quantityCart == product['defaultQuantity'])
+      product['isChange'] = false;
+    else
+      product['isChange'] = true;
+  }
+
+  onChangeQuantityMinus(product: any) {
+    product.quantityCart -= 1;
+    if (product.quantityCart == product['defaultQuantity'])
+      product['isChange'] = false;
+    else
+      product['isChange'] = true;
+  }
 }

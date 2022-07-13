@@ -38,7 +38,7 @@ export class ProductsComponent implements OnInit {
         if (res.ErrorCode == 400 || res.ErrorCode == 401) {
           this.router.navigate(['/authentication/sign-in'])
           localStorage.removeItem('accessToken');
-          obs.publish({'token': null})
+          obs.publish({ 'token': null })
         }
         this.listProducts = res.ResponseResult.Result;
       })
@@ -54,16 +54,20 @@ export class ProductsComponent implements OnInit {
   }
 
   addToCart(product: any) {
-    var observable = new Observable('mf-products-add-to-cart');
-    observable.publish({});
     var header = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + this.token
     });
     try {
-      this.http.post(this.URL + 'inventory-cart-ms/create-cart', { headers: header }).subscribe((res: any) => {
-        console.log(res)
-        this.listProducts = res.ResponseResult.Result;
+      this.http.post(this.URL + 'inventory-cart-ms/create-cart', {
+        'id_product': product.id,
+        'amount': 1,
+        'is_update': 0
+      }, { headers: header }).subscribe((res: any) => {
+        if (res.ErrorCode == 0) {
+          var observable = new Observable('mf-products-add-to-cart');
+          observable.publish({});
+        }
       })
     }
     catch (e) {

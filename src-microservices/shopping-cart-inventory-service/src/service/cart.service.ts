@@ -2,7 +2,7 @@ const dbModel = require("../model/index");
 import { isKeyObject } from 'util/types';
 import {createCartItem, getCartItem, getItemByCart} from './cart_item.service';
 
-const Cart = dbModel.cart;
+const Cart = dbModel.t_cart;
 const Op = dbModel.Sequelize.Op;
 
 

@@ -2,7 +2,7 @@
 
 
 module.exports = (sequelize: any, Sequelize: any) => {
-    const Cart = sequelize.define("cart", {
+    const Cart = sequelize.define("t_cart", {
       username: {
         type: Sequelize.STRING,
         unique: true
