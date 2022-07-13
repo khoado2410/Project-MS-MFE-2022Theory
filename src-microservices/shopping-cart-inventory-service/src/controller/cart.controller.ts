@@ -1,7 +1,10 @@
 import {Request, Response} from 'express';
 import {createCart, getCartByAccount} from '../service/cart.service';
+import {removeItemFromCart} from '../service/cart_item.service';
 import request from 'request';
 import config from '../../config/env/index';
+
+
 
 
 function doRequest(url: any, header: object) {
@@ -19,9 +22,32 @@ function doRequest(url: any, header: object) {
     });
   }
 
+export async function handleRemoveItem(req: Request, res: Response){
+    try{
+        await removeItemFromCart({
+            idProduct: req.body.id_product,
+            idCart: req.body.id_cart
+        })
+        return res.json({
+            ErrorCode: 0,
+            Message: 'Thành công',
+            Result: null
+    });
+    }catch (error) {
+        console.log('error: ', error);
+        return res.json({
+                ErrorCode: 400,
+                Message: 'Error when remove item',
+                Result: null
+        });
+    }
+}
+
 export async function handleGetCartByAccount(req: Request, res: Response){
     try {
-        const data = await getCartByAccount(req.query);
+        const jwt = req.headers['userjwt'] as string;
+	    const jsonJwt = JSON.parse(jwt);
+        const data = await getCartByAccount({username: jsonJwt.username});
         if(data == null)
             return res.json({
                 ErrorCode: 0,
@@ -84,7 +110,15 @@ export async function handleGetCartByAccount(req: Request, res: Response){
 
 export async function handleCreateCart(req: Request, res: Response){
     try {
-        await createCart(req.body);
+        const jwt = req.headers['userjwt'] as string;
+	    const jsonJwt = JSON.parse(jwt);
+        const input = {
+            username: jsonJwt.username,
+            id_product: req.body.id_product,
+            amount: req.body.amount,
+            is_update: req.body.is_update
+        };
+        await createCart(input);
         return res.json({
             ErrorCode: 0,
             Message: 'Thành công',

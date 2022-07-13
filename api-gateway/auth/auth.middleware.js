@@ -26,6 +26,10 @@ const isAuth = async(req, res, next) => {
             }    
                 return next();
         }
+        if(req.originalUrl.includes('upload')){
+            req.jwtDecode = null;
+                return next();
+        }
             //next();
         const decoded = await authMethod.verifyToken(token, tokenSecret);
         if(!token)

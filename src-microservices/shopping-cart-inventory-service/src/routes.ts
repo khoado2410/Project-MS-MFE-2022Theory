@@ -1,7 +1,7 @@
 import {Express, Request, Response} from "express";
 // import {handleAddToCart} from "./controller/cart.controller";
 import {handleGetAllInventory, handleCreateInventory, handleCheckInventory} from './controller/inventory.controller';
-import {handleCreateCart, handleGetCartByAccount} from './controller/cart.controller';
+import {handleCreateCart, handleGetCartByAccount, handleRemoveItem} from './controller/cart.controller';
 
 
  export default function(app: Express) {
@@ -11,6 +11,7 @@ import {handleCreateCart, handleGetCartByAccount} from './controller/cart.contro
     app.post('/create-cart', handleCreateCart);
     app.get('/get-cart', handleGetCartByAccount);
     app.post('/check-inventory', handleCheckInventory);
+    app.post('/remove-item', handleRemoveItem);
 //     app.post('/update-promo', handleUpdate);
     
 //     app.post('/remove-promo', handleRemove);
