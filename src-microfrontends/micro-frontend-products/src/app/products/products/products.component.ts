@@ -35,6 +35,11 @@ export class ProductsComponent implements OnInit {
       });
       this.http.get(this.URL + 'product/get-all-product', { headers: header }).subscribe((res: any) => {
         console.log(res)
+        if (res.ErrorCode == 400 || res.ErrorCode == 401) {
+          this.router.navigate(['/authentication/sign-in'])
+          localStorage.removeItem('accessToken');
+          obs.publish({'token': null})
+        }
         this.listProducts = res.ResponseResult.Result;
       })
     }
@@ -44,8 +49,8 @@ export class ProductsComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustUrl('http://' + value);
   }
 
-  toShopDetail() {
-    this.router.navigate(['product-detail'])
+  toDetail(id: number) {
+    this.router.navigate([`product-detail/${id}`])
   }
 
   addToCart(product: any) {

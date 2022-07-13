@@ -141,7 +141,8 @@
                     <h6 *ngIf="product.amount" class="text-truncate mb-3">Quantity: {{product.amount}}</h6>
                 </div>
                 <div class="card-footer d-flex justify-content-between bg-light border">
-                    <a href="" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View
+                    <a (click)="toDetail(product.id)" class="btn btn-sm text-dark p-0"><i
+                            class="fas fa-eye text-primary mr-1"></i>View
                         Detail</a>
                     <a (click)="addToCart(product)" class="btn btn-sm text-dark p-0"><i
                             class="fas fa-shopping-cart text-primary mr-1"></i>Add To
