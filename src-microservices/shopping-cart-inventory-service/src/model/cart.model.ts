@@ -3,6 +3,10 @@
 
 module.exports = (sequelize: any, Sequelize: any) => {
     const Cart = sequelize.define("cart", {
+      username: {
+        type: Sequelize.STRING,
+        unique: true
+      },
       idCustomer: {
         type: Sequelize.STRING,
         unique: true

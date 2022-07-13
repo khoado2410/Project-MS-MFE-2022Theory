@@ -59,7 +59,7 @@ export async function createBillHandler(req:Request, res: Response) {
             total: req.body.total,
             status: 0,
             typeOfPaymentMethod: req.body.payment,
-            info_bill: info_bill
+            info_bill: info_bill,
         };
         var checkInventory:any = {};
        

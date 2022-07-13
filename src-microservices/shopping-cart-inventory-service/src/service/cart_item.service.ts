@@ -3,6 +3,32 @@ const dbModel = require("../model/index");
 const cartItem = dbModel.t_cart_item;
 const Op = dbModel.Sequelize.Op;
 
+export async function removeItemFromCart(input: any){
+    try{
+         await cartItem.update({isDelete: 1},{
+            where: {
+                idCart: input.idCart,
+                idProduct: input.idProduct,
+                isDelete: 0
+            }
+        })
+    }catch(error){
+        throw error;
+    }
+}
+
+export async function getItemByCart(input: any){
+    try{
+        const item = await cartItem.findOne({
+                idCart: input.id_cart,
+                idProduct: input.id_product,
+                isDelete: 0
+        });
+        return item;
+    }catch (error) {
+        throw error;
+    }
+}
 
 export async function getCartItem(input: any){
     try {

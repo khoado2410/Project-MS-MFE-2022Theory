@@ -1,6 +1,6 @@
 const dbModel = require("../model/index");
 import { isKeyObject } from 'util/types';
-import {createCartItem, getCartItem} from './cart_item.service';
+import {createCartItem, getCartItem, getItemByCart} from './cart_item.service';
 
 const Cart = dbModel.cart;
 const Op = dbModel.Sequelize.Op;
@@ -11,7 +11,7 @@ export async function getCartByAccount(input: any) {
     try {
         const data = await Cart.findOne({
             where: {
-                idCustomer: input.id_customer,
+                username: input.username,
                 isDelete: 0
             }
         });
@@ -33,30 +33,42 @@ export async function getCartByAccount(input: any) {
 export async function createCart(input: any){
     try {
         const cart = await Cart.findOne({where: {
-            idCustomer: input.id_customer,
+            username: input.username,
             isDelete: 0
         }});
         if(cart == null){
             const body = {
-                idCustomer: input.id_customer,
+                username: input.username,
                 isDelete: 0
             };
             const cartCreated = await Cart.create(body);
             const item_cart = {
                 idCart: cartCreated.id,
-                amount: 1,
+                amount: input.amount,
                 idProduct: input.id_product,
             }
             await createCartItem(item_cart);
         }
         else{
-           const item_cart = {
-                idCart: cart.id,
-                amount: 1,
-                idProduct: input.id_product
+            if(input.is_update == 1){
+                const item_cart = {
+                    idCart: cart.id,
+                    amount: input.amount,
+                    idProduct: input.id_product
+                }
+                await createCartItem(item_cart);
+            }else{
+                const item_cart = {
+                    idCart: cart.id,
+                    amount: input.amount,
+                    idProduct: input.id_product
+                }
+                const item = await getItemByCart(item_cart);
+                const amount = +item.quantity + +input.amount;
+                item_cart.amount = amount;
+                await createCartItem(item_cart);
             }
-            await createCartItem(item_cart);
-            
+
         }
 
     } catch (error) {
