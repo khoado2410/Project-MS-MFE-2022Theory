@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { Observable } from 'windowed-observable';
 
 @Component({
   selector: 'app-create-product',
@@ -10,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class CreateProductComponent implements OnInit {
 
-  URL: string = 'http://localhost:3333/'
+  URL: string = environment.APIGATEWAY_ENDPOINT
   constructor(private formBuilder: FormBuilder,
     private http: HttpClient,
     private router: Router) { }
@@ -39,6 +41,8 @@ export class CreateProductComponent implements OnInit {
         })
       })
     })
+    const observable = new Observable('mf-root-header');
+    observable.publish({ nHeader: 'add-product', mfName: 'mf-products' });
   }
 
   get nameProduct() {

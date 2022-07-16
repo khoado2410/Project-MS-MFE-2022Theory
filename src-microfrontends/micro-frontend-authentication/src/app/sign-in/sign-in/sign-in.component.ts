@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'windowed-observable';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-sign-in',
@@ -11,7 +12,7 @@ import { Observable } from 'windowed-observable';
 })
 export class SignInComponent implements OnInit {
 
-  URL: string = "http://localhost:3333/"
+  URL: string = environment.APIGATEWAY_ENDPOINT
   signInForm!: FormGroup
   constructor(private router: Router,
     private formBuilder: FormBuilder,

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import { Observable } from 'windowed-observable';
 
 @Component({
@@ -11,7 +12,7 @@ import { Observable } from 'windowed-observable';
 })
 export class ProductsComponent implements OnInit {
 
-  URL: string = "http://localhost:3333/"
+  URL: string = environment.APIGATEWAY_ENDPOINT;
   constructor(private router: Router,
     private http: HttpClient,
     private sanitizer: DomSanitizer) { }
@@ -34,6 +35,17 @@ export class ProductsComponent implements OnInit {
         'Authorization': 'Bearer ' + this.token
       });
       this.http.get(this.URL + 'product/get-all-product', { headers: header }).subscribe((res: any) => {
+        console.log(res)
+        if (res.ErrorCode == 400 || res.ErrorCode == 401) {
+          this.router.navigate(['/authentication/sign-in'])
+          localStorage.removeItem('accessToken');
+          obs.publish({ 'token': null })
+        }
+        this.listProducts = res.ResponseResult.Result;
+      })
+    }
+    else {
+      this.http.get(this.URL + 'product/get-all-product').subscribe((res: any) => {
         console.log(res)
         if (res.ErrorCode == 400 || res.ErrorCode == 401) {
           this.router.navigate(['/authentication/sign-in'])

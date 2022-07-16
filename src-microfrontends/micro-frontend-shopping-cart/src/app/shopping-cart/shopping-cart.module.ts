@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ShoppingCartRoutingModule } from './shopping-cart-routing.module';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { HttpClientModule } from '@angular/common/http'
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http'
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ShoppingCartRoutingModule,
     HttpClientModule
   ]

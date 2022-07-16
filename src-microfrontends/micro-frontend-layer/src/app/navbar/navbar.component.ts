@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'windowed-observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../../micro-frontend-authentication/src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +17,7 @@ export class NavbarComponent implements OnInit {
   hasLogined: boolean = false;
   numberProducts: number = 0;
   token: string = ""
-  URL: string = "http://localhost:3333/"
+  URL: string = environment.APIGATEWAY_ENDPOINT;
   ngOnInit(): void {
     const observable = new Observable('mf-authentication-sendToken');
     observable.subscribe(res => {

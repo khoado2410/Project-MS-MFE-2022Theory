@@ -133,10 +133,13 @@
                 </div>
                 <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
                     <h6 class="text-truncate mb-3">{{product.name}}</h6>
-                    <div class="d-flex justify-content-center">
-                        <h6>Price: ${{product.price}}</h6>
-                        <h6 *ngIf="product.discount.length != 0" class="text-muted ml-2"><del>${{product.price}}</del>
+                    <div *ngIf="product.discount" class="d-flex justify-content-center">
+                        <h6>Price: ${{product.price - product.price * (product.discount / 100)}}</h6>
+                        <h6 class="text-muted ml-2"><del>${{product.price}}</del>
                         </h6>
+                    </div>
+                    <div *ngIf="!product.discount" class="d-flex justify-content-center">
+                        <h6>Price: ${{product.price}}</h6>
                     </div>
                     <h6 *ngIf="product.amount" class="text-truncate mb-3">Quantity: {{product.amount}}</h6>
                 </div>
