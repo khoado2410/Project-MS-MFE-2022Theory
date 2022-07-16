@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'windowed-observable'
 
 @Component({
@@ -10,7 +11,8 @@ import { Observable } from 'windowed-observable'
 export class ShoppingCartComponent implements OnInit {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) { }
 
   URL = "http://localhost:3333/"
@@ -46,5 +48,9 @@ export class ShoppingCartComponent implements OnInit {
       product['isChange'] = false;
     else
       product['isChange'] = true;
+  }
+
+  toCheckOut() {
+    this.router.navigate(['/checkout'])
   }
 }
