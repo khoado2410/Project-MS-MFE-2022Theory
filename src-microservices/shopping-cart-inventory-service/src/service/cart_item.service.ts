@@ -19,11 +19,11 @@ export async function removeItemFromCart(input: any){
 
 export async function getItemByCart(input: any){
     try{
-        const item = await cartItem.findOne({
-                idCart: input.id_cart,
-                idProduct: input.id_product,
+        const item = await cartItem.findOne({where:{
+                idCart: input.idCart,
+                idProduct: input.idProduct,
                 isDelete: 0
-        });
+        }});
         return item;
     }catch (error) {
         throw error;

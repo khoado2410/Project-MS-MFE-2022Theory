@@ -3,9 +3,7 @@ version: '3.7'
 services:
   node:
     container_name: api-gateway
-    build:
-      context: .
-      dockerfile: ./Dockerfile
+    image: 210314021403/api-gateway-service
     ports:
       - 3333:3333
     volumes:

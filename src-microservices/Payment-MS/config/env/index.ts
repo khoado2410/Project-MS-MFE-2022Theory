@@ -1,5 +1,4 @@
 var path = require('path');
-
 //const env = 'local';
 const env = 'staging';
 // //const env = process.env.NODE_ENV || 'development';

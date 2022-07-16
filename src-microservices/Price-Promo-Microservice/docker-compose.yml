@@ -16,7 +16,7 @@ services:
     container_name: price-promo-ms
     depends_on:
       - mongodb
-    build: ./
+    image: 210314021403/price-promo-service
     restart: unless-stopped
     env_file: ./.env
     ports:
