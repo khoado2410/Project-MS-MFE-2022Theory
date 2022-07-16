@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
-import {createCart, getCartByAccount} from '../service/cart.service';
-import {removeItemFromCart} from '../service/cart_item.service';
+import {createCart, getCartByAccount, removeCart} from '../service/cart.service';
+import {removeItemFromCart, } from '../service/cart_item.service';
 import request from 'request';
 import config from '../../config/env/index';
 
@@ -24,10 +24,16 @@ function doRequest(url: any, header: object) {
 
 export async function handleRemoveItem(req: Request, res: Response){
     try{
+        const jwt = req.headers['userjwt'] as string;
+	    const jsonJwt = JSON.parse(jwt);
         await removeItemFromCart({
             idProduct: req.body.id_product,
             idCart: req.body.id_cart
         })
+        if(req.body.is_final == 1)
+            await removeCart({
+                username: jsonJwt.username
+            });
         return res.json({
             ErrorCode: 0,
             Message: 'Thành công',

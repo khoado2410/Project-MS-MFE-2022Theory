@@ -2,14 +2,12 @@
 
 
 module.exports = (sequelize: any, Sequelize: any) => {
-    const Cart = sequelize.define("cart", {
+    const Cart = sequelize.define("table_cart", {
       username: {
-        type: Sequelize.STRING,
-        unique: true
+        type: Sequelize.STRING
       },
       idCustomer: {
-        type: Sequelize.STRING,
-        unique: true
+        type: Sequelize.STRING
       },
       createdDate: {
         type: Sequelize.DATE,

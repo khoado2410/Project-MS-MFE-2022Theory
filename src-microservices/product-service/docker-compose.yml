@@ -16,7 +16,7 @@ services:
     container_name: product-ms
     depends_on:
       - mongodb
-    build: ./
+    image: 210314021403/product-service
     restart: unless-stopped
     env_file: ./.env
     ports:
