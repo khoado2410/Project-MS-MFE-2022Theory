@@ -9,7 +9,7 @@ var cors = require('cors');
 const appId = process.env.APPID;
 
 const app = express()
-const port = 3333;
+const port = appId;
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

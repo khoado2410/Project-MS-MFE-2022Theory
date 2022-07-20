@@ -7,10 +7,10 @@ export default {
 
     
 
-    url_product: "http://api-gateway:3333/product",
-    url_payment: "http://api-gateway:3333/payment",
-    url_category: "http://api-gateway:3333/category",
-    url_cart_inventory: "http://api-gateway:3333/inventory-cart-ms",
-    url_price_promo: "http://api-gateway:3333/price-promo"
+    url_product: "http://nginx_load_balancer:85/product",
+    url_payment: "http://nginx_load_balancer:85/payment",
+    url_category: "http://nginx_load_balancer:85/category",
+    url_cart_inventory: "http://nginx_load_balancer:85/inventory-cart-ms",
+    url_price_promo: "http://nginx_load_balancer:85/price-promo"
  
 }
