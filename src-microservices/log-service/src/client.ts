@@ -16,7 +16,7 @@ var packageDefinition = loadSync(PROTO_PATH, options);
 const logService = loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType
 
 const client = new logService.packagelogs.LogService(
-  "localhost:50051",
+  "grpc-server:50051",
   credentials.createInsecure()
 );
 

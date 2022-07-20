@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+# Kafka Manager docker image, it is a web based tool for managing Apache Kafka.
+  kafka_manager:
+    image: "mzagar/kafka-manager-docker:1.3.3.4"
+    container_name: kafkamanager
+    #configures the kafka manager docker image to run in bridge mode network
+    networks:
+      - api-gateway_microservice
+    # Make a port available to services outside of Docker
+    ports:
+      - 9000:9000
+    # It Links kafka_manager container to kafkaserver container to communicate.
+    links:
+      - kafkaserver:kafkaserver
+    environment:
+      ZK_HOSTS: "kafkaserver:2181"
+
+networks:
+  api-gateway_microservice:
+     external: true

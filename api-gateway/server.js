@@ -6,6 +6,7 @@ const {setupAuth} = require("./auth");
 const {setupRateLimit} = require("./ratelimit");
 const {setupCreditCheck} = require("./creditcheck");
 var cors = require('cors');
+const appId = process.env.APPID;
 
 const app = express()
 const port = 3333;

@@ -1,8 +1,9 @@
 import {Request, Response} from 'express';
 import {createBill, getBill} from '../service/bill.service';
-import log from '../logger';
 import config from '../../config/env/index';
 import request from 'request';
+import log from '../logger';
+import client from '../logger/client';
 
 export async function handleGetBill(req: Request, res: Response){
     try {
@@ -42,6 +43,13 @@ function doRequest(url: any, header: object, bodyPost: object) {
 
 export async function createBillHandler(req:Request, res: Response) {
     try {
+        client.LogInfo({
+            msg: '[ms-payment]: create bill',
+            level: 'info',
+            topic: 'micro-service-payment'
+        }, ()=>{
+
+        });
         const user = JSON.parse(req.headers['userjwt'] as string);
         const info_bill = {
             first_name: req.body.first_name,
@@ -86,7 +94,13 @@ export async function createBillHandler(req:Request, res: Response) {
         }});
     } catch (e) {
         log.error(e);
-        console.log('error: ', e)
+        client.LogInfo({
+            msg: `[ms-payment]: create bill. Error: ${e}`,
+            level: 'error',
+            topic: 'micro-service-payment'
+        }, ()=>{
+
+        });
         return res.json({ResponseResult:{
             ErrorCode: 400,
             Message: 'Error when get bill',

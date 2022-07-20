@@ -8,6 +8,7 @@ import log from '../logger';
 import client from '../logger/client';
 import config from '../../config/env/index';
 
+
 export async function handleGetProductForCart(req: Request, res: Response) {
     try {
         const listProduct = await getAllProductForCart();
@@ -31,6 +32,7 @@ export async function handleGetProductForCart(req: Request, res: Response) {
 
 export async function handleCreateProduct(req: Request, res: Response) {
     try {
+
         const inputProduct = { ...req.body };
         inputProduct.listImage = req.files;
         await createProduct(inputProduct);
@@ -199,7 +201,13 @@ function doRequest(url: any, header: any) {
 
 export async function handleGetAllProduct(req: Request, res: Response) {
     try {
-        //console.log('aaaaaa')
+        client.LogInfo({
+            msg: '[ms-product]: Get all product',
+            level: 'info',
+            topic: 'micro-service-product'
+        }, ()=>{
+
+        });
     const jwt = req.headers['userjwt'] as string;
     console.log('jwt: ', jwt);
 	    const jsonJwt = JSON.parse(jwt);
@@ -223,7 +231,7 @@ export async function handleGetAllProduct(req: Request, res: Response) {
             let listPath: Array<String> = [];
             var countItem = listProduct[i].listImage.length;
             for (let j = 0; j < countItem; j++) {
-                listPath.push(`localhost:3333/product/upload/${listProduct[i].listImage[j].filename}`);
+                listPath.push(`172.16.20.251:3333/product/upload/${listProduct[i].listImage[j].filename}`);
             }
             var resPromo: any = {};
             resPromo = await doRequest(`${config.index.url_price_promo}/get-promotion-by-product?productId=${listProduct[i]._id}&productType=${listProduct[i].branch}`,
@@ -287,6 +295,13 @@ export async function handleGetAllProduct(req: Request, res: Response) {
      }catch (e) {
         log.error(e);
         console.log('error: ', e)
+        client.logInfo({
+            msg: `[ms-product]: Get all product ${e}`,
+            level: 'error',
+            topic: 'micro-service-product'
+        }, ()=>{
+
+        });
         return res.status(400).send('Error when get all product');
     }
 }

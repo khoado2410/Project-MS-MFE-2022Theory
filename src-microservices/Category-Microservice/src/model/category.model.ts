@@ -12,7 +12,7 @@ export interface CategoryDocument extends mongoose.Document{
 
 const CategorySchema = new mongoose.Schema(
     {
-        name: {type: String, required: true, unique: true},
+        name: {type: String, required: true},
         category_detail: {type: Array, default: []},
         is_delete: {type: Boolean, default: false},
         created_by: {type: String, default: ''},

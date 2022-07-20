@@ -1,9 +1,10 @@
 version: '3.7'
 
+##edited
 services:
   node:
     container_name: api-gateway
-    image: 210314021403/api-gateway-service
+    build: ./
     ports:
       - 3333:3333
     volumes:

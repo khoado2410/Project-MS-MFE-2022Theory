@@ -3,6 +3,7 @@ import Bill, {BillDocument} from '../model/bill.model';
 
 export async function createBill(input: any){
     try {
+        console.log('bill: ', input)
         return await Bill.create(input);
     } catch (error) {
         throw error;
