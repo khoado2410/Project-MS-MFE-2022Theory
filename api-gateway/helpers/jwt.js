@@ -16,7 +16,6 @@ const generateToken = async (payload, secretSignature, tokenLife) => {
         throw error;
     }
 }
-
 const verifyToken = async(token, secretKey) => {
     try {
         return await jwt.verify(token, secretKey);
