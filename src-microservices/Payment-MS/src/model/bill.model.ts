@@ -26,7 +26,7 @@ const BillSchema = new mongoose.Schema(
     }   
 );
 
-const Bill = mongoose.model<BillDocument>('Bill', BillSchema);
+const Bill = mongoose.model<BillDocument>('Schema_Bill', BillSchema);
 
 export default Bill;
 

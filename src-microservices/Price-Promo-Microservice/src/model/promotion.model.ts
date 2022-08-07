@@ -13,7 +13,7 @@ export interface PromotionDocument extends mongoose.Document{
 
 const PromotionSchema = new mongoose.Schema(
     {
-        name: {type: String, required: true, unique: true},
+        name: {type: String, required: true},
         discount: {type: String, required: true},
         timeStart: {type: Date, required: true},
         timeEnd: {type: Date, required: true},

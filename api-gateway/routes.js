@@ -21,7 +21,6 @@ const ROUTES = [
         url: '/product',
         auth: true,
         creditCheck: false,
-        //http://product-ms:8383
         proxy: {
             target: config.url_product,
             changeOrigin: true,
