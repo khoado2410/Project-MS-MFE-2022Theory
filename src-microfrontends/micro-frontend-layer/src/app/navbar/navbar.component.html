@@ -115,7 +115,7 @@
                         <a (click)="toSignUp()" class="nav-item nav-link">Sign Up</a>
                     </div>
                     <div *ngIf="hasLogined" class="navbar-nav ml-auto py-0">
-                        <a (click)="toAddProduct()" class="nav-item nav-link">Add New Product</a>
+                        <a *ngIf="isAdmin" (click)="toAddProduct()" class="nav-item nav-link">Add New Product</a>
                         <a (click)="toSignOut()" class="nav-item nav-link">Sign out</a>
                     </div>
                 </div>

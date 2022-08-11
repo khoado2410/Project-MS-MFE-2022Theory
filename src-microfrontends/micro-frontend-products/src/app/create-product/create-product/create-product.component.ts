@@ -110,7 +110,7 @@ export class CreateProductComponent implements OnInit {
         alert(res.Message);
         return
       }
-      this.router.navigate(['']);
+      window.location.href = '';
     })
   }
 

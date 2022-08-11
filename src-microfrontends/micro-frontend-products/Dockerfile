@@ -17,7 +17,7 @@ RUN npm install --force
 COPY . /docker/app/
 
 # Expose the port the app runs in
-EXPOSE 5000
+EXPOSE 5050
 
 # Serve the app
 CMD ["npm", "start"]

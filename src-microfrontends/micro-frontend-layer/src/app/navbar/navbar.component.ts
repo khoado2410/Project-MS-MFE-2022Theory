@@ -15,6 +15,7 @@ export class NavbarComponent implements OnInit {
     private http: HttpClient) { }
 
   hasLogined: boolean = false;
+  isAdmin: boolean = false;
   numberProducts: number = 0;
   token: string = ""
   URL: string = environment.APIGATEWAY_ENDPOINT;
@@ -25,12 +26,21 @@ export class NavbarComponent implements OnInit {
         this.hasLogined = true;
       else
         this.hasLogined = false;
+      if (res.role == 'admin')
+        this.isAdmin = true;
+      else
+        this.isAdmin = false;
     })
     var result = localStorage.getItem('accessToken');
+    var role = localStorage.getItem('role');
     if (result)
       this.hasLogined = true;
     else
       this.hasLogined = false;
+    if (role == 'admin')
+      this.isAdmin = true;
+    else
+      this.isAdmin = false;
     this.token = localStorage.getItem('accessToken') ?? ""
     var header = new HttpHeaders({
       "Authorization": "Bearer " + this.token

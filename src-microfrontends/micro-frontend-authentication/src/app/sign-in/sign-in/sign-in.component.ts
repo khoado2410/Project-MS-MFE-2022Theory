@@ -55,8 +55,9 @@ export class SignInComponent implements OnInit {
       else
         this.invalid = false;
       localStorage.setItem('accessToken', res.ResponseResult.Result.accessToken);
+      localStorage.setItem('role', res.ResponseResult.Result.role);
       const observable = new Observable('mf-authentication-sendToken');
-      observable.publish({ token: res.ResponseResult.Result.accessToken })
+      observable.publish({ token: res.ResponseResult.Result.accessToken, role: res.ResponseResult.Result.role })
       this.router.navigate(['']);
       //console.log(res.ResponseResult.Result.accessToken)
     })

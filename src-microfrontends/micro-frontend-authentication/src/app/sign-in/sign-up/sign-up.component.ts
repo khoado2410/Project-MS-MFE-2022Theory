@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'windowed-observable';
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'app-sign-up',
@@ -11,7 +12,7 @@ import { Observable } from 'windowed-observable';
 })
 export class SignUpComponent implements OnInit {
 
-  URL: string = "http://localhost:3333/"
+  URL: string = environment.APIGATEWAY_ENDPOINT;
   signUpForm!: FormGroup;
 
   constructor(private router: Router,
@@ -68,7 +69,7 @@ export class SignUpComponent implements OnInit {
       age: this.age,
       username: this.username,
       password: this.password,
-      role: 'admin'
+      role: ''
     } as SignUpRequestDto).subscribe(() => {
       alert('Sign up succesfully');
       this.router.navigate(['/authentication/sign-in']);

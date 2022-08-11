@@ -13,7 +13,7 @@
                 </thead>
                 <tbody class="align-middle">
                     <tr *ngFor="let product of listProducts">
-                        <td class="align-middle"><img src="/assets/img/product-1.jpg" alt="" style="width: 50px;">
+                        <td class="align-middle"><img [src]="safeUrl(product.link[0])" alt="" style="width: 50px;">
                             {{product.name}}</td>
                         <td *ngIf="product.discount" class="align-middle">${{product['priceDiscount']}}<span><del>
                                     ${{product.price}}</del></span></td>
@@ -40,7 +40,7 @@
                         </td>
                         <td *ngIf="product.discount" class="align-middle">${{product['totalPrice']}}
                         </td>
-                        <td class="align-middle"><button class="btn btn-sm btn-primary"><i
+                        <td class="align-middle"><button (click)="onDelete(product.id, idCart)" class="btn btn-sm btn-primary"><i
                                     class="fa fa-times"></i></button></td>
                         <td *ngIf="product['isChange']" (click)="onSave(product)" class="align-middle">
                             <button class="btn btn-sm btn-primary">Save</button>

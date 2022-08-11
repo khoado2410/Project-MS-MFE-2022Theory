@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  APIGATEWAY_ENDPOINT: 'http://172.16.20.251:3333/',
+  APIGATEWAY_ENDPOINT: 'http://172.16.9.174:3333/',
   LOCAL_ENDPOINT: 'http://localhost:3333'
 };
 

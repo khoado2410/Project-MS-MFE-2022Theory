@@ -14,7 +14,7 @@ services:
     container_name: 'mf-products'
     build: micro-frontend-products
     ports:
-      - "5000:5000"
+      - "5050:5050"
   mf-layer:
     container_name: 'mf-layer'
     build: micro-frontend-layer

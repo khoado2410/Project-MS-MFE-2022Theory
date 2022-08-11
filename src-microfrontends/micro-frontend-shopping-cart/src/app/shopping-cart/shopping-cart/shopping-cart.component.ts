@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'windowed-observable'
@@ -13,12 +14,14 @@ export class ShoppingCartComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) { }
 
   URL = environment.APIGATEWAY_ENDPOINT;
   token: string = "";
-  listProducts: any
+  listProducts: any;
+  idCart!: number;
   ngOnInit(): void {
     const observable = new Observable('mf-root-header');
     observable.publish({ nHeader: 'Shopping-Cart', mfName: 'mf-shopping-cart' })
@@ -28,6 +31,7 @@ export class ShoppingCartComponent implements OnInit {
     })
     this.http.get(this.URL + "inventory-cart-ms/get-cart", { headers: header }).subscribe((res: any) => {
       this.listProducts = res.Result.listItem;
+      this.idCart = res.Result.idCart;
       this.listProducts.map((x: any) => {
         x['isChange'] = false
         x['defaultQuantity'] = +x.quantityCart;
@@ -47,7 +51,7 @@ export class ShoppingCartComponent implements OnInit {
 
   shipCost!: number;
   getRndInteger(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1) ) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
   onChangeQuantityPlus(product: any) {
@@ -81,7 +85,22 @@ export class ShoppingCartComponent implements OnInit {
     }, { headers: header }).subscribe((res: any) => {
       if (res.ErrorCode == 0) {
         product['isChange'] = false;
-        this.subTotal = this.countSubTotal();
+        this.http.get(this.URL + "inventory-cart-ms/get-cart", { headers: header }).subscribe((res: any) => {
+          this.listProducts = res.Result.listItem;
+          this.idCart = res.Result.idCart;
+          this.listProducts.map((x: any) => {
+            x['isChange'] = false
+            x['defaultQuantity'] = +x.quantityCart;
+            if (x.discount) {
+              x['priceDiscount'] = +x.price - (+x.price * +x.discount / 100);
+              x['totalPrice'] = x['priceDiscount'] * +x.quantityCart;
+            }
+            else {
+              x['totalPrice'] = +x.price * +x.quantityCart;
+            }
+          })
+          this.subTotal = this.countSubTotal();
+        })
       }
     })
   }
@@ -93,5 +112,40 @@ export class ShoppingCartComponent implements OnInit {
       total += x['totalPrice'];
     })
     return total;
+  }
+
+  safeUrl(link: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl('http://' + link);
+  }
+
+  onDelete(idProduct: string, idCart: number) {
+    var product = this.listProducts.find((x: any) => x.id == idProduct);
+    this.listProducts = this.listProducts.filter((x: any) => x != product);
+    var header = new HttpHeaders({
+      "Authorization": "Bearer " + this.token
+    })
+    this.http.post(this.URL + 'inventory-cart-ms/remove-item', {
+      id_product: idProduct,
+      id_cart: idCart
+    }, { headers: header }).subscribe(() => {
+      var obs = new Observable('mf-products-get-number-products-in-cart');
+      obs.publish({'numberProducts': this.listProducts.length});
+      this.http.get(this.URL + "inventory-cart-ms/get-cart", { headers: header }).subscribe((res: any) => {
+        this.listProducts = res.Result.listItem;
+        this.idCart = res.Result.idCart;
+        this.listProducts.map((x: any) => {
+          x['isChange'] = false
+          x['defaultQuantity'] = +x.quantityCart;
+          if (x.discount) {
+            x['priceDiscount'] = +x.price - (+x.price * +x.discount / 100);
+            x['totalPrice'] = x['priceDiscount'] * +x.quantityCart;
+          }
+          else {
+            x['totalPrice'] = +x.price * +x.quantityCart;
+          }
+        })
+        this.subTotal = this.countSubTotal();
+      })
+    });
   }
 }
