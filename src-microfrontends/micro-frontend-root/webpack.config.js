@@ -15,7 +15,7 @@ module.exports = {
   },
   optimization: {
     runtimeChunk: false
-  },   
+  },
   resolve: {
     alias: {
       ...sharedMappings.getAliases(),
@@ -33,11 +33,11 @@ module.exports = {
         // filename: "remoteEntry.js",
         // exposes: {
         //     './Component': './/src/app/app.component.ts',
-        // },        
-        
+        // },
+
         // For hosts (please adjust)
         remotes: {
-          "mf-products": "http://localhost:5050/remoteEntry.js",
+          "mf-products": "http://118.69.111.40:5050/remoteEntry.js",
           "mf-authentication": "http://localhost:2002/remoteEntry.js",
           "mf-layer": "http://localhost:8000/remoteEntry.js",
           "mf-shopping-cart": "http://localhost:61400/remoteEntry.js",
@@ -45,14 +45,14 @@ module.exports = {
         },
 
         shared: share({
-          "@angular/core": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
-          "@angular/common": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
-          "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
+          "@angular/core": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
+          "@angular/common": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
+          "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
           "@angular/router": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
 
           ...sharedMappings.getDescriptors()
         })
-        
+
     }),
     sharedMappings.getPlugin()
   ],
