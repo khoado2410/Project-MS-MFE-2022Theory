@@ -37,7 +37,7 @@ module.exports = {
 
         // For hosts (please adjust)
         remotes: {
-          "mf-products": "http://118.69.111.40:5050/remoteEntry.js",
+          "mf-products": "http://localhost:5050/remoteEntry.js",
           "mf-authentication": "http://localhost:2002/remoteEntry.js",
           "mf-layer": "http://localhost:8000/remoteEntry.js",
           "mf-shopping-cart": "http://localhost:61400/remoteEntry.js",
