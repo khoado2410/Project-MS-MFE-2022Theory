@@ -36,10 +36,6 @@ module.exports = {
             './FooterComponent': './src/app/footer/footer.component.ts',
             './NavbarComponent': './src/app/navbar/navbar.component.ts'
         },
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          
-        },
         // For hosts (please adjust)
         // remotes: {
         //     "mfe1": "http://localhost:3000/remoteEntry.js",
