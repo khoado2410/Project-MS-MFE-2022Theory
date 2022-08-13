@@ -9,7 +9,7 @@ services:
     container_name: 'mf-root'
     build: micro-frontend-root
     ports:
-      - "4200:4200"
+      - "8002:8002"
   mf-products:
     container_name: 'mf-products'
     build: micro-frontend-products
