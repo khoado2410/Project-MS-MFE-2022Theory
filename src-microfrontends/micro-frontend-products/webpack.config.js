@@ -15,7 +15,7 @@ module.exports = {
   },
   optimization: {
     runtimeChunk: false
-  },   
+  },
   resolve: {
     alias: {
       ...sharedMappings.getAliases(),
@@ -23,6 +23,11 @@ module.exports = {
   },
   experiments: {
     outputModule: true
+  },
+  devServer: {
+    headers: {
+      "Access-Control-Allow-Origin": "*"
+    }
   },
   plugins: [
     new ModuleFederationPlugin({
@@ -35,22 +40,22 @@ module.exports = {
              './ProductsModule': path.join(__dirname, 'src') + '/app/products/products.module.ts',
              './ProductDetailModule': './/src/app/product-detail/product-detail.module.ts',
              './CreateProductModule': './/src/app/create-product/create-product.module.ts'
-        },        
-        
+        },
+
         // For hosts (please adjust)
         remotes: {
           "mf-layer": "http://localhost:8000/remoteEntry.js",
         },
 
         shared: share({
-          "@angular/core": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
-          "@angular/common": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
-          "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
+          "@angular/core": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
+          "@angular/common": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
+          "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
           "@angular/router": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
 
           ...sharedMappings.getDescriptors()
         })
-        
+
     }),
     sharedMappings.getPlugin()
   ],
