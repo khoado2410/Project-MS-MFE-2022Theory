@@ -24,6 +24,13 @@ module.exports = {
   experiments: {
     outputModule: true
   },
+  devServer: {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    }
+  },
   plugins: [
     new ModuleFederationPlugin({
         library: { type: "module" },
@@ -37,11 +44,11 @@ module.exports = {
         
         // For hosts (please adjust)
         remotes: {
-          "mf-products": "http://localhost:5050/remoteEntry.js",
-          "mf-authentication": "http://localhost:2002/remoteEntry.js",
-          "mf-layer": "http://localhost:8000/remoteEntry.js",
-          "mf-shopping-cart": "http://localhost:61400/remoteEntry.js",
-          "mf-contact": "http://localhost:21021/remoteEntry.js"
+          "mf-products": "http://118.69.111.40:8003/remoteEntry.js",
+          "mf-authentication": "http://118.69.111.40:8004/remoteEntry.js",
+          "mf-layer": "http://118.69.111.40:8005/remoteEntry.js",
+          "mf-shopping-cart": "http://118.69.111.40:8006/remoteEntry.js",
+          "mf-contact": "http://118.69.111.40:8007/remoteEntry.js"
         },
 
         shared: share({

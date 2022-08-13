@@ -14,7 +14,7 @@ export class HeaderHostComponent implements OnInit {
 
   async ngOnInit() {
     const { HeaderComponent } = await loadRemoteModule({
-      remoteEntry: 'http://localhost:8000/remoteEntry.js',
+      remoteEntry: 'http://118.69.111.40:8000/remoteEntry.js',
       exposedModule: './HeaderComponent',
       type: 'module'
     })

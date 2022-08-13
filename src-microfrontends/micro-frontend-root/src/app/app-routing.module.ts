@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { loadRemoteModule } from '@angular-architects/module-federation'
 
-const URL = 'http://localhost:5050/remoteEntry.js'
-const authenURL = "http://localhost:2002/remoteEntry.js"
-const cartURL = "http://localhost:61400/remoteEntry.js"
-const contactURL = "http://localhost:21021/remoteEntry.js"
+const URL = 'http://118.69.111.40:8003/remoteEntry.js'
+const authenURL = "http://118.69.111.40:8004/remoteEntry.js"
+const cartURL = "http://118.69.111.40:8006/remoteEntry.js"
+const contactURL = "http://118.69.111.40:8007/remoteEntry.js"
 
 const routes: Routes = [
   {

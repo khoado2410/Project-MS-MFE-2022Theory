@@ -80,8 +80,8 @@
 					},
 					"defaultConfiguration": "development",
 					"options": {
-						"port": 61400,
-						"publicHost": "http://localhost:61400",
+						"port": 8006,
+						"publicHost": "http://118.69.111.40:8006",
 						"extraWebpackConfig": "webpack.config.js"
 					}
 				},

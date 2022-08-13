@@ -15,7 +15,7 @@ export class FooterHostComponent implements OnInit {
 
   async ngOnInit() {
     const { FooterComponent } = await loadRemoteModule({
-      remoteEntry: 'http://localhost:8000/remoteEntry.js',
+      remoteEntry: 'http://118.69.111.40:8005/remoteEntry.js',
       exposedModule: './FooterComponent',
       type: 'module'
     })

@@ -15,7 +15,7 @@ module.exports = {
   },
   optimization: {
     runtimeChunk: false
-  },   
+  },
   resolve: {
     alias: {
       ...sharedMappings.getAliases(),
@@ -24,33 +24,40 @@ module.exports = {
   experiments: {
     outputModule: true
   },
+  devServer: {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    }
+  },
   plugins: [
     new ModuleFederationPlugin({
-        library: { type: "module" },
+      library: { type: "module" },
 
-        // For remotes (please adjust)
-        name: "mf-products",
-        filename: "remoteEntry.js",
-        exposes: {
-             './ProductsModule': path.join(__dirname, 'src') + '/app/products/products.module.ts',
-             './ProductDetailModule': './/src/app/product-detail/product-detail.module.ts',
-             './CreateProductModule': './/src/app/create-product/create-product.module.ts'
-        },        
-        
-        // For hosts (please adjust)
-        remotes: {
-          "mf-layer": "http://localhost:8000/remoteEntry.js",
-        },
+      // For remotes (please adjust)
+      name: "mf-products",
+      filename: "remoteEntry.js",
+      exposes: {
+        './ProductsModule': path.join(__dirname, 'src') + '/app/products/products.module.ts',
+        './ProductDetailModule': './/src/app/product-detail/product-detail.module.ts',
+        './CreateProductModule': './/src/app/create-product/create-product.module.ts'
+      },
 
-        shared: share({
-          "@angular/core": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
-          "@angular/common": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
-          "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
-          "@angular/router": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
+      // For hosts (please adjust)
+      remotes: {
+        "mf-layer": "http://localhost:8005/remoteEntry.js",
+      },
 
-          ...sharedMappings.getDescriptors()
-        })
-        
+      shared: share({
+        "@angular/core": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
+        "@angular/common": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
+        "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
+        "@angular/router": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
+
+        ...sharedMappings.getDescriptors()
+      })
+
     }),
     sharedMappings.getPlugin()
   ],

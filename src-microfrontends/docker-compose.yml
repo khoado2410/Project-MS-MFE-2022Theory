@@ -4,29 +4,29 @@ services:
     container_name: 'mf-authentication'
     build: micro-frontend-authentication
     ports:
-      - "2002:2002"
+      - "8004:8004"
   mf-root:
     container_name: 'mf-root'
     build: micro-frontend-root
     ports:
-      - "4200:4200"
+      - "8002:8002"
   mf-products:
     container_name: 'mf-products'
     build: micro-frontend-products
     ports:
-      - "5050:5050"
+      - "8003:8003"
   mf-layer:
     container_name: 'mf-layer'
     build: micro-frontend-layer
     ports:
-      - "8000:8000"
+      - "8005:8005"
   mf-shopping-cart:
     container_name: 'mf-shopping-cart'
     build: micro-frontend-shopping-cart
     ports:
-      - "61400:61400"
+      - "8006:8006"
   mf-contact:
     container_name: 'mf-contact'
     build: micro-frontend-contact
     ports:
-      - "21021:21021"
+      - "8007:8007"

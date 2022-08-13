@@ -16,7 +16,7 @@ export class NavbarHostComponent implements OnInit {
   isLoaded: boolean = false;
   async ngOnInit() {
     const { NavbarComponent } = await loadRemoteModule({
-      remoteEntry: 'http://localhost:8000/remoteEntry.js',
+      remoteEntry: 'http://118.69.111.40:8005/remoteEntry.js',
       exposedModule: './NavbarComponent',
       type: 'module'
     })
